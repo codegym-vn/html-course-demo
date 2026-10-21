@@ -1,0 +1,19 @@
+/* Giao diện dùng Tailwind v4 (browser CDN). File này chỉ giữ quy tắc nền và quy tắc demo.
+   Không đặt padding/margin ở đây: CSS ngoài layer sẽ đè utility của Tailwind. */
+
+html {
+  font-size: 15px;
+}
+
+.app {
+  height: 600px;
+  max-height: 600px;
+}
+
+.item {
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+}

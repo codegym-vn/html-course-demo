@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flex container: display, flex-direction, justify-content, align-items</title>
+  <meta name="description" content="Thử các giá trị justify-content và align-items trên flex container, đo khoảng trống phân bổ dọc trục chính.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    @utility opt {
+      @apply rounded border border-slate-800 bg-slate-900 px-1 py-1 font-mono text-[0.74rem] text-slate-300 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300;
+    }
+    @utility card {
+      @apply rounded-lg border border-slate-800 bg-slate-950/60 p-2.5;
+    }
+    @utility card-title {
+      @apply mb-1.5 text-xs font-bold uppercase tracking-wider text-slate-500;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
+  <div class="app w-full max-w-[980px] flex flex-col bg-slate-900 border border-slate-800 rounded-lg overflow-hidden">
+
+    <header class="h-11 shrink-0 flex items-center justify-between px-4 bg-slate-950/70 border-b border-slate-800">
+      <h1 class="text-[0.95rem] font-bold tracking-tight">
+        Làm chủ Flex Container
+        <span class="ml-2 text-xs font-medium text-slate-500">display · flex-direction · justify-content · align-items</span>
+      </h1>
+      <button type="button" id="btnReset"
+        class="text-xs font-semibold text-slate-400 border border-slate-700 rounded-md px-2.5 py-1 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer">
+        Reset
+      </button>
+    </header>
+
+    <main class="flex-1 min-h-0 grid grid-cols-[310px_1fr] overflow-hidden">
+
+      <!-- Cột trái: điều khiển -->
+      <section class="min-h-0 overflow-y-auto p-3 flex flex-col gap-2 border-r border-slate-800">
+
+        <div class="card">
+          <p class="card-title"><code class="font-mono normal-case text-sky-400">display</code></p>
+          <div class="grid grid-cols-2 gap-1" role="group" aria-label="display">
+            <button type="button" class="opt" data-key="display" data-val="block" aria-pressed="false">block</button>
+            <button type="button" class="opt" data-key="display" data-val="flex" aria-pressed="true">flex</button>
+          </div>
+        </div>
+
+        <div id="flexControls" class="flex flex-col gap-2 transition-opacity data-[disabled=true]:opacity-40 data-[disabled=true]:pointer-events-none">
+          <div class="card">
+            <p class="card-title"><code class="font-mono normal-case text-sky-400">flex-direction</code></p>
+            <div class="grid grid-cols-2 gap-1" role="group" aria-label="flex-direction">
+              <button type="button" class="opt" data-key="direction" data-val="row" aria-pressed="true">row</button>
+              <button type="button" class="opt" data-key="direction" data-val="row-reverse" aria-pressed="false">row-reverse</button>
+              <button type="button" class="opt" data-key="direction" data-val="column" aria-pressed="false">column</button>
+              <button type="button" class="opt" data-key="direction" data-val="column-reverse" aria-pressed="false">column-reverse</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <p class="card-title flex justify-between"><code class="font-mono normal-case text-sky-400">justify-content</code><span class="normal-case tracking-normal text-slate-500">trục chính</span></p>
+            <div class="grid grid-cols-3 gap-1" role="group" aria-label="justify-content">
+              <button type="button" class="opt" data-key="justify" data-val="flex-start" aria-pressed="true">flex-start</button>
+              <button type="button" class="opt" data-key="justify" data-val="center" aria-pressed="false">center</button>
+              <button type="button" class="opt" data-key="justify" data-val="flex-end" aria-pressed="false">flex-end</button>
+              <button type="button" class="opt" data-key="justify" data-val="space-between" aria-pressed="false">space-between</button>
+              <button type="button" class="opt" data-key="justify" data-val="space-around" aria-pressed="false">space-around</button>
+              <button type="button" class="opt" data-key="justify" data-val="space-evenly" aria-pressed="false">space-evenly</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <p class="card-title flex justify-between"><code class="font-mono normal-case text-sky-400">align-items</code><span class="normal-case tracking-normal text-slate-500">trục phụ</span></p>
+            <div class="grid grid-cols-3 gap-1" role="group" aria-label="align-items">
+              <button type="button" class="opt" data-key="align" data-val="stretch" aria-pressed="true">stretch</button>
+              <button type="button" class="opt" data-key="align" data-val="flex-start" aria-pressed="false">flex-start</button>
+              <button type="button" class="opt" data-key="align" data-val="center" aria-pressed="false">center</button>
+              <button type="button" class="opt" data-key="align" data-val="flex-end" aria-pressed="false">flex-end</button>
+              <button type="button" class="opt" data-key="align" data-val="baseline" aria-pressed="false">baseline</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="card-title">Mẫu thường gặp</p>
+          <div class="grid grid-cols-2 gap-1">
+            <button type="button" class="preset rounded border border-slate-700 px-2 py-1 text-[0.75rem] font-semibold text-slate-300 hover:border-sky-400 hover:text-sky-300 cursor-pointer" data-preset="navbar">Thanh điều hướng</button>
+            <button type="button" class="preset rounded border border-slate-700 px-2 py-1 text-[0.75rem] font-semibold text-slate-300 hover:border-sky-400 hover:text-sky-300 cursor-pointer" data-preset="center">Căn giữa hoàn toàn</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cột phải -->
+      <section class="min-h-0 p-3 flex flex-col gap-2.5 overflow-hidden bg-slate-950">
+        <div class="flex-1 min-h-0 flex flex-col gap-2 rounded-lg border border-slate-800 bg-slate-900 p-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">.container</span>
+            <span class="text-[0.72rem] text-slate-500">Item có cỡ chữ khác nhau để thử <code class="font-mono text-slate-400">baseline</code></span>
+          </div>
+
+          <div id="container" class="flex-1 min-h-0 rounded-md border-2 border-dashed border-slate-600 bg-slate-950 p-2 overflow-hidden">
+            <div class="item border-sky-400 bg-sky-500/20 text-sky-100 text-[0.8rem] px-3.5 py-2">1 · nhỏ</div>
+            <div class="item border-violet-400 bg-violet-500/20 text-violet-100 text-[1.6rem] px-3.5 py-2">2 · lớn</div>
+            <div class="item border-emerald-400 bg-emerald-500/20 text-emerald-100 text-[0.95rem] px-3.5 pt-6 pb-2">3 · đệm trên</div>
+            <div class="item border-rose-400 bg-rose-500/20 text-rose-100 text-[1.15rem] px-3.5 py-2">4 · vừa</div>
+          </div>
+
+          <!-- Số đo khoảng trống dọc trục chính -->
+          <div class="shrink-0 flex items-center gap-2 text-[0.75rem]">
+            <span class="text-slate-500">Khoảng trống trên trục chính:</span>
+            <span id="spaceOutput" class="font-mono font-semibold text-amber-300">-</span>
+          </div>
+          <p id="explain" class="shrink-0 text-[0.75rem] leading-snug text-slate-400"></p>
+        </div>
+
+        <div class="shrink-0 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">CSS đang áp dụng</span>
+            <button type="button" id="btnCopy"
+              class="rounded border border-sky-400/60 px-2 py-0.5 text-[0.72rem] font-semibold text-sky-300 hover:bg-sky-400 hover:text-slate-950 transition-colors cursor-pointer">Copy</button>
+          </div>
+          <pre id="codeOutput" class="font-mono text-[0.8rem] leading-snug text-slate-300 overflow-x-auto"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>
