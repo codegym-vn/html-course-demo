@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Display: block • inline • inline-block</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Khảo Sát Display: <code>block</code> • <code>inline</code> • <code>inline-block</code></h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển display & kích thước -->
+      <section class="col-controls">
+        <!-- Chế độ Display -->
+        <div class="control-group">
+          <span class="group-title">Chọn giá trị <code>display</code>:</span>
+          <div class="display-toggle-group">
+            <button type="button" class="btn-mode active" data-mode="inline">display: inline</button>
+            <button type="button" class="btn-mode" data-mode="block">display: block</button>
+            <button type="button" class="btn-mode" data-mode="inline-block">display: inline-block</button>
+          </div>
+        </div>
+
+        <!-- Sliders thử nghiệm kích thước & khoảng cách -->
+        <div class="control-group">
+          <span class="group-title">Thiết lập thuộc tính thử nghiệm:</span>
+
+          <!-- Width -->
+          <div class="slider-field">
+            <div class="field-info">
+              <span class="field-label"><code>width</code>:</span>
+              <span class="val-badge" id="widthBadge">140px</span>
+            </div>
+            <input type="range" id="rangeWidth" min="80" max="220" value="140" class="slider">
+            <span class="field-hint hint-disabled" id="hintWidth">Bị bỏ qua khi ở chế độ inline</span>
+          </div>
+
+          <!-- Height -->
+          <div class="slider-field">
+            <div class="field-info">
+              <span class="field-label"><code>height</code>:</span>
+              <span class="val-badge" id="heightBadge">50px</span>
+            </div>
+            <input type="range" id="rangeHeight" min="30" max="80" value="50" class="slider">
+            <span class="field-hint hint-disabled" id="hintHeight">Bị bỏ qua khi ở chế độ inline</span>
+          </div>
+
+          <!-- Margin V (Top/Bottom) -->
+          <div class="slider-field">
+            <div class="field-info">
+              <span class="field-label"><code>margin</code> (dọc trên/dưới):</span>
+              <span class="val-badge" id="marginBadge">16px</span>
+            </div>
+            <input type="range" id="rangeMargin" min="0" max="30" value="16" class="slider">
+            <span class="field-hint hint-disabled" id="hintMargin">margin dọc không đẩy dòng trong inline</span>
+          </div>
+        </div>
+
+        <!-- Bảng đối chiếu đặc tính -->
+        <div class="spec-matrix">
+          <div class="matrix-row">
+            <span class="matrix-col-name">Xuống dòng mới (Line Break)</span>
+            <span class="matrix-status" id="matBreak">Không</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-col-name">Áp dụng width / height</span>
+            <span class="matrix-status" id="matDim">Không hiệu lực</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-col-name">margin trên / dưới</span>
+            <span class="matrix-status" id="matMargin">Không hiệu lực</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cột phải: Khung hiển thị trực tiếp dòng phần tử & Code -->
+      <section class="col-preview">
+        <!-- Khung mô phỏng dòng tài liệu -->
+        <div class="flow-stage">
+          <div class="stage-label">Luồng hiển thị tài liệu (Document Flow):</div>
+
+          <div class="flow-container">
+            <span class="flow-item sibling-item">Thẻ Trước (#1)</span>
+            
+            <!-- Phần tử mục tiêu thay đổi display -->
+            <div class="flow-item target-item mode-inline" id="targetElement">
+              <span class="target-title">Target Box</span>
+              <span class="target-sub" id="targetDesc">inline</span>
+            </div>
+
+            <span class="flow-item sibling-item">Thẻ Kế Tiếp (#2)</span>
+            <span class="flow-item sibling-item">Thẻ Kết Thúc (#3)</span>
+          </div>
+
+          <!-- Thông báo hành vi thực tế -->
+          <div class="behavior-banner" id="behaviorBanner">
+            <strong>Hành vi inline:</strong> Chảy liên tục trên cùng dòng với các thẻ khác. Không thể can thiệp width, height và margin trên/dưới.
+          </div>
+        </div>
+
+        <!-- Code CSS áp dụng -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Quy tắc CSS hiện tại:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="displayCodeOutput">.target { display: inline; /* width & height bị bỏ qua */ }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

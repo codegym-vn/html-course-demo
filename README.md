@@ -133,6 +133,9 @@ Khi triển khai thêm một bài tương tác mới:
 | 06 | [css-basic-selectors](./css-basic-selectors/) | **Bộ chọn CSS cơ bản:** Element, Class, ID, nhắm mục tiêu phần tử và tính điểm Specificity. | Hoàn thành |
 | 07 | [css-typography-basics](./css-typography-basics/) | **Thuộc tính kiểu chữ:** Font-family, font-size, font-weight, line-height, text-align. | Hoàn thành |
 | 08 | [css-colors-mastery](./css-colors-mastery/) | **Thế giới màu sắc trong CSS:** Làm chủ hệ màu HEX, RGB, RGBA, giải mã hệ thập lục phân, so sánh `rgba()` và `opacity`, tương phản WCAG. | Hoàn thành |
+| 09 | [css-box-model-visualizer](./css-box-model-visualizer/) | **Mô hình hộp CSS (Box Model):** 4 lớp Content, Padding, Border, Margin chuẩn Chrome DevTools và công thức tính tổng không gian hiển thị. | Hoàn thành |
+| 10 | [css-box-sizing-comparison](./css-box-sizing-comparison/) | **So sánh Box-Sizing:** `content-box` (vỡ layout do padding/border) vs `border-box` (giữ chuẩn kích thước định sẵn) và CSS Reset toàn cục. | Hoàn thành |
+| 11 | [css-display-modes](./css-display-modes/) | **Thuộc tính Display:** Khảo sát luồng tài liệu, xuống dòng và hiệu lực kích thước giữa `block`, `inline`, `inline-block`. | Hoàn thành |
 
 ---
 

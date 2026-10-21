@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mô Hình Hộp CSS (Box Model Visualizer)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Mô Hình Hộp CSS: Content • Padding • Border • Margin</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển từng lớp hộp -->
+      <section class="col-controls">
+        <!-- Margin Slider -->
+        <div class="control-card card-margin">
+          <div class="card-row">
+            <span class="card-label"><code>margin</code> (Khoảng cách ngoài):</span>
+            <span class="val-badge badge-margin" id="marginVal">20px</span>
+          </div>
+          <input type="range" id="rangeMargin" min="0" max="35" value="20" class="slider slider-margin">
+        </div>
+
+        <!-- Border Slider -->
+        <div class="control-card card-border">
+          <div class="card-row">
+            <span class="card-label"><code>border</code> (Độ dày viền):</span>
+            <span class="val-badge badge-border" id="borderVal">4px</span>
+          </div>
+          <input type="range" id="rangeBorder" min="0" max="16" value="4" class="slider slider-border">
+        </div>
+
+        <!-- Padding Slider -->
+        <div class="control-card card-padding">
+          <div class="card-row">
+            <span class="card-label"><code>padding</code> (Khoảng cách trong):</span>
+            <span class="val-badge badge-padding" id="paddingVal">16px</span>
+          </div>
+          <input type="range" id="rangePadding" min="0" max="35" value="16" class="slider slider-padding">
+        </div>
+
+        <!-- Content Width / Height -->
+        <div class="control-card card-content">
+          <div class="card-row">
+            <span class="card-label"><code>content (width × height)</code>:</span>
+            <span class="val-badge badge-content" id="contentVal">160 × 60px</span>
+          </div>
+          <div class="content-sliders">
+            <div class="sub-slider">
+              <span class="sub-tag">W</span>
+              <input type="range" id="rangeWidth" min="100" max="220" value="160" class="slider slider-content">
+            </div>
+            <div class="sub-slider">
+              <span class="sub-tag">H</span>
+              <input type="range" id="rangeHeight" min="30" max="90" value="60" class="slider slider-content">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tổng kích thước chiếm dụng -->
+        <div class="total-calc-box">
+          <span class="calc-label">Kích thước hiển thị tổng thể (Total Space):</span>
+          <code class="calc-formula" id="totalFormula">208px × 108px (Cộng cả Padding và Border)</code>
+        </div>
+      </section>
+
+      <!-- Cột phải: Sơ đồ 4 lớp lồng nhau DevTools & Render thực tế -->
+      <section class="col-preview">
+        <!-- Sơ đồ 4 lớp DevTools chuẩn -->
+        <div class="devtools-diagram">
+          <!-- Lớp 1: Margin (Cam) -->
+          <div class="box-layer layer-margin">
+            <span class="layer-tag tag-margin">margin</span>
+            <span class="pos-val pos-top" id="dtMarginTop">20</span>
+            <span class="pos-val pos-right" id="dtMarginRight">20</span>
+            <span class="pos-val pos-bottom" id="dtMarginBottom">20</span>
+            <span class="pos-val pos-left" id="dtMarginLeft">20</span>
+
+            <!-- Lớp 2: Border (Vàng) -->
+            <div class="box-layer layer-border">
+              <span class="layer-tag tag-border">border</span>
+              <span class="pos-val pos-top" id="dtBorderTop">4</span>
+              <span class="pos-val pos-right" id="dtBorderRight">4</span>
+              <span class="pos-val pos-bottom" id="dtBorderBottom">4</span>
+              <span class="pos-val pos-left" id="dtBorderLeft">4</span>
+
+              <!-- Lớp 3: Padding (Xanh lá) -->
+              <div class="box-layer layer-padding">
+                <span class="layer-tag tag-padding">padding</span>
+                <span class="pos-val pos-top" id="dtPadTop">16</span>
+                <span class="pos-val pos-right" id="dtPadRight">16</span>
+                <span class="pos-val pos-bottom" id="dtPadBottom">16</span>
+                <span class="pos-val pos-left" id="dtPadLeft">16</span>
+
+                <!-- Lớp 4: Content (Xanh dương) -->
+                <div class="box-layer layer-content">
+                  <span class="content-text" id="dtContentDim">160 × 60</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Khung xem trước phần tử render thực tế -->
+        <div class="render-canvas">
+          <div class="canvas-parent-guide">
+            <div class="real-element" id="realElement">
+              <div class="element-inner-content">Nội dung (Content)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code CSS -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Quy tắc CSS áp dụng:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="boxCodeOutput">.box { width: 160px; height: 60px; padding: 16px; border: 4px solid #eab308; margin: 20px; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

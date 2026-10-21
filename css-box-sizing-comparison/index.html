@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>So Sánh Box-Sizing: content-box vs border-box</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">So Sánh: <code>box-sizing: content-box</code> vs <code>border-box</code></h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Controls Bar -->
+    <section class="controls-bar">
+      <div class="control-item">
+        <label for="rangeWidth">Chiều rộng khai báo (<code>width</code>):</label>
+        <div class="slider-wrap">
+          <input type="range" id="rangeWidth" min="200" max="280" value="240" class="slider">
+          <span class="val-badge" id="widthBadge">240px</span>
+        </div>
+      </div>
+      <div class="control-item">
+        <label for="rangePadding">Đệm trong (<code>padding</code>):</label>
+        <div class="slider-wrap">
+          <input type="range" id="rangePadding" min="0" max="35" value="20" class="slider">
+          <span class="val-badge" id="padBadge">20px</span>
+        </div>
+      </div>
+      <div class="control-item">
+        <label for="rangeBorder">Độ dày viền (<code>border</code>):</label>
+        <div class="slider-wrap">
+          <input type="range" id="rangeBorder" min="0" max="15" value="6" class="slider">
+          <span class="val-badge" id="borderBadge">6px</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Comparison Columns -->
+    <main class="comparison-stage">
+      <!-- Cột 1: content-box -->
+      <section class="box-column col-content-box">
+        <div class="column-header">
+          <span class="type-tag tag-warning">Mặc định của CSS</span>
+          <h2 class="box-heading">box-sizing: content-box</h2>
+          <p class="box-desc">width chỉ áp dụng cho vùng Content. Padding và Border cộng dồn làm phình to hộp ra ngoài.</p>
+        </div>
+
+        <div class="box-render-area">
+          <div class="target-boundary" id="boundaryContent">
+            <span class="boundary-label">Vạch định mức khai báo: <strong id="boundaryVal1">240px</strong></span>
+          </div>
+          <div class="box-demo box-cb" id="boxContent">
+            <div class="box-inner">Content Area</div>
+          </div>
+        </div>
+
+        <div class="metric-card metric-overflow">
+          <div class="metric-row">
+            <span class="metric-label">Kích thước hiển thị thực tế:</span>
+            <span class="metric-value val-bad" id="actualWidthContent">292px</span>
+          </div>
+          <div class="metric-formula" id="formulaContent">240px (width) + 40px (padding) + 12px (border)</div>
+        </div>
+      </section>
+
+      <!-- Cột 2: border-box -->
+      <section class="box-column col-border-box">
+        <div class="column-header">
+          <span class="type-tag tag-success">Khuyên dùng trong thực tế</span>
+          <h2 class="box-heading">box-sizing: border-box</h2>
+          <p class="box-desc">width bao gồm cả Content, Padding và Border. Hộp luôn giữ đúng kích thước định sẵn.</p>
+        </div>
+
+        <div class="box-render-area">
+          <div class="target-boundary" id="boundaryBorder">
+            <span class="boundary-label">Vạch định mức khai báo: <strong id="boundaryVal2">240px</strong></span>
+          </div>
+          <div class="box-demo box-bb" id="boxBorder">
+            <div class="box-inner">Content Area</div>
+          </div>
+        </div>
+
+        <div class="metric-card metric-perfect">
+          <div class="metric-row">
+            <span class="metric-label">Kích thước hiển thị thực tế:</span>
+            <span class="metric-value val-good" id="actualWidthBorder">240px</span>
+          </div>
+          <div class="metric-formula" id="formulaBorder">Giữ nguyên 240px (Content tự co lại còn 188px)</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Global Reset Rule Bar -->
+    <footer class="app-footer">
+      <div class="footer-tip">
+        <strong>Chuẩn công nghiệp:</strong> Luôn áp dụng CSS Reset toàn cục để giao diện không bị vỡ layout do padding.
+      </div>
+      <code class="code-snippet">* { box-sizing: border-box; margin: 0; padding: 0; }</code>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
