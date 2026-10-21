@@ -152,7 +152,7 @@ Khi triển khai thêm một bài tương tác mới:
 | 14 | [css-pseudo-classes](./css-pseudo-classes/) | **Bài 2 - Lớp giả CSS (Pseudo-classes):** Hiệu ứng `:hover`, chỉ báo `:focus` / `:focus-visible` và bộ tạo công thức `:nth-child(an + b)`. | Hoàn thành |
 | 15 | [css-pseudo-elements](./css-pseudo-elements/) | **Bài 3 - Phần tử giả (Pseudo-elements):** Tạo nội dung ảo `::before` và `::after`, thuộc tính bắt buộc `content` và các use case huy hiệu, trích dẫn. | Hoàn thành |
 | 16 | [css-position-modes](./css-position-modes/) | **Bài 4 - Thuộc tính Position 2D:** 4 chế độ `static`, `relative`, `absolute`, `fixed` và mối quan hệ với thẻ cha `relative`. | Hoàn thành |
-| 17 | [css-sticky-and-zindex](./css-sticky-and-zindex/) | **Bài 5 - Position Sticky & Z-Index:** Cơ chế dính trong phạm vi thẻ cha của `position: sticky` và thứ tự phân lớp trục Z `z-index`. | Hoàn thành |
+| 17 | [css-sticky-and-zindex](./css-sticky-and-zindex/) | **Bài 5 - Position Sticky & Z-Index:** Ngưỡng `top`, phạm vi thẻ cha, lỗi `overflow: hidden`; `z-index` cần `position`, stacking context. | Hoàn thành |
 | 18 | [flexbox-introduction](./flexbox-introduction/) | **Flexbox - Giới thiệu:** So sánh `block`, `inline-block` và `display: flex`, đo hướng xếp, khe hở, chiều cao item. | Hoàn thành |
 | 19 | [flexbox-axes](./flexbox-axes/) | **Flexbox - Trục chính & trục phụ:** `flex-direction` 4 giá trị, mũi tên main/cross axis, `justify-content` và `align-items` đổi hướng theo trục. | Hoàn thành |
 | 20 | [flexbox-container-alignment](./flexbox-container-alignment/) | **Flexbox - Container (Phần 1):** `display`, `flex-direction`, 6 giá trị `justify-content`, 5 giá trị `align-items`, đo khoảng trống trục chính. | Hoàn thành |

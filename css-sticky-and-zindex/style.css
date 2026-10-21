@@ -1,489 +1,106 @@
-:root {
-  --bg-primary: #0f172a;
-  --bg-surface: #1e293b;
-  --bg-canvas: #090d16;
-  --border-color: #334155;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --accent-color: #38bdf8;
-  --accent-success: #10b981;
-  --accent-warn: #f59e0b;
+/* Giao diện dùng Tailwind v4 (browser CDN). File này chỉ giữ quy tắc nền và quy tắc demo.
+   Các phần tử dưới đây không dùng utility padding/margin-top nên không bị xung đột. */
 
-  --c-blue: #38bdf8;
-  --c-orange: #f97316;
-  --c-green: #10b981;
-
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-sans);
-  background-color: var(--bg-primary);
-  color: var(--text-main);
+html {
   font-size: 15px;
-  line-height: 1.4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
 }
 
-.app-container {
-  width: 100%;
-  max-width: 980px;
+.app {
   height: 600px;
   max-height: 600px;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
-/* Header */
-.app-header {
+/* ---------- Sticky ---------- */
+.sticky-header {
+  position: sticky; /* JS ghi đè inline theo lựa chọn */
+  top: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  background-color: var(--bg-primary);
-  border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
-  height: 46px;
-  gap: 12px;
-}
-
-.header-title {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--text-main);
-  white-space: nowrap;
-}
-
-.header-title code {
-  font-family: var(--font-mono);
-  color: var(--accent-color);
-}
-
-.header-tabs {
-  display: flex;
-  height: 100%;
-  gap: 6px;
-}
-
-.tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0 12px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.tab-btn:hover {
-  color: var(--text-main);
-}
-
-.tab-btn.active {
-  color: var(--accent-color);
-  border-bottom-color: var(--accent-color);
-  font-weight: 700;
-}
-
-/* App Body & Panels */
-.app-body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  position: relative;
-  background-color: var(--bg-canvas);
-  overflow: hidden;
-}
-
-.panel-section {
-  width: 100%;
-  height: 100%;
-  display: none;
-  grid-template-columns: 280px 1fr;
-  min-height: 0;
-}
-
-.panel-section.active {
-  display: grid;
-}
-
-/* Controls */
-.col-controls {
-  padding: 10px 12px;
-  background-color: var(--bg-surface);
-  border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
   gap: 8px;
-  overflow-y: auto;
-}
-
-.control-group {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.group-title {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.coord-field, .z-field {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.coord-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.coord-label {
-  font-size: 0.78rem;
-  color: var(--text-main);
-  font-weight: 600;
-}
-
-.coord-label code {
-  font-family: var(--font-mono);
-  color: var(--accent-color);
-}
-
-.val-badge {
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background-color: rgba(56, 189, 248, 0.15);
-  color: var(--accent-color);
-}
-
-.badge-c1 { background-color: rgba(56, 189, 248, 0.15); color: var(--c-blue); }
-.badge-c2 { background-color: rgba(249, 115, 22, 0.15); color: var(--c-orange); }
-.badge-c3 { background-color: rgba(16, 185, 129, 0.15); color: var(--c-green); }
-
-.slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 5px;
-  background: var(--border-color);
-  border-radius: 3px;
-  outline: none;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent-color);
-  cursor: pointer;
-}
-
-.slider-c1::-webkit-slider-thumb { background: var(--c-blue); }
-.slider-c2::-webkit-slider-thumb { background: var(--c-orange); }
-.slider-c3::-webkit-slider-thumb { background: var(--c-green); }
-
-/* Explain Card */
-.explain-card {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.explain-badge {
-  align-self: flex-start;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background-color: rgba(56, 189, 248, 0.15);
-  color: var(--accent-color);
-}
-
-.explain-title {
+  padding: 8px 12px;
+  color: #fff;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--text-main);
-}
-
-.explain-desc {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  line-height: 1.35;
-}
-
-.explain-desc code {
-  font-family: var(--font-mono);
-  color: var(--accent-color);
-}
-
-.sticky-hint-box {
-  background-color: rgba(245, 158, 11, 0.08);
-  border-left: 3px solid var(--accent-warn);
-  border-radius: 0 4px 4px 0;
-  padding: 6px 8px;
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  line-height: 1.35;
-}
-
-.sticky-hint-box strong {
-  color: var(--accent-warn);
-}
-
-/* Cột phải: Preview */
-.col-preview {
-  padding: 10px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.preview-stage {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 10px 12px;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  overflow: hidden;
-}
-
-.stage-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.stage-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.scroll-tag {
-  font-size: 0.72rem;
-  color: var(--accent-warn);
-}
-
-/* Sticky Scroll Area */
-.sticky-scroll-area {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 12px;
-}
-
-.sticky-section {
-  border: 1px dashed var(--border-color);
-  border-radius: 6px;
-  margin-bottom: 20px;
-  background-color: rgba(30, 41, 59, 0.3);
-  position: relative;
-}
-
-.sticky-header {
-  position: sticky;
-  top: 0;
-  background: #0284c7;
-  color: #ffffff;
-  padding: 8px 12px;
-  border-radius: 5px 5px 0 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  transition: top 0.1s ease;
-}
-
-#headerB {
-  background: #0d9488;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .sec-badge {
-  background-color: rgba(255, 255, 255, 0.2);
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
-  font-weight: 700;
-  padding: 1px 6px;
+  padding: 0 6px;
   border-radius: 3px;
-}
-
-.sec-title {
-  font-size: 0.82rem;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .sec-body {
-  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 12px;
   font-size: 0.8rem;
-  color: var(--text-muted);
-  line-height: 1.45;
+  line-height: 1.5;
+  color: #94a3b8;
 }
 
-/* Z-Index Stage */
-.zindex-stage {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  flex: 1;
-  min-height: 0;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.sec-body code {
+  font-family: 'JetBrains Mono', monospace;
+  color: #7dd3fc;
 }
 
+/* ---------- z-index ---------- */
 .z-box {
-  position: absolute;
-  width: 170px;
-  height: 100px;
+  position: relative; /* JS ghi đè inline cho Hộp 2 khi chọn static */
+  width: 180px;
+  height: 96px;
+  margin-top: -46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: 2px solid;
   border-radius: 8px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 2px solid transparent;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #fff;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
 }
 
-.box-c1 {
-  background-color: #0369a1;
-  border-color: #38bdf8;
-  top: 30px;
-  left: 60px;
+#box1 {
+  margin-top: 0;
 }
 
-.box-c2 {
-  background-color: #c2410c;
-  border-color: #fb923c;
-  top: 75px;
-  left: 140px;
-}
-
-.box-c3 {
-  background-color: #047857;
-  border-color: #34d399;
-  top: 120px;
-  left: 220px;
-}
-
-.z-title {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.z-val-tag {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  background-color: rgba(0, 0, 0, 0.35);
-  color: #ffffff;
-  padding: 2px 6px;
-  border-radius: 3px;
+.z-tag {
   align-self: flex-start;
-}
-
-/* Code box */
-.code-box {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 6px 12px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.code-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.code-label {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.btn-copy {
-  background-color: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
-  border-radius: 4px;
-  padding: 2px 7px;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.35);
 }
 
-.btn-copy:hover {
-  background-color: var(--accent-color);
-  color: var(--bg-primary);
+/* Thẻ cha của Hộp 1: chỉ hiện viền + nhãn khi bật stacking context */
+.ctx {
+  width: max-content;
+  border-radius: 10px;
+  outline: 2px dashed transparent;
+  outline-offset: 6px;
 }
 
-#stickyCodeOutput, #zCodeOutput {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: #38bdf8;
+.ctx[data-on="true"] {
+  outline-color: #fbbf24;
+}
+
+.ctx-label {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: -1.45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  color: #fbbf24;
   white-space: nowrap;
-  overflow-x: auto;
+}
+
+.ctx[data-on="true"] .ctx-label {
+  display: block;
 }
