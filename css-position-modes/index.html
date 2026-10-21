@@ -3,116 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khảo Sát Thuộc Tính Position (static, relative, absolute, fixed)</title>
+  <title>Thuộc tính position: static, relative, absolute, fixed</title>
+  <meta name="description" content="Mô phỏng 4 giá trị position trong CSS: luồng tài liệu, mốc tọa độ (containing block) và hành vi khi cuộn.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+  </style>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app-container">
+<body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
+  <div class="app w-full max-w-[980px] flex flex-col bg-slate-900 border border-slate-800 rounded-lg overflow-hidden">
+
     <!-- Header -->
-    <header class="app-header">
-      <h1 class="header-title">Thuộc Tính Position: <code>static</code> • <code>relative</code> • <code>absolute</code> • <code>fixed</code></h1>
-      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    <header class="h-11 shrink-0 flex items-center justify-between px-4 bg-slate-950/70 border-b border-slate-800">
+      <h1 class="text-[0.95rem] font-bold tracking-tight">
+        Thuộc tính <code class="font-mono text-sky-400">position</code>
+        <span class="ml-2 text-xs font-medium text-slate-500">static / relative / absolute / fixed</span>
+      </h1>
+      <button type="button" id="btnReset"
+        class="text-xs font-semibold text-slate-400 border border-slate-700 rounded-md px-2.5 py-1 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer">
+        Reset
+      </button>
     </header>
 
-    <!-- Main Content -->
-    <main class="app-body">
-      <!-- Cột trái: Điều khiển Position -->
-      <section class="col-controls">
-        <div class="control-group">
-          <span class="group-title">Chọn giá trị <code>position</code>:</span>
-          <div class="pos-buttons">
-            <button type="button" class="btn-pos active" data-pos="static">position: static</button>
-            <button type="button" class="btn-pos" data-pos="relative">position: relative</button>
-            <button type="button" class="btn-pos" data-pos="absolute">position: absolute</button>
-            <button type="button" class="btn-pos" data-pos="fixed">position: fixed</button>
+    <main class="flex-1 min-h-0 grid grid-cols-[300px_1fr] overflow-hidden">
+
+      <!-- Cột trái: điều khiển -->
+      <section class="min-h-0 overflow-y-auto p-3 flex flex-col gap-2.5 border-r border-slate-800 bg-slate-900">
+
+        <!-- Chọn position -->
+        <div class="rounded-lg border border-slate-800 bg-slate-950/60 p-2.5">
+          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">Giá trị <code class="font-mono normal-case text-sky-400">position</code></p>
+          <div class="grid grid-cols-2 gap-1.5" role="group" aria-label="Chọn giá trị position">
+            <button type="button" class="btn-pos group text-left rounded-md border border-slate-800 bg-slate-900 px-2.5 py-1.5 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10" data-pos="static" aria-pressed="true">
+              <span class="block font-mono text-[0.82rem] font-bold text-slate-300 group-aria-pressed:text-sky-300">static</span>
+              <span class="block text-[0.72rem] text-slate-500">nằm trong luồng</span>
+            </button>
+            <button type="button" class="btn-pos group text-left rounded-md border border-slate-800 bg-slate-900 px-2.5 py-1.5 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10" data-pos="relative" aria-pressed="false">
+              <span class="block font-mono text-[0.82rem] font-bold text-slate-300 group-aria-pressed:text-sky-300">relative</span>
+              <span class="block text-[0.72rem] text-slate-500">dịch so với gốc</span>
+            </button>
+            <button type="button" class="btn-pos group text-left rounded-md border border-slate-800 bg-slate-900 px-2.5 py-1.5 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10" data-pos="absolute" aria-pressed="false">
+              <span class="block font-mono text-[0.82rem] font-bold text-slate-300 group-aria-pressed:text-sky-300">absolute</span>
+              <span class="block text-[0.72rem] text-slate-500">theo tổ tiên định vị</span>
+            </button>
+            <button type="button" class="btn-pos group text-left rounded-md border border-slate-800 bg-slate-900 px-2.5 py-1.5 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10" data-pos="fixed" aria-pressed="false">
+              <span class="block font-mono text-[0.82rem] font-bold text-slate-300 group-aria-pressed:text-sky-300">fixed</span>
+              <span class="block text-[0.72rem] text-slate-500">theo khung nhìn</span>
+            </button>
           </div>
         </div>
 
-        <!-- Tọa độ top / left -->
-        <div class="control-group">
-          <span class="group-title">Điều chỉnh tọa độ (Offsets):</span>
-          
-          <div class="coord-field">
-            <div class="coord-info">
-              <span class="coord-label"><code>top</code>:</span>
-              <span class="val-badge" id="topBadge">30px</span>
-            </div>
-            <input type="range" id="rangeTop" min="-20" max="80" value="30" class="slider">
-          </div>
-
-          <div class="coord-field">
-            <div class="coord-info">
-              <span class="coord-label"><code>left</code>:</span>
-              <span class="val-badge" id="leftBadge">40px</span>
-            </div>
-            <input type="range" id="rangeLeft" min="-20" max="100" value="40" class="slider">
-          </div>
-        </div>
-
-        <!-- Tùy chọn thẻ cha có relative không -->
-        <div class="parent-toggle-card">
-          <label class="parent-checkbox-label">
-            <input type="checkbox" id="checkParentRel" checked>
-            <span class="checkbox-text">Thẻ cha có <code>position: relative</code></span>
+        <!-- Offsets -->
+        <div class="rounded-lg border border-slate-800 bg-slate-950/60 p-2.5 flex flex-col gap-2">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Offset</p>
+          <label class="coord-field flex flex-col gap-1 transition-opacity data-[ignored=true]:opacity-40" for="rangeTop">
+            <span class="flex items-center justify-between">
+              <code class="font-mono text-[0.8rem] text-sky-400">top</code>
+              <span id="topBadge" class="font-mono text-[0.75rem] font-bold text-sky-300 bg-sky-400/10 rounded px-1.5">30px</span>
+            </span>
+            <input type="range" id="rangeTop" min="-20" max="80" value="30" class="w-full accent-sky-400 cursor-pointer">
           </label>
-          <span class="parent-hint" id="parentHint">Thẻ cha (.parent-box) làm mốc tọa độ cho absolute.</span>
+          <label class="coord-field flex flex-col gap-1 transition-opacity data-[ignored=true]:opacity-40" for="rangeLeft">
+            <span class="flex items-center justify-between">
+              <code class="font-mono text-[0.8rem] text-sky-400">left</code>
+              <span id="leftBadge" class="font-mono text-[0.75rem] font-bold text-sky-300 bg-sky-400/10 rounded px-1.5">40px</span>
+            </span>
+            <input type="range" id="rangeLeft" min="-20" max="100" value="40" class="w-full accent-sky-400 cursor-pointer">
+          </label>
         </div>
 
-        <!-- Thẻ giải thích nguyên lý -->
-        <div class="explain-card">
-          <span class="explain-badge" id="posBadge">static (Mặc định)</span>
-          <h2 class="explain-title" id="posTitle">Nằm trong luồng tự nhiên</h2>
-          <p class="explain-desc" id="posDesc">Phần tử hiển thị theo thứ tự mặc định của HTML. Các thuộc tính <code>top</code>, <code>left</code> bị bỏ qua hoàn toàn.</p>
+        <!-- Thẻ cha relative -->
+        <div class="rounded-lg border border-slate-800 bg-slate-950/60 p-2.5 flex flex-col gap-1.5">
+          <label class="flex items-center justify-between gap-2 cursor-pointer">
+            <span class="text-[0.8rem] font-semibold text-slate-200">Thẻ cha <code class="font-mono text-sky-400">position: relative</code></span>
+            <span class="relative inline-flex shrink-0">
+              <input type="checkbox" id="checkParentRel" class="peer sr-only" checked>
+              <span class="h-5 w-9 rounded-full bg-slate-700 transition-colors peer-checked:bg-sky-500 peer-focus-visible:ring-2 peer-focus-visible:ring-sky-300"></span>
+              <span class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-4"></span>
+            </span>
+          </label>
+          <p id="parentHint" class="text-[0.75rem] leading-snug text-slate-400">Thẻ cha là mốc tọa độ cho absolute.</p>
+        </div>
+
+        <!-- Giải thích -->
+        <div class="rounded-lg border border-slate-800 bg-slate-950/60 p-2.5 flex flex-col gap-1.5">
+          <div class="flex items-center gap-2">
+            <span id="posBadge" class="font-mono text-[0.75rem] font-bold text-sky-300 bg-sky-400/10 rounded px-1.5 py-0.5">static</span>
+            <h2 id="posTitle" class="text-[0.85rem] font-bold text-slate-100">Nằm trong luồng tự nhiên</h2>
+          </div>
+          <p id="posDesc" class="text-[0.78rem] leading-snug text-slate-400">Phần tử hiển thị theo thứ tự HTML.</p>
+          <dl class="mt-0.5 grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-[0.75rem]">
+            <dt class="text-slate-500">Chiếm chỗ</dt>
+            <dd id="flowValue" class="font-semibold text-emerald-400">Có</dd>
+            <dt class="text-slate-500">Mốc tọa độ</dt>
+            <dd id="refValue" class="font-semibold text-amber-400">Không có</dd>
+          </dl>
         </div>
       </section>
 
-      <!-- Cột phải: Khung hiển thị trực quan giả lập Viewport -->
-      <section class="col-preview">
-        <div class="preview-stage">
-          <div class="stage-header">
-            <span class="stage-label">Khung hiển thị giả lập (Cuộn để kiểm tra fixed):</span>
-            <span class="scroll-hint">Dùng chuột cuộn khung bên dưới</span>
+      <!-- Cột phải: mô phỏng -->
+      <section class="min-h-0 p-3 flex flex-col gap-2.5 overflow-hidden bg-slate-950">
+
+        <div class="flex-1 min-h-0 flex flex-col gap-2 rounded-lg border border-slate-800 bg-slate-900 p-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Khung nhìn giả lập</span>
+            <span class="flex items-center gap-3 text-[0.72rem] text-slate-500">
+              <span class="flex items-center gap-1.5"><span class="inline-block h-2.5 w-2.5 rounded-sm border-2 border-amber-400"></span>Mốc tọa độ</span>
+              <span id="scrollHint">Cuộn khung để thử</span>
+            </span>
           </div>
 
-          <!-- Khung nhìn giả lập: không cuộn, đóng vai trò viewport cho position: fixed -->
-          <div class="viewport-frame" id="viewportFrame">
+          <!-- Khung nhìn: transform biến nó thành khối chứa của position: fixed -->
+          <div id="viewportFrame" class="viewport-frame relative flex-1 min-h-0 flex rounded-md border border-slate-700 overflow-hidden data-[ref=true]:outline-2 data-[ref=true]:-outline-offset-2 data-[ref=true]:outline-amber-400">
             <!-- Vùng cuộn: đóng vai trò trang tài liệu -->
-            <div class="viewport-scroll-area" id="viewportArea">
-              <div class="scroll-content">
-                <div class="doc-item item-static">#1 Khối tĩnh phía trước (static)</div>
+            <div id="viewportArea" class="relative flex-1 min-h-0 overflow-y-auto bg-slate-950 p-3 data-[ref=true]:outline-2 data-[ref=true]:-outline-offset-2 data-[ref=true]:outline-amber-400">
+              <div class="flex flex-col gap-3 pb-[260px]">
+                <div class="doc-item rounded border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-[0.8rem] font-semibold text-slate-300">#1 Khối static phía trước</div>
 
-                <!-- Thẻ cha chứa Target Box -->
-                <div class="parent-box has-relative" id="parentBox">
-                  <span class="parent-label" id="parentLabel">&lt;div class="parent-box"&gt; (position: relative)</span>
+                <div id="parentBox" class="rounded-md border-2 border-dashed border-slate-600 bg-slate-800/30 px-3.5 py-3 data-[rel=true]:border-sky-400/70 data-[ref=true]:outline-2 data-[ref=true]:outline-offset-2 data-[ref=true]:outline-amber-400">
+                  <span id="parentLabel" class="mb-2 block font-mono text-[0.72rem] text-slate-400">.parent-box { position: relative }</span>
 
-                  <!-- Viền đánh dấu vị trí gốc (chỉ hiện với relative, không chiếm chỗ) -->
-                  <div class="ghost-placeholder" id="ghostHolder" aria-hidden="true">Vị trí gốc</div>
+                  <!-- Viền vị trí gốc: absolute không offset -> nằm ở vị trí tĩnh, không chiếm chỗ -->
+                  <div id="ghostHolder" aria-hidden="true"
+                    class="ghost hidden absolute rounded-md border border-dashed border-slate-500 bg-slate-400/5 px-2 py-1 text-[0.72rem] font-semibold text-slate-500 pointer-events-none data-[ref=true]:border-amber-400 data-[ref=true]:text-amber-400/80">Vị trí gốc</div>
 
-                  <!-- Thẻ mục tiêu di chuyển -->
-                  <div class="target-box" id="targetBox">
-                    <span class="target-title">Target Box</span>
-                    <span class="target-coords" id="targetCoords">top/left bị bỏ qua</span>
+                  <div id="targetBox" class="target z-20 flex w-max flex-col gap-0.5 rounded-md border-2 border-sky-400 bg-sky-800 px-3.5 py-2.5 text-white shadow-lg shadow-black/40">
+                    <span class="text-[0.85rem] font-bold">.target</span>
+                    <span id="targetCoords" class="font-mono text-[0.72rem] text-sky-300">top/left bị bỏ qua</span>
                   </div>
                 </div>
 
-                <div class="doc-item item-static">#2 Khối tĩnh phía sau (static)</div>
-                <div class="doc-item item-static">#3 Khối tĩnh bổ sung (static)</div>
-                <div class="doc-item item-static">#4 Khối tĩnh chân trang (static)</div>
+                <div class="doc-item rounded border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-[0.8rem] font-semibold text-slate-300">#2 Khối static phía sau</div>
+                <div class="doc-item rounded border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-[0.8rem] font-semibold text-slate-300">#3 Khối static</div>
+                <div class="doc-item rounded border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-[0.8rem] font-semibold text-slate-300">#4 Khối static</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Code CSS -->
-        <div class="code-box">
-          <div class="code-header">
-            <span class="code-label">Quy tắc CSS áp dụng:</span>
-            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+        <div class="shrink-0 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">CSS đang áp dụng</span>
+            <button type="button" id="btnCopy"
+              class="rounded border border-sky-400/60 px-2 py-0.5 text-[0.72rem] font-semibold text-sky-300 hover:bg-sky-400 hover:text-slate-950 transition-colors cursor-pointer">Copy</button>
           </div>
-          <code id="posCodeOutput">.target { position: static; }</code>
+          <pre id="posCodeOutput" class="font-mono text-[0.82rem] leading-relaxed text-slate-300 overflow-x-auto"></pre>
         </div>
       </section>
     </main>
