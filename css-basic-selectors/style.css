@@ -266,7 +266,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  height: 330px;
+  min-height: 0;
 }
 
 .stage-header {
@@ -366,6 +366,7 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 8px 10px;
+  flex-shrink: 0;
 }
 
 .code-header {
