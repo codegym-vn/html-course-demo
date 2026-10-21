@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thế Giới Màu Sắc CSS: HEX, RGB, RGBA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Thanh tiêu đề gọn gàng -->
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="header-title">Hệ Màu Sắc CSS: HEX • RGB • RGBA</h1>
+      </div>
+      <div class="header-right">
+        <div class="contrast-badge" id="contrastBadge">
+          <span class="contrast-dot" id="contrastDot"></span>
+          <span id="contrastText">Chữ: Trắng</span>
+        </div>
+        <button type="button" class="btn-reset" id="btnReset" title="Đặt lại mặc định">Reset</button>
+      </div>
+    </header>
+
+    <!-- Khung làm việc 2 cột -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển -->
+      <section class="col-controls">
+        <!-- Bộ chọn màu nhanh & Preset -->
+        <div class="quick-row">
+          <div class="picker-box">
+            <input type="color" id="nativeColorPicker" value="#3b82f6" aria-label="Chọn màu">
+            <span class="picker-hex" id="colorPickerHexText">#3B82F6</span>
+          </div>
+          <div class="preset-dots" id="presetChips">
+            <button type="button" class="dot" data-r="239" data-g="68" data-b="68" data-a="1" style="--c: #ef4444;" title="Red"></button>
+            <button type="button" class="dot" data-r="34" data-g="197" data-b="94" data-a="1" style="--c: #22c55e;" title="Green"></button>
+            <button type="button" class="dot" data-r="59" data-g="130" data-b="246" data-a="1" style="--c: #3b82f6;" title="Blue"></button>
+            <button type="button" class="dot" data-r="234" data-g="179" data-b="8" data-a="1" style="--c: #eab308;" title="Yellow"></button>
+            <button type="button" class="dot" data-r="168" data-g="85" data-b="247" data-a="1" style="--c: #a855f7;" title="Purple"></button>
+            <button type="button" class="dot" data-r="255" data-g="255" data-b="255" data-a="1" style="--c: #ffffff;" title="White"></button>
+            <button type="button" class="dot" data-r="15" data-g="23" data-b="42" data-a="1" style="--c: #0f172a;" title="Dark"></button>
+          </div>
+        </div>
+
+        <!-- Kênh Red -->
+        <div class="channel-row">
+          <div class="channel-info">
+            <span class="channel-badge badge-r">R</span>
+            <span class="channel-label">Red</span>
+            <span class="channel-hex" id="redHexVal">Hex: 3B</span>
+            <input type="number" id="redNumber" min="0" max="255" value="59" class="input-num">
+          </div>
+          <input type="range" id="redRange" min="0" max="255" value="59" class="slider slider-red">
+        </div>
+
+        <!-- Kênh Green -->
+        <div class="channel-row">
+          <div class="channel-info">
+            <span class="channel-badge badge-g">G</span>
+            <span class="channel-label">Green</span>
+            <span class="channel-hex" id="greenHexVal">Hex: 82</span>
+            <input type="number" id="greenNumber" min="0" max="255" value="130" class="input-num">
+          </div>
+          <input type="range" id="greenRange" min="0" max="255" value="130" class="slider slider-green">
+        </div>
+
+        <!-- Kênh Blue -->
+        <div class="channel-row">
+          <div class="channel-info">
+            <span class="channel-badge badge-b">B</span>
+            <span class="channel-label">Blue</span>
+            <span class="channel-hex" id="blueHexVal">Hex: F6</span>
+            <input type="number" id="blueNumber" min="0" max="255" value="246" class="input-num">
+          </div>
+          <input type="range" id="blueRange" min="0" max="255" value="246" class="slider slider-blue">
+        </div>
+
+        <!-- Kênh Alpha -->
+        <div class="channel-row">
+          <div class="channel-info">
+            <span class="channel-badge badge-a">A</span>
+            <span class="channel-label">Alpha</span>
+            <span class="channel-hex" id="alphaPercent">90%</span>
+            <input type="number" id="alphaNumber" min="0" max="1" step="0.01" value="0.9" class="input-num">
+          </div>
+          <input type="range" id="alphaRange" min="0" max="100" value="90" class="slider slider-alpha">
+        </div>
+      </section>
+
+      <!-- Cột phải: Trực quan hóa & Code -->
+      <section class="col-preview">
+        <!-- Vùng hiển thị màu & Checkerboard -->
+        <div class="preview-box-container">
+          <div class="checkerboard-bg">
+            <div class="color-fill" id="colorSampleBox">
+              <span class="fill-hex" id="sampleHexDisplay">#3B82F6</span>
+              <span class="fill-rgba" id="sampleRgbaDisplay">rgba(59, 130, 246, 0.90)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Giải mã cấu trúc HEX -->
+        <div class="hex-anatomy">
+          <span class="hex-prefix">#</span>
+          <div class="hex-cell cell-r">
+            <span class="cell-val" id="hexRPart">3B</span>
+            <span class="cell-sub">R: <span id="hexRMath">59</span></span>
+          </div>
+          <div class="hex-cell cell-g">
+            <span class="cell-val" id="hexGPart">82</span>
+            <span class="cell-sub">G: <span id="hexGMath">130</span></span>
+          </div>
+          <div class="hex-cell cell-b">
+            <span class="cell-val" id="hexBPart">F6</span>
+            <span class="cell-sub">B: <span id="hexBMath">246</span></span>
+          </div>
+          <div class="hex-cell cell-a">
+            <span class="cell-val" id="hexAPart">E6</span>
+            <span class="cell-sub">A: <span id="hexAMath">90%</span></span>
+          </div>
+          <div class="hex-math-note" id="hexFormulaNote">
+            <code id="formulaCode">3B = (3×16) + 11 = 59</code>
+          </div>
+        </div>
+
+        <!-- So sánh nhanh: rgba vs opacity -->
+        <div class="compare-row">
+          <div class="compare-item" id="demoRgba">
+            <div class="item-title">rgba(...)</div>
+            <div class="item-desc">Chữ rõ 100%, chỉ mờ nền</div>
+          </div>
+          <div class="compare-item" id="demoOpacity">
+            <div class="item-title">opacity: <span id="opacityLabel">0.9</span></div>
+            <div class="item-desc">Mờ cả chữ và phần tử con</div>
+          </div>
+        </div>
+
+        <!-- Bảng xuất mã CSS -->
+        <div class="code-export">
+          <div class="code-line">
+            <span class="code-tag">HEX</span>
+            <code id="cssHexOutput">background-color: #3B82F6;</code>
+            <button type="button" class="btn-copy" data-target="cssHexOutput">Copy</button>
+          </div>
+          <div class="code-line">
+            <span class="code-tag">RGBA</span>
+            <code id="cssRgbaOutput">background-color: rgba(59, 130, 246, 0.9);</code>
+            <button type="button" class="btn-copy" data-target="cssRgbaOutput">Copy</button>
+          </div>
+          <div class="code-line">
+            <span class="code-tag">CSS 4</span>
+            <code id="cssModernOutput">background-color: rgb(59 130 246 / 90%);</code>
+            <button type="button" class="btn-copy" data-target="cssModernOutput">Copy</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
