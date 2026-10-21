@@ -70,6 +70,7 @@ Mỗi thư mục đại diện cho **01 ứng dụng độc lập** và tuân th
 ### 2.5. Tương Thích Nhúng LMS (LMS Embed & Dimensions)
 - **Chiều cao khuyến nghị: 600px**: Giao diện được tối ưu để hiển thị vừa vặn trong khung iframe 600px mà không bị cuộn trang phức tạp.
 - **Thiết kế gọn nhẹ (Compact Single-View UI)**: Tập trung vào 1 màn hình duy nhất, loại bỏ banner/footer cồng kềnh, chỉ giữ lại phần điều khiển và phần trực quan hóa cốt lõi.
+- **Kích thước chữ dễ đọc (Typography Readability)**: Cỡ chữ nền `font-size: 15px`, nhãn phụ tối thiểu `12px` (`0.8rem`), chữ nội dung chính và code từ `13px - 16px` để học viên không phải căng mắt khi đọc trong iframe.
 
 ---
 

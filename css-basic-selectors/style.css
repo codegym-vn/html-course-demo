@@ -35,7 +35,7 @@ html, body {
   font-family: var(--font-main);
   background-color: var(--bg-app);
   color: var(--text-main);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.4;
 }
 
@@ -48,7 +48,7 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 920px;
+  max-width: 940px;
   height: 100%;
   max-height: 588px;
   background: var(--bg-card);
@@ -61,7 +61,7 @@ body {
 
 /* Header */
 .app-header {
-  height: 42px;
+  height: 44px;
   padding: 0 14px;
   display: flex;
   align-items: center;
@@ -72,7 +72,7 @@ body {
 }
 
 .header-title {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text-main);
 }
@@ -82,8 +82,8 @@ body {
   color: var(--text-dim);
   border: 1px solid var(--border-subtle);
   border-radius: 4px;
-  padding: 3px 8px;
-  font-size: 0.72rem;
+  padding: 3px 10px;
+  font-size: 0.78rem;
   font-family: var(--font-main);
   cursor: pointer;
   transition: all 0.15s;
@@ -98,7 +98,7 @@ body {
 .app-body {
   flex: 1;
   display: grid;
-  grid-template-columns: 370px 1fr;
+  grid-template-columns: 380px 1fr;
   gap: 12px;
   padding: 10px 14px;
   overflow: hidden;
@@ -108,21 +108,21 @@ body {
 .col-controls {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .control-card {
   background: var(--bg-input);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 7px 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .card-label {
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -139,8 +139,8 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: 4px;
   color: var(--text-main);
-  font-size: 0.8rem;
-  padding: 4px 6px;
+  font-size: 0.88rem;
+  padding: 4px 8px;
   outline: none;
 }
 
@@ -151,7 +151,7 @@ body {
 }
 
 .match-badge {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
   font-family: var(--font-mono);
   background: rgba(59, 130, 246, 0.2);
@@ -163,7 +163,7 @@ body {
 }
 
 .field-hint {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   color: var(--text-dim);
 }
 
@@ -180,9 +180,9 @@ body {
   border-radius: 4px;
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  padding: 2px 7px;
+  padding: 2px 8px;
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -210,13 +210,13 @@ body {
 }
 
 .spec-title {
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--text-main);
 }
 
 .spec-total {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-family: var(--font-mono);
   font-weight: 700;
   color: var(--color-gold);
@@ -225,14 +225,14 @@ body {
 .spec-bars {
   display: flex;
   gap: 12px;
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 .spec-metric {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
 }
 
 .spec-metric .spec-label {
@@ -246,7 +246,7 @@ body {
 }
 
 .spec-desc {
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   color: var(--text-dim);
   line-height: 1.3;
 }
@@ -279,7 +279,7 @@ body {
 }
 
 .stage-title {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #475569;
 }
@@ -308,14 +308,14 @@ body {
 }
 
 .card h3 {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #0f172a;
   margin-bottom: 2px;
 }
 
 .card p {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #475569;
   margin-bottom: 4px;
 }
@@ -327,7 +327,7 @@ body {
 
 .badge {
   display: inline-block;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #047857;
   background: #d1fae5;
@@ -340,8 +340,8 @@ body {
   color: #ffffff;
   border: none;
   border-radius: 4px;
-  padding: 3px 8px;
-  font-size: 0.72rem;
+  padding: 4px 10px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: default;
 }
@@ -376,7 +376,7 @@ body {
 }
 
 .code-label {
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-dim);
 }
@@ -384,7 +384,7 @@ body {
 .code-box code {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #38bdf8;
   white-space: nowrap;
   overflow: hidden;
@@ -395,9 +395,9 @@ body {
   background: var(--bg-card);
   color: var(--text-muted);
   border: 1px solid var(--border-subtle);
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   font-weight: 600;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.15s;
