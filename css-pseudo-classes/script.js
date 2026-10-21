@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Tabs
+  // Tabs chuyển đổi giữa Tương tác và nth-child
   const tabButtons = document.querySelectorAll('.tab-btn');
   const panelInteractive = document.getElementById('panelInteractive');
   const panelNth = document.getElementById('panelNth');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Panel 1: Interactive States
+  // Panel 1: Điều khiển trạng thái tương tác
   const stateButtons = document.querySelectorAll('.btn-state');
   const targetBtn = document.getElementById('targetBtn');
   const targetInput = document.getElementById('targetInput');
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     focus: {
       badge: ':focus',
       title: 'Kích hoạt khi phần tử được tiêu điểm',
-      desc: 'Áp dụng khi người dùng nhấp chuột vào ô nhập liệu hoặc dùng phím Tab chuyển đến. Hiển thị viền sáng và con trỏ chuột nhấp nháy.',
+      desc: 'Áp dụng khi người dùng nhấp chuột vào ô nhập liệu hoặc dùng phím Tab chuyển đến. Hiển thị viền sáng phát xung và con trỏ chuột nhấp nháy.',
       code: '.input-demo:focus { border-color: #38bdf8; box-shadow: 0 0 0 4px rgba(56,189,248,0.35); }'
     },
     active: {
@@ -53,65 +53,37 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function applyState(state) {
+    // Cập nhật trạng thái active cho các nút điều khiển
     stateButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.state === state);
     });
 
+    // Cập nhật bảng giải thích & code output
     const info = stateDetails[state];
     stateBadge.textContent = info.badge;
     stateTitle.textContent = info.title;
     stateDesc.textContent = info.desc;
     stateCodeOutput.textContent = info.code;
 
-    // Reset classes
+    // Reset sạch các class mô phỏng
     targetBtn.classList.remove('is-hovered', 'is-active');
     targetInput.classList.remove('is-hovered', 'is-focused');
 
     if (state === 'hover') {
       targetBtn.classList.add('is-hovered');
       targetInput.classList.add('is-hovered');
-      targetInput.blur();
     } else if (state === 'active') {
       targetBtn.classList.add('is-active');
-      targetInput.blur();
     } else if (state === 'focus') {
       targetInput.classList.add('is-focused');
-      targetInput.focus();
-    } else if (state === 'normal') {
-      targetInput.blur();
     }
   }
 
+  // Lắng nghe sự kiện click từ các nút mô phỏng bên trái (Không bị đè bởi chuột)
   stateButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       applyState(btn.dataset.state);
     });
-  });
-
-  // Tương tác chuột THẬT trên nút bấm
-  targetBtn.addEventListener('mouseenter', () => {
-    applyState('hover');
-  });
-
-  targetBtn.addEventListener('mouseleave', () => {
-    applyState('normal');
-  });
-
-  targetBtn.addEventListener('mousedown', () => {
-    applyState('active');
-  });
-
-  targetBtn.addEventListener('mouseup', () => {
-    applyState('hover');
-  });
-
-  // Tương tác bàn phím / chuột THẬT trên ô input
-  targetInput.addEventListener('focus', () => {
-    applyState('focus');
-  });
-
-  targetInput.addEventListener('blur', () => {
-    applyState('normal');
   });
 
   btnCopyState.addEventListener('click', () => {
