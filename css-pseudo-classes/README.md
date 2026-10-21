@@ -1,28 +1,36 @@
-# Khảo Sát Lớp Giả Trong CSS (Pseudo-classes)
+# CSS Pseudo-Classes Lab (:hover, :focus, :nth-child)
 
-Ứng dụng mô phỏng trực quan các trạng thái tương tác người dùng (`:hover`, `:focus`, `:active`) và quy luật toán học chọn phần tử cấu trúc (`:nth-child`).
+Ứng dụng thử nghiệm trực tiếp ba nhóm lớp giả CSS. Mỗi lựa chọn chèn một quy tắc CSS thật vào trang, nên trình duyệt tự xử lý trạng thái `:hover`, `:focus`, `:nth-child()`. JavaScript chỉ đổi quy tắc CSS, không giả lập trạng thái chuột.
 
-## 1. Lớp giả tương tác người dùng
+## 1. `:hover`
 
-- **`:hover`**: Kích hoạt khi con trỏ chuột di chuyển vào phần tử (đổi màu, hiệu ứng nổi).
-- **`:focus`**: Kích hoạt khi phần tử nhận tiêu điểm (nhấp chuột vào ô input hoặc phím Tab bàn phím).
-- **`:active`**: Kích hoạt trong khoảnh khắc người dùng nhấn giữ chuột trái (hiệu ứng nút bấm lún xuống).
+Bốn hiệu ứng để so sánh: nâng và phóng to, dịch sang phải, viền phát sáng, đổi màu nền và chữ. Chọn một kiểu rồi rê chuột vào nút xem trước.
 
-## 2. Lớp giả cấu trúc `:nth-child(An + B)`
+## 2. `:focus` và `:focus-visible`
 
-Trình duyệt thay lần lượt các số tự nhiên không âm `n = 0, 1, 2, 3,...` vào biểu thức `An + B` để tìm số thứ tự phần tử cần chọn:
+- Ba kiểu chỉ báo focus: focus ring, nhấn mạnh viền dưới, viền tương phản.
+- Bật `:focus-visible` để thấy trình duyệt chỉ hiện chỉ báo khi điều hướng bằng bàn phím (phím Tab).
+- Không nên bỏ `outline` nếu chưa có chỉ báo focus thay thế đủ rõ.
 
-- **`odd`**: Các số lẻ (`1, 3, 5, 7, 9,...`) - tương đương `2n + 1`.
-- **`even`**: Các số chẵn (`2, 4, 6, 8, 10,...`) - tương đương `2n`.
-- **`3n`**: Bội số của 3 (`3, 6, 9,...`).
-- **`n + 4`**: Chọn từ phần tử thứ 4 trở đi (`4, 5, 6, 7,...`).
+## 3. `:nth-child(an + b)`
+
+Trình duyệt thay `n = 0, 1, 2, ...` vào `an + b`; chỉ các vị trí nguyên dương được chọn.
+
+| Công thức | Vị trí được chọn (trong 12 phần tử) |
+| :--- | :--- |
+| `2n + 1` (odd) | 1, 3, 5, 7, 9, 11 |
+| `2n` (even) | 2, 4, 6, 8, 10, 12 |
+| `3n` | 3, 6, 9, 12 |
+| `-n + 5` | 1, 2, 3, 4, 5 |
+| `n + 6` | 6 đến 12 |
+| `4` (a = 0) | 4 |
 
 ## Cấu trúc thư mục
 
 ```text
 css-pseudo-classes/
-├── index.html     # Giao diện 2 tab (Tương tác và Cấu trúc)
-├── style.css      # Định dạng chuẩn tỉ lệ 600px cho LMS embed
-├── script.js       # Xử lý chuyển tab, mô phỏng trạng thái và giải mã nth-child
+├── index.html     # 3 tab: :hover, :focus, :nth-child()
+├── style.css      # Định dạng chuẩn 600px cho LMS embed
+├── script.js      # Chèn quy tắc CSS động, tính công thức an + b
 └── README.md      # Tài liệu hướng dẫn
 ```

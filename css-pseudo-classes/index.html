@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khảo Sát Lớp Giả CSS (Pseudo-classes)</title>
+  <meta name="description" content="Thử nghiệm trực tiếp CSS pseudo-classes :hover, :focus, :focus-visible và :nth-child(an + b).">
+  <title>CSS Pseudo-Classes Lab: :hover, :focus, :nth-child()</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -11,131 +12,139 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Header with Tabs -->
+    <!-- Header + Tabs -->
     <header class="app-header">
-      <div class="header-left">
-        <h1 class="header-title">Lớp Giả CSS: <code>:hover</code> • <code>:focus</code> • <code>:nth-child()</code></h1>
-      </div>
-      <div class="header-tabs">
-        <button type="button" class="tab-btn active" data-tab="interactive">1. Tương tác (:hover, :focus, :active)</button>
-        <button type="button" class="tab-btn" data-tab="nth">2. Cấu trúc (:nth-child)</button>
-      </div>
+      <h1 class="header-title">Lớp giả CSS (Pseudo-classes)</h1>
+      <nav class="header-tabs" role="tablist" aria-label="Chủ đề CSS">
+        <button type="button" class="tab-btn tab-hover" id="tab-hover" role="tab" aria-controls="panel-hover" aria-selected="true" tabindex="0" data-tab="hover">1. :hover</button>
+        <button type="button" class="tab-btn tab-focus" id="tab-focus" role="tab" aria-controls="panel-focus" aria-selected="false" tabindex="-1" data-tab="focus">2. :focus</button>
+        <button type="button" class="tab-btn tab-nth" id="tab-nth" role="tab" aria-controls="panel-nth" aria-selected="false" tabindex="-1" data-tab="nth">3. :nth-child()</button>
+      </nav>
     </header>
 
-    <!-- Main Content -->
     <main class="app-body">
-      <!-- PANEL 1: Tương tác người dùng -->
-      <section class="panel-section active" id="panelInteractive">
-        <!-- Cột trái: Trình mô phỏng trạng thái -->
-        <div class="col-controls">
-          <div class="control-group">
-            <span class="group-title">Mô phỏng trạng thái kích hoạt:</span>
-            <div class="state-buttons">
-              <button type="button" class="btn-state active" data-state="normal">Trạng thái bình thường</button>
-              <button type="button" class="btn-state" data-state="hover">Mô phỏng :hover</button>
-              <button type="button" class="btn-state" data-state="focus">Mô phỏng :focus</button>
-              <button type="button" class="btn-state" data-state="active">Mô phỏng :active</button>
-            </div>
+      <!-- PANEL 1: :hover -->
+      <section id="panel-hover" class="tab-panel theme-hover" role="tabpanel" aria-labelledby="tab-hover">
+        <aside class="col-controls">
+          <div>
+            <h2 class="panel-title">Chọn hiệu ứng</h2>
+            <p class="panel-sub">Chọn một kiểu rồi rê chuột lên nút xem trước.</p>
           </div>
-
-          <div class="explain-card">
-            <span class="explain-badge" id="stateBadge">:hover</span>
-            <h2 class="explain-title" id="stateTitle">Kích hoạt khi rê chuột</h2>
-            <p class="explain-desc" id="stateDesc">Áp dụng kiểu dáng đặc biệt khi người dùng di con trỏ chuột lên trên phần tử.</p>
+          <div id="hover-options" class="option-list" role="radiogroup" aria-label="Hiệu ứng hover"></div>
+          <div class="note-box">
+            <strong>Thử thách:</strong> Di chuyển con trỏ vào nút, sau đó đưa ra ngoài. Hiệu ứng chuyển trạng thái do CSS tạo ra, không cần JavaScript xử lý hover.
           </div>
+        </aside>
 
-          <div class="tip-box">
-            <strong>Mẹo:</strong> Bạn cũng có thể dùng chuột rê, bấm hoặc Tab bàn phím trực tiếp vào các phần tử ở khung bên phải để trải nghiệm trạng thái thực tế.
-          </div>
-        </div>
-
-        <!-- Cột phải: Preview phần tử tương tác -->
         <div class="col-preview">
           <div class="preview-stage">
-            <div class="stage-label">Khu vực thử nghiệm tương tác:</div>
-
-            <div class="demo-items-grid">
-              <!-- Nút bấm demo -->
-              <div class="demo-card">
-                <span class="card-caption">Nút bấm tương tác (.btn-demo):</span>
-                <button type="button" class="btn-demo" id="targetBtn">Nhấn hoặc rê chuột vào tôi</button>
-              </div>
-
-              <!-- Ô input demo -->
-              <div class="demo-card">
-                <span class="card-caption">Ô nhập liệu (.input-demo):</span>
-                <input type="text" class="input-demo" id="targetInput" placeholder="Nhấp chuột hoặc Tab vào để xem :focus" autocomplete="off">
-              </div>
-            </div>
+            <span class="stage-label">Live preview</span>
+            <button id="hover-demo" type="button" class="demo-button">Rê chuột vào đây</button>
+            <p id="hover-description" class="stage-desc"></p>
           </div>
-
-          <!-- Code Box -->
-          <div class="code-box">
+          <div class="code-panel">
             <div class="code-header">
-              <span class="code-label">Quy tắc CSS sinh ra:</span>
-              <button type="button" class="btn-copy" id="btnCopyState">Copy</button>
+              <span class="code-label">CSS đang áp dụng</span>
+              <button type="button" class="btn-copy" data-copy="hover-code">Sao chép</button>
             </div>
-            <code id="stateCodeOutput">.btn-demo:hover { background-color: #0284c7; transform: translateY(-2px); }</code>
+            <pre id="hover-code" tabindex="0"></pre>
           </div>
         </div>
       </section>
 
-      <!-- PANEL 2: Cấu trúc nth-child -->
-      <section class="panel-section" id="panelNth">
-        <!-- Cột trái: Điều khiển công thức nth-child -->
-        <div class="col-controls">
-          <div class="control-group">
-            <span class="group-title">Chọn mẫu công thức nhanh:</span>
-            <div class="preset-buttons">
-              <button type="button" class="btn-preset active" data-formula="odd">:nth-child(odd)</button>
-              <button type="button" class="btn-preset" data-formula="even">:nth-child(even)</button>
-              <button type="button" class="btn-preset" data-formula="3n">:nth-child(3n)</button>
-              <button type="button" class="btn-preset" data-formula="2n+1">:nth-child(2n+1)</button>
-              <button type="button" class="btn-preset" data-formula="n+4">:nth-child(n+4)</button>
-            </div>
+      <!-- PANEL 2: :focus -->
+      <section id="panel-focus" class="tab-panel theme-focus" role="tabpanel" aria-labelledby="tab-focus" hidden>
+        <aside class="col-controls">
+          <div>
+            <h2 class="panel-title">Kiểu focus</h2>
+            <p class="panel-sub">Chọn phong cách hiển thị khi input nhận tiêu điểm.</p>
           </div>
-
-          <!-- Nhập công thức tùy chỉnh -->
-          <div class="custom-formula-group">
-            <label for="nthFormulaInput" class="group-title">Hoặc nhập công thức tự do (An + B):</label>
-            <div class="formula-row">
-              <span class="formula-prefix">:nth-child(</span>
-              <input type="text" id="nthFormulaInput" value="odd" class="formula-field" autocomplete="off" spellcheck="false">
-              <span class="formula-suffix">)</span>
-              <button type="button" class="btn-apply-nth" id="btnApplyNth">Áp dụng</button>
-            </div>
+          <div id="focus-options" class="option-list" role="radiogroup" aria-label="Kiểu focus"></div>
+          <label class="toggle-card">
+            <input id="focus-visible-toggle" type="checkbox">
+            <span>
+              <span class="toggle-title">Dùng <code>:focus-visible</code></span>
+              <span class="toggle-sub">Thử bằng phím Tab để quan sát chỉ báo focus theo cơ chế của trình duyệt.</span>
+            </span>
+          </label>
+          <div class="note-box">
+            <strong>Lưu ý accessibility:</strong> Không nên loại bỏ outline nếu chưa có chỉ báo focus thay thế đủ rõ.
           </div>
+        </aside>
 
-          <!-- Giải mã các giá trị khớp -->
-          <div class="math-steps-box">
-            <span class="math-label">Các số thứ tự phần tử được khớp:</span>
-            <div class="matched-indices" id="matchedIndices">1, 3, 5, 7, 9</div>
-            <p class="math-explain" id="mathExplain">Khi n = 0, 1, 2, 3, 4,... công thức odd đại diện cho các số lẻ.</p>
-          </div>
-        </div>
-
-        <!-- Cột phải: Dãy 10 phần tử trực quan -->
         <div class="col-preview">
           <div class="preview-stage">
-            <div class="stage-label">Danh sách phần tử trong cùng thẻ cha (.list-container):</div>
-
-            <div class="nth-items-grid" id="nthGrid">
-              <!-- 10 hộp được sinh động bằng JS -->
+            <span class="stage-label">Live preview</span>
+            <div id="focus-preview" class="focus-preview"></div>
+            <p class="stage-desc">Nhấp vào ô nhập hoặc dùng phím Tab để đưa focus đến ô.</p>
+          </div>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-label">CSS đang áp dụng</span>
+              <button type="button" class="btn-copy" data-copy="focus-code">Sao chép</button>
             </div>
+            <pre id="focus-code" tabindex="0"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANEL 3: :nth-child() -->
+      <section id="panel-nth" class="tab-panel theme-nth" role="tabpanel" aria-labelledby="tab-nth" hidden>
+        <aside class="col-controls">
+          <div>
+            <h2 class="panel-title">Bộ tạo công thức</h2>
+            <p class="panel-sub">Chọn mẫu hoặc đổi hệ số a, b trong <code>an + b</code>.</p>
+          </div>
+          <div id="nth-presets" class="preset-grid"></div>
+
+          <div class="slider-field">
+            <div class="slider-info">
+              <label for="nth-a">Hệ số a (bước nhảy)</label>
+              <span id="nth-a-value" class="val-badge">2</span>
+            </div>
+            <input id="nth-a" type="range" min="-5" max="5" step="1" value="2">
+          </div>
+          <div class="slider-field">
+            <div class="slider-info">
+              <label for="nth-b">Hệ số b (vị trí bắt đầu)</label>
+              <span id="nth-b-value" class="val-badge">1</span>
+            </div>
+            <input id="nth-b" type="range" min="-5" max="15" step="1" value="1">
           </div>
 
-          <!-- Code Box -->
-          <div class="code-box">
-            <div class="code-header">
-              <span class="code-label">Quy tắc CSS áp dụng:</span>
-              <button type="button" class="btn-copy" id="btnCopyNth">Copy</button>
+          <div class="formula-box">
+            <span class="formula-label">Công thức hiện tại</span>
+            <span id="nth-formula" class="formula-value">2n + 1</span>
+            <p id="nth-explanation" class="formula-explain"></p>
+          </div>
+        </aside>
+
+        <div class="col-preview">
+          <div class="preview-stage stage-grid">
+            <div class="grid-header">
+              <span class="stage-label static">Danh sách 12 phần tử</span>
+              <span id="nth-match-count" class="match-count">6 phần tử được chọn</span>
             </div>
-            <code id="nthCodeOutput">.item:nth-child(odd) { background-color: #0284c7; color: #fff; }</code>
+            <div id="nth-grid" class="nth-grid"></div>
+          </div>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-label">CSS tương ứng</span>
+              <button type="button" class="btn-copy" data-copy="nth-code">Sao chép</button>
+            </div>
+            <pre id="nth-code" tabindex="0"></pre>
           </div>
         </div>
       </section>
     </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">Đã sao chép mã CSS.</div>
   </div>
+
+  <!-- CSS thật được chèn động: trình duyệt tự xử lý :hover, :focus, :nth-child -->
+  <style id="dynamic-hover-style"></style>
+  <style id="dynamic-focus-style"></style>
+  <style id="dynamic-nth-style"></style>
 
   <script src="script.js"></script>
 </body>

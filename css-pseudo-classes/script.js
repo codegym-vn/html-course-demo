@@ -1,184 +1,275 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Tabs chuyển đổi giữa Tương tác và nth-child
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const panelInteractive = document.getElementById('panelInteractive');
-  const panelNth = document.getElementById('panelNth');
+"use strict";
 
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-      const isInteractive = btn.dataset.tab === 'interactive';
-      panelInteractive.classList.toggle('active', isInteractive);
-      panelNth.classList.toggle('active', !isInteractive);
-    });
+/* ===== Dữ liệu ===== */
+const hoverEffects = [
+  {
+    name: "Nâng và phóng to",
+    description: "Nút nhích lên nhẹ, phóng to 5% và có bóng đổ rõ hơn.",
+    css: `.demo-button {\n  transition: transform .25s ease, box-shadow .25s ease;\n}\n.demo-button:hover {\n  transform: translateY(-2px) scale(1.05);\n  box-shadow: 0 12px 28px -8px rgba(99, 102, 241, .65);\n}`
+  },
+  {
+    name: "Dịch chuyển sang phải",
+    description: "Nút dịch sang phải khi rê chuột; màu nền cũng đậm hơn.",
+    css: `.demo-button {\n  transition: transform .2s ease, background-color .2s ease;\n}\n.demo-button:hover {\n  transform: translateX(8px);\n  background-color: #4338ca;\n}`
+  },
+  {
+    name: "Viền phát sáng",
+    description: "Bóng phát sáng làm nổi bật đường viền của nút.",
+    css: `.demo-button {\n  transition: box-shadow .25s ease, border-color .25s ease;\n}\n.demo-button:hover {\n  box-shadow: 0 0 18px #818cf8, 0 0 36px rgba(99, 102, 241, .65);\n  border-color: #a5b4fc;\n}`
+  },
+  {
+    name: "Đổi màu nền và chữ",
+    description: "Nền chuyển trong suốt, chữ và viền chuyển sang màu tím nhạt.",
+    css: `.demo-button {\n  transition: background-color .25s ease, color .25s ease;\n}\n.demo-button:hover {\n  background-color: transparent;\n  color: #c7d2fe;\n  border-color: #818cf8;\n}`
+  }
+];
+
+const focusEffects = [
+  {
+    name: "Focus ring",
+    description: "Vòng sáng bên ngoài giúp nhận biết rõ phần tử đang được focus.",
+    css: (selector) => `${selector} {\n  border-color: #34d399;\n  box-shadow: 0 0 0 4px rgba(16, 185, 129, .22);\n}`
+  },
+  {
+    name: "Nhấn mạnh viền dưới",
+    description: "Viền dưới đổi màu để tạo chỉ báo tập trung tối giản.",
+    css: (selector) => `${selector} {\n  border-bottom: 2px solid #34d399;\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}`
+  },
+  {
+    name: "Viền tương phản",
+    description: "Viền dày và rõ hơn khi input nhận focus.",
+    css: (selector) => `${selector} {\n  border: 2px solid #34d399;\n}`
+  }
+];
+
+const nthPresets = [
+  { label: "odd · vị trí lẻ", a: 2, b: 1 },
+  { label: "even · vị trí chẵn", a: 2, b: 0 },
+  { label: "3n · bội số 3", a: 3, b: 0 },
+  { label: "3n + 1", a: 3, b: 1 },
+  { label: "-n + 5 · 5 phần tử đầu", a: -1, b: 5 },
+  { label: "n + 6 · từ vị trí 6", a: 1, b: 6 },
+  { label: "0n + 4 · chỉ vị trí 4", a: 0, b: 4 },
+  { label: "2n - 1", a: 2, b: -1 }
+];
+
+const NTH_COUNT = 12;
+
+let selectedHover = 0;
+let selectedFocus = 0;
+
+/* ===== Thẻ lựa chọn (dùng chung cho hover và focus) ===== */
+function renderOptions(container, effects, selectedIndex, dataKey) {
+  container.innerHTML = effects.map((effect, index) => `
+    <button type="button" class="option-card" role="radio" aria-checked="${index === selectedIndex}" data-${dataKey}="${index}">
+      <span class="radio-dot" aria-hidden="true"></span>
+      <span>
+        <span class="option-name">${effect.name}</span>
+        <span class="option-desc">${effect.description}</span>
+      </span>
+    </button>`).join("");
+}
+
+function markChecked(container, selectedIndex) {
+  $$(".option-card", container).forEach((card, i) => {
+    card.setAttribute("aria-checked", String(i === selectedIndex));
   });
+}
 
-  // Panel 1: Điều khiển trạng thái tương tác
-  const stateButtons = document.querySelectorAll('.btn-state');
-  const targetBtn = document.getElementById('targetBtn');
-  const targetInput = document.getElementById('targetInput');
-  const stateBadge = document.getElementById('stateBadge');
-  const stateTitle = document.getElementById('stateTitle');
-  const stateDesc = document.getElementById('stateDesc');
-  const stateCodeOutput = document.getElementById('stateCodeOutput');
-  const btnCopyState = document.getElementById('btnCopyState');
+/* ===== :hover ===== */
+function selectHover(index) {
+  selectedHover = index;
+  const effect = hoverEffects[index];
+  markChecked($("#hover-options"), index);
+  // Chèn CSS thật: trình duyệt tự xử lý :hover, JS không can thiệp trạng thái chuột
+  $("#dynamic-hover-style").textContent = effect.css;
+  $("#hover-code").textContent = effect.css;
+  $("#hover-description").textContent = effect.description;
+}
 
-  const stateDetails = {
-    normal: {
-      badge: 'Bình thường',
-      title: 'Trạng thái mặc định',
-      desc: 'Phần tử khi chưa có tương tác từ người dùng. Sử dụng định dạng thông thường của class.',
-      code: '.btn-demo { background-color: #0369a1; color: #fff; }'
-    },
-    hover: {
-      badge: ':hover',
-      title: 'Kích hoạt khi rê chuột',
-      desc: 'Áp dụng kiểu dáng khi người dùng di con trỏ chuột lên trên phần tử (đổi sang màu sáng rực rỡ #38bdf8, chữ đen, nhấc nổi lên và đổ bóng sáng).',
-      code: '.btn-demo:hover { background-color: #38bdf8; color: #0f172a; transform: translateY(-4px); box-shadow: 0 8px 24px rgba(56,189,248,0.45); }'
-    },
-    focus: {
-      badge: ':focus',
-      title: 'Kích hoạt khi phần tử được tiêu điểm',
-      desc: 'Áp dụng khi người dùng nhấp chuột vào ô nhập liệu hoặc dùng phím Tab chuyển đến. Hiển thị viền sáng phát xung và con trỏ chuột nhấp nháy.',
-      code: '.input-demo:focus { border-color: #38bdf8; box-shadow: 0 0 0 4px rgba(56,189,248,0.35); }'
-    },
-    active: {
-      badge: ':active',
-      title: 'Kích hoạt trong lúc đang nhấn giữ',
-      desc: 'Áp dụng ngay trong khoảnh khắc người dùng nhấn giữ chuột trái xuống phần tử (tạo hiệu ứng lún xuống scale 0.94 khi bấm).',
-      code: '.btn-demo:active { transform: translateY(1px) scale(0.94); background-color: #0284c7; }'
-    }
-  };
+/* ===== :focus ===== */
+function selectFocus(index) {
+  selectedFocus = index;
+  markChecked($("#focus-options"), index);
+  renderFocusDemo();
+}
 
-  function applyState(state) {
-    // Cập nhật trạng thái active cho các nút điều khiển
-    stateButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.state === state);
-    });
+function renderFocusDemo() {
+  const useVisible = $("#focus-visible-toggle").checked;
+  const pseudo = useVisible ? ":focus-visible" : ":focus";
+  // Tạo lại input để xóa focus cũ khi đổi kiểu
+  $("#focus-preview").innerHTML = `
+    <label for="focus-demo-input" class="focus-label">Tài khoản người dùng</label>
+    <input id="focus-demo-input" type="text" autocomplete="off" placeholder="Nhập tên hoặc email..." class="focus-input">`;
+  const effect = focusEffects[selectedFocus];
+  $("#dynamic-focus-style").textContent = effect.css(`#focus-demo-input${pseudo}`);
+  $("#focus-code").textContent = `/* ${pseudo} — ${effect.name} */\n${effect.css(`.my-input${pseudo}`)}`;
+}
 
-    // Cập nhật bảng giải thích & code output
-    const info = stateDetails[state];
-    stateBadge.textContent = info.badge;
-    stateTitle.textContent = info.title;
-    stateDesc.textContent = info.desc;
-    stateCodeOutput.textContent = info.code;
+/* ===== :nth-child() ===== */
+function formulaText(a, b) {
+  if (a === 0) return String(b);
+  const coefficient = a === 1 ? "" : a === -1 ? "-" : String(a);
+  let result = `${coefficient}n`;
+  if (b > 0) result += ` + ${b}`;
+  if (b < 0) result += ` - ${Math.abs(b)}`;
+  return result;
+}
 
-    // Reset sạch các class mô phỏng
-    targetBtn.classList.remove('is-hovered', 'is-active');
-    targetInput.classList.remove('is-hovered', 'is-focused');
+function nthMatches(position, a, b) {
+  // An+B khớp vị trí k = a*n + b với n nguyên >= 0 và k >= 1
+  if (a === 0) return position === b && b >= 1;
+  const n = (position - b) / a;
+  return Number.isInteger(n) && n >= 0;
+}
 
-    if (state === 'hover') {
-      targetBtn.classList.add('is-hovered');
-      targetInput.classList.add('is-hovered');
-    } else if (state === 'active') {
-      targetBtn.classList.add('is-active');
-    } else if (state === 'focus') {
-      targetInput.classList.add('is-focused');
-    }
+function explanationFor(a, b) {
+  if (a === 0) {
+    return b >= 1
+      ? `a = 0 nên công thức chỉ chọn vị trí ${b}; nếu vị trí này nằm trong danh sách, đúng một ô sẽ được tô sáng.`
+      : "Công thức không tạo ra vị trí hợp lệ vì vị trí phải là số nguyên dương.";
+  }
+  if (a > 0) {
+    return `Bắt đầu tại b = ${b}, sau đó tăng mỗi lần ${a} vị trí khi n = 0, 1, 2… Chỉ các vị trí nguyên dương mới được chọn.`;
+  }
+  return `Với a = ${a}, vị trí giảm dần từ b = ${b}. Chỉ giá trị nguyên dương được chọn; công thức này thường chọn một đoạn đầu danh sách.`;
+}
+
+function renderNth() {
+  $("#nth-presets").innerHTML = nthPresets.map((preset, index) =>
+    `<button type="button" class="preset-btn" data-preset="${index}">${preset.label}</button>`
+  ).join("");
+
+  $("#nth-grid").innerHTML = Array.from({ length: NTH_COUNT }, (_, i) => `
+    <div class="nth-item" aria-label="Phần tử ${i + 1}">
+      <span class="nth-item-label">Item</span>
+      <span class="nth-item-num">${String(i + 1).padStart(2, "0")}</span>
+    </div>`).join("");
+}
+
+function updateNth() {
+  const a = Number($("#nth-a").value);
+  const b = Number($("#nth-b").value);
+  const formula = formulaText(a, b);
+  const matches = [];
+  for (let i = 1; i <= NTH_COUNT; i++) {
+    if (nthMatches(i, a, b)) matches.push(i);
   }
 
-  // Lắng nghe sự kiện click từ các nút mô phỏng bên trái (Không bị đè bởi chuột)
-  stateButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      applyState(btn.dataset.state);
-    });
+  $("#nth-a-value").textContent = a;
+  $("#nth-b-value").textContent = b;
+  $("#nth-formula").textContent = formula;
+  $("#nth-explanation").textContent = explanationFor(a, b);
+  $("#nth-match-count").textContent = `${matches.length} phần tử được chọn`;
+
+  $$(".nth-item", $("#nth-grid")).forEach((item, index) => {
+    const match = matches.includes(index + 1);
+    item.classList.toggle("is-matched", match);
+    item.setAttribute("aria-label", `Phần tử ${index + 1}${match ? ", được chọn" : ""}`);
   });
 
-  btnCopyState.addEventListener('click', () => {
-    navigator.clipboard.writeText(stateCodeOutput.textContent).then(() => {
-      const orig = btnCopyState.textContent;
-      btnCopyState.textContent = 'Copied!';
-      setTimeout(() => btnCopyState.textContent = orig, 1500);
-    });
+  const css = `.nth-item:nth-child(${formula}) {\n  background-color: rgba(245, 158, 11, .18);\n  border-color: #f59e0b;\n  color: #fcd34d;\n  transform: translateY(-2px);\n}`;
+  $("#dynamic-nth-style").textContent = css;
+  $("#nth-code").textContent = css;
+}
+
+/* ===== Tabs ===== */
+function switchTab(name, focusButton = false) {
+  $$(".tab-btn").forEach(button => {
+    const active = button.dataset.tab === name;
+    button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
   });
+  $$(".tab-panel").forEach(panel => {
+    panel.hidden = panel.id !== `panel-${name}`;
+  });
+  if (focusButton) $(`#tab-${name}`).focus();
+}
 
-  // Panel 2: nth-child Grid
-  const nthGrid = document.getElementById('nthGrid');
-  const presetButtons = document.querySelectorAll('.btn-preset');
-  const nthFormulaInput = document.getElementById('nthFormulaInput');
-  const btnApplyNth = document.getElementById('btnApplyNth');
-  const matchedIndices = document.getElementById('matchedIndices');
-  const mathExplain = document.getElementById('mathExplain');
-  const nthCodeOutput = document.getElementById('nthCodeOutput');
-  const btnCopyNth = document.getElementById('btnCopyNth');
+/* ===== Sao chép ===== */
+let toastTimeout;
+function showToast(message) {
+  const toast = $("#toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove("show"), 2200);
+}
 
-  // Khởi tạo 10 items
-  for (let i = 1; i <= 10; i++) {
-    const item = document.createElement('div');
-    item.className = 'nth-item';
-    item.dataset.index = i;
-    item.innerHTML = `<span class="item-num">${i}</span><span class="item-label">Item #${i}</span>`;
-    nthGrid.appendChild(item);
-  }
-
-  function applyNthFormula(formula) {
-    const cleanFormula = formula.trim().toLowerCase();
-    nthFormulaInput.value = cleanFormula;
-
-    presetButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.formula === cleanFormula);
-    });
-
-    const allItems = Array.from(nthGrid.querySelectorAll('.nth-item'));
-    allItems.forEach(item => item.classList.remove('matched'));
-
-    let matchedItems = [];
-    try {
-      matchedItems = Array.from(nthGrid.querySelectorAll(`.nth-item:nth-child(${cleanFormula})`));
-    } catch (e) {
-      matchedIndices.textContent = 'Công thức không hợp lệ';
-      mathExplain.textContent = 'Vui lòng nhập công thức chuẩn CSS: odd, even, hoặc An + B (ví dụ: 2n, 3n+1).';
-      return;
-    }
-
-    matchedItems.forEach(item => item.classList.add('matched'));
-
-    const indices = matchedItems.map(item => item.dataset.index);
-    if (indices.length > 0) {
-      matchedIndices.textContent = indices.join(', ');
+async function copyCode(id) {
+  const text = $(`#${id}`).textContent;
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
     } else {
-      matchedIndices.textContent = 'Không có phần tử nào khớp (trong khoảng 1 - 10)';
+      // Dự phòng khi mở file trực tiếp (file://) hoặc iframe không cho phép clipboard API
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      const copied = document.execCommand("copy");
+      textarea.remove();
+      if (!copied) throw new Error("Clipboard copy unavailable");
     }
+    showToast("Đã sao chép mã CSS.");
+  } catch (error) {
+    showToast("Không thể sao chép tự động. Hãy chọn và sao chép mã.");
+  }
+}
 
-    // Giải thích toán học
-    if (cleanFormula === 'odd') {
-      mathExplain.textContent = 'Khớp các số thứ tự lẻ: 1, 3, 5, 7, 9.';
-    } else if (cleanFormula === 'even') {
-      mathExplain.textContent = 'Khớp các số thứ tự chẵn: 2, 4, 6, 8, 10.';
-    } else {
-      mathExplain.textContent = `Công thức :nth-child(${cleanFormula}) được trình duyệt tính toán bằng cách thay lần lượt n = 0, 1, 2, 3... vào biểu thức.`;
-    }
+/* ===== Sự kiện (event delegation) ===== */
+document.addEventListener("click", event => {
+  const tab = event.target.closest("[data-tab]");
+  if (tab) switchTab(tab.dataset.tab);
 
-    nthCodeOutput.textContent = `.item:nth-child(${cleanFormula}) { background-color: #0284c7; color: #fff; }`;
+  const hoverOption = event.target.closest("[data-hover-index]");
+  if (hoverOption) selectHover(Number(hoverOption.dataset.hoverIndex));
+
+  const focusOption = event.target.closest("[data-focus-index]");
+  if (focusOption) selectFocus(Number(focusOption.dataset.focusIndex));
+
+  const presetButton = event.target.closest("[data-preset]");
+  if (presetButton) {
+    const preset = nthPresets[Number(presetButton.dataset.preset)];
+    $("#nth-a").value = preset.a;
+    $("#nth-b").value = preset.b;
+    updateNth();
   }
 
-  presetButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      applyNthFormula(btn.dataset.formula);
-    });
-  });
-
-  btnApplyNth.addEventListener('click', () => {
-    applyNthFormula(nthFormulaInput.value);
-  });
-
-  nthFormulaInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      applyNthFormula(nthFormulaInput.value);
-    }
-  });
-
-  btnCopyNth.addEventListener('click', () => {
-    navigator.clipboard.writeText(nthCodeOutput.textContent).then(() => {
-      const orig = btnCopyNth.textContent;
-      btnCopyNth.textContent = 'Copied!';
-      setTimeout(() => btnCopyNth.textContent = orig, 1500);
-    });
-  });
-
-  // Khởi tạo ban đầu
-  applyState('normal');
-  applyNthFormula('odd');
+  const copyButton = event.target.closest("[data-copy]");
+  if (copyButton) copyCode(copyButton.dataset.copy);
 });
+
+// Điều hướng tab bằng phím mũi tên / Home / End
+$$(".tab-btn").forEach(button => {
+  button.addEventListener("keydown", event => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = $$(".tab-btn");
+    const current = tabs.indexOf(button);
+    let next = current;
+    if (event.key === "ArrowRight") next = (current + 1) % tabs.length;
+    if (event.key === "ArrowLeft") next = (current - 1 + tabs.length) % tabs.length;
+    if (event.key === "Home") next = 0;
+    if (event.key === "End") next = tabs.length - 1;
+    switchTab(tabs[next].dataset.tab, true);
+  });
+});
+
+$("#focus-visible-toggle").addEventListener("change", renderFocusDemo);
+$("#nth-a").addEventListener("input", updateNth);
+$("#nth-b").addEventListener("input", updateNth);
+
+/* ===== Khởi tạo ===== */
+renderOptions($("#hover-options"), hoverEffects, selectedHover, "hover-index");
+renderOptions($("#focus-options"), focusEffects, selectedFocus, "focus-index");
+renderNth();
+selectHover(0);
+renderFocusDemo();
+updateNth();
