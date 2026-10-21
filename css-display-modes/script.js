@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentMode = 'inline';
 
-  function update() {
+  function applyStyles() {
     const w = parseInt(rangeWidth.value, 10);
     const h = parseInt(rangeHeight.value, 10);
     const m = parseInt(rangeMargin.value, 10);
@@ -126,23 +126,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // FLIP animation: chuyển đổi vị trí mượt mà giữa các chế độ display
+  function switchModeWithAnimation(newMode) {
+    if (currentMode === newMode) return;
+
+    const flowItems = Array.from(document.querySelectorAll('.flow-container .flow-item'));
+    const firstRects = new Map();
+    flowItems.forEach(el => firstRects.set(el, el.getBoundingClientRect()));
+
+    currentMode = newMode;
+    applyStyles();
+
+    // Visual pulse highlight
+    targetElement.classList.remove('anim-pulse');
+    void targetElement.offsetWidth; // Trigger reflow
+    targetElement.classList.add('anim-pulse');
+
+    // Chạy FLIP animation từ vị trí cũ sang mới
+    flowItems.forEach(el => {
+      const first = firstRects.get(el);
+      const last = el.getBoundingClientRect();
+      if (!first) return;
+
+      const deltaX = first.left - last.left;
+      const deltaY = first.top - last.top;
+
+      if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
+        el.animate([
+          { transform: `translate(${deltaX}px, ${deltaY}px)` },
+          { transform: 'translate(0, 0)' }
+        ], {
+          duration: 260,
+          easing: 'cubic-bezier(0.2, 0.9, 0.3, 1)'
+        });
+      }
+    });
+  }
+
   modeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      currentMode = btn.dataset.mode;
-      update();
+      switchModeWithAnimation(btn.dataset.mode);
     });
   });
 
   [rangeWidth, rangeHeight, rangeMargin].forEach(slider => {
-    slider.addEventListener('input', update);
+    slider.addEventListener('input', applyStyles);
   });
 
   btnReset.addEventListener('click', () => {
-    currentMode = 'inline';
     rangeWidth.value = 110;
     rangeHeight.value = 45;
     rangeMargin.value = 14;
-    update();
+    switchModeWithAnimation('inline');
   });
 
   btnCopy.addEventListener('click', () => {
@@ -155,5 +190,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  update();
+  applyStyles();
 });
