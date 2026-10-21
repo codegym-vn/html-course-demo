@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Lớp Giả CSS (Pseudo-classes)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header with Tabs -->
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="header-title">Lớp Giả CSS: <code>:hover</code> • <code>:focus</code> • <code>:nth-child()</code></h1>
+      </div>
+      <div class="header-tabs">
+        <button type="button" class="tab-btn active" data-tab="interactive">1. Tương tác (:hover, :focus, :active)</button>
+        <button type="button" class="tab-btn" data-tab="nth">2. Cấu trúc (:nth-child)</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- PANEL 1: Tương tác người dùng -->
+      <section class="panel-section active" id="panelInteractive">
+        <!-- Cột trái: Trình mô phỏng trạng thái -->
+        <div class="col-controls">
+          <div class="control-group">
+            <span class="group-title">Mô phỏng trạng thái kích hoạt:</span>
+            <div class="state-buttons">
+              <button type="button" class="btn-state active" data-state="normal">Trạng thái bình thường</button>
+              <button type="button" class="btn-state" data-state="hover">Mô phỏng :hover</button>
+              <button type="button" class="btn-state" data-state="focus">Mô phỏng :focus</button>
+              <button type="button" class="btn-state" data-state="active">Mô phỏng :active</button>
+            </div>
+          </div>
+
+          <div class="explain-card">
+            <span class="explain-badge" id="stateBadge">:hover</span>
+            <h2 class="explain-title" id="stateTitle">Kích hoạt khi rê chuột</h2>
+            <p class="explain-desc" id="stateDesc">Áp dụng kiểu dáng đặc biệt khi người dùng di con trỏ chuột lên trên phần tử.</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>Mẹo:</strong> Bạn cũng có thể dùng chuột rê, bấm hoặc Tab bàn phím trực tiếp vào các phần tử ở khung bên phải để trải nghiệm trạng thái thực tế.
+          </div>
+        </div>
+
+        <!-- Cột phải: Preview phần tử tương tác -->
+        <div class="col-preview">
+          <div class="preview-stage">
+            <div class="stage-label">Khu vực thử nghiệm tương tác:</div>
+
+            <div class="demo-items-grid">
+              <!-- Nút bấm demo -->
+              <div class="demo-card">
+                <span class="card-caption">Nút bấm tương tác (.btn-demo):</span>
+                <button type="button" class="btn-demo" id="targetBtn">Nhấn hoặc rê chuột vào tôi</button>
+              </div>
+
+              <!-- Ô input demo -->
+              <div class="demo-card">
+                <span class="card-caption">Ô nhập liệu (.input-demo):</span>
+                <input type="text" class="input-demo" id="targetInput" placeholder="Nhấp chuột hoặc Tab vào để xem :focus" autocomplete="off">
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Box -->
+          <div class="code-box">
+            <div class="code-header">
+              <span class="code-label">Quy tắc CSS sinh ra:</span>
+              <button type="button" class="btn-copy" id="btnCopyState">Copy</button>
+            </div>
+            <code id="stateCodeOutput">.btn-demo:hover { background-color: #0284c7; transform: translateY(-2px); }</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANEL 2: Cấu trúc nth-child -->
+      <section class="panel-section" id="panelNth">
+        <!-- Cột trái: Điều khiển công thức nth-child -->
+        <div class="col-controls">
+          <div class="control-group">
+            <span class="group-title">Chọn mẫu công thức nhanh:</span>
+            <div class="preset-buttons">
+              <button type="button" class="btn-preset active" data-formula="odd">:nth-child(odd)</button>
+              <button type="button" class="btn-preset" data-formula="even">:nth-child(even)</button>
+              <button type="button" class="btn-preset" data-formula="3n">:nth-child(3n)</button>
+              <button type="button" class="btn-preset" data-formula="2n+1">:nth-child(2n+1)</button>
+              <button type="button" class="btn-preset" data-formula="n+4">:nth-child(n+4)</button>
+            </div>
+          </div>
+
+          <!-- Nhập công thức tùy chỉnh -->
+          <div class="custom-formula-group">
+            <label for="nthFormulaInput" class="group-title">Hoặc nhập công thức tự do (An + B):</label>
+            <div class="formula-row">
+              <span class="formula-prefix">:nth-child(</span>
+              <input type="text" id="nthFormulaInput" value="odd" class="formula-field" autocomplete="off" spellcheck="false">
+              <span class="formula-suffix">)</span>
+              <button type="button" class="btn-apply-nth" id="btnApplyNth">Áp dụng</button>
+            </div>
+          </div>
+
+          <!-- Giải mã các giá trị khớp -->
+          <div class="math-steps-box">
+            <span class="math-label">Các số thứ tự phần tử được khớp:</span>
+            <div class="matched-indices" id="matchedIndices">1, 3, 5, 7, 9</div>
+            <p class="math-explain" id="mathExplain">Khi n = 0, 1, 2, 3, 4,... công thức odd đại diện cho các số lẻ.</p>
+          </div>
+        </div>
+
+        <!-- Cột phải: Dãy 10 phần tử trực quan -->
+        <div class="col-preview">
+          <div class="preview-stage">
+            <div class="stage-label">Danh sách phần tử trong cùng thẻ cha (.list-container):</div>
+
+            <div class="nth-items-grid" id="nthGrid">
+              <!-- 10 hộp được sinh động bằng JS -->
+            </div>
+          </div>
+
+          <!-- Code Box -->
+          <div class="code-box">
+            <div class="code-header">
+              <span class="code-label">Quy tắc CSS áp dụng:</span>
+              <button type="button" class="btn-copy" id="btnCopyNth">Copy</button>
+            </div>
+            <code id="nthCodeOutput">.item:nth-child(odd) { background-color: #0284c7; color: #fff; }</code>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

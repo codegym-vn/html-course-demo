@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Position Sticky và Z-Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header with Tabs -->
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="header-title">Khảo Sát: <code>position: sticky</code> • <code>z-index</code></h1>
+      </div>
+      <div class="header-tabs">
+        <button type="button" class="tab-btn active" data-tab="sticky">1. Hiệu ứng Dính (position: sticky)</button>
+        <button type="button" class="tab-btn" data-tab="zindex">2. Lớp Không Gian (z-index)</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- TAB 1: STICKY -->
+      <section class="panel-section active" id="panelSticky">
+        <div class="col-controls">
+          <div class="control-group">
+            <span class="group-title">Điều chỉnh ngưỡng dính (Threshold):</span>
+            <div class="coord-field">
+              <div class="coord-info">
+                <span class="coord-label"><code>top</code> ngưỡng dính:</span>
+                <span class="val-badge" id="stickyTopBadge">0px</span>
+              </div>
+              <input type="range" id="rangeStickyTop" min="0" max="30" value="0" class="slider">
+            </div>
+          </div>
+
+          <div class="explain-card">
+            <span class="explain-badge">position: sticky</span>
+            <h2 class="explain-title">Cơ chế lai giữa relative & fixed</h2>
+            <p class="explain-desc">Ban đầu phần tử nằm trong luồng như <code>relative</code>. Khi cuộn chạm ngưỡng <code>top</code>, nó dính lại nhưng <strong>chỉ trong phạm vi thẻ cha</strong> chứa nó.</p>
+          </div>
+
+          <div class="sticky-hint-box">
+            <strong>Lưu ý quan trọng:</strong> Nếu bất kỳ thẻ cha nào có <code>overflow: hidden</code>, hiệu ứng sticky sẽ bị mất tác dụng.
+          </div>
+        </div>
+
+        <div class="col-preview">
+          <div class="preview-stage">
+            <div class="stage-header">
+              <span class="stage-label">Cuộn khung văn bản bên dưới để trải nghiệm:</span>
+              <span class="scroll-tag">Thanh cuộn tài liệu</span>
+            </div>
+
+            <!-- Khung cuộn văn bản có sticky headers -->
+            <div class="sticky-scroll-area" id="stickyScrollArea">
+              <!-- Section 1 -->
+              <section class="sticky-section" id="sectionA">
+                <header class="sticky-header" id="headerA">
+                  <span class="sec-badge">Phần 1</span>
+                  <span class="sec-title">Tiêu đề Mục A (Dính ở trên)</span>
+                </header>
+                <div class="sec-body">
+                  <p>Nội dung phần 1: Khi bạn cuộn chuột xuống, thanh tiêu đề Mục A sẽ trôi lên đến mép trên và "dính" lại một chỗ.</p>
+                  <p>Nó sẽ tiếp tục dính cho đến khi bạn cuộn hết toàn bộ phạm vi của Mục A này.</p>
+                  <p>Khi Mục B trôi lên, tiêu đề Mục A sẽ bị đẩy ra ngoài theo thẻ cha của nó.</p>
+                </div>
+              </section>
+
+              <!-- Section 2 -->
+              <section class="sticky-section" id="sectionB">
+                <header class="sticky-header" id="headerB">
+                  <span class="sec-badge">Phần 2</span>
+                  <span class="sec-title">Tiêu đề Mục B (Dính thay thế)</span>
+                </header>
+                <div class="sec-body">
+                  <p>Nội dung phần 2: Bây giờ tiêu đề Mục B tiếp tục dính lại ở mép trên.</p>
+                  <p>Đây là mẫu giao diện kinh điển thường thấy ở danh bạ điện thoại (A, B, C...) hoặc bảng dữ liệu lớn.</p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <!-- Code Box -->
+          <div class="code-box">
+            <div class="code-header">
+              <span class="code-label">Quy tắc CSS:</span>
+              <button type="button" class="btn-copy" id="btnCopySticky">Copy</button>
+            </div>
+            <code id="stickyCodeOutput">.sticky-header { position: sticky; top: 0px; }</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Z-INDEX -->
+      <section class="panel-section" id="panelZIndex">
+        <div class="col-controls">
+          <div class="control-group">
+            <span class="group-title">Điều chỉnh thứ tự lớp (z-index):</span>
+
+            <!-- Card 1 Slider -->
+            <div class="z-field field-c1">
+              <div class="coord-info">
+                <span class="coord-label">Hộp 1 (Xanh dương):</span>
+                <span class="val-badge badge-c1" id="z1Badge">1</span>
+              </div>
+              <input type="range" id="rangeZ1" min="0" max="10" value="1" class="slider slider-c1">
+            </div>
+
+            <!-- Card 2 Slider -->
+            <div class="z-field field-c2">
+              <div class="coord-info">
+                <span class="coord-label">Hộp 2 (Cam):</span>
+                <span class="val-badge badge-c2" id="z2Badge">2</span>
+              </div>
+              <input type="range" id="rangeZ2" min="0" max="10" value="2" class="slider slider-c2">
+            </div>
+
+            <!-- Card 3 Slider -->
+            <div class="z-field field-c3">
+              <div class="coord-info">
+                <span class="coord-label">Hộp 3 (Xanh lục):</span>
+                <span class="val-badge badge-c3" id="z3Badge">3</span>
+              </div>
+              <input type="range" id="rangeZ3" min="0" max="10" value="3" class="slider slider-c3">
+            </div>
+          </div>
+
+          <div class="explain-card">
+            <span class="explain-badge">Trục Z (Độ sâu)</span>
+            <h2 class="explain-title">Xếp lớp phần tử đè nhau</h2>
+            <p class="explain-desc">Phần tử có giá trị <code>z-index</code> lớn hơn sẽ nổi lên trên cùng. <code>z-index</code> chỉ hoạt động trên các phần tử có <code>position</code> khác <code>static</code>.</p>
+          </div>
+        </div>
+
+        <div class="col-preview">
+          <div class="preview-stage">
+            <div class="stage-label">Không gian 3D xếp chồng các hộp:</div>
+
+            <div class="zindex-stage">
+              <!-- Box 1 -->
+              <div class="z-box box-c1" id="boxZ1">
+                <span class="z-title">Hộp 1 (Xanh dương)</span>
+                <span class="z-val-tag" id="tagZ1">z-index: 1</span>
+              </div>
+
+              <!-- Box 2 -->
+              <div class="z-box box-c2" id="boxZ2">
+                <span class="z-title">Hộp 2 (Cam)</span>
+                <span class="z-val-tag" id="tagZ2">z-index: 2</span>
+              </div>
+
+              <!-- Box 3 -->
+              <div class="z-box box-c3" id="boxZ3">
+                <span class="z-title">Hộp 3 (Xanh lục)</span>
+                <span class="z-val-tag" id="tagZ3">z-index: 3</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Box -->
+          <div class="code-box">
+            <div class="code-header">
+              <span class="code-label">Quy tắc CSS:</span>
+              <button type="button" class="btn-copy" id="btnCopyZ">Copy</button>
+            </div>
+            <code id="zCodeOutput">#box1 { z-index: 1; } #box2 { z-index: 2; } #box3 { z-index: 3; }</code>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

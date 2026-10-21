@@ -136,6 +136,12 @@ Khi triển khai thêm một bài tương tác mới:
 | 09 | [css-box-model-visualizer](./css-box-model-visualizer/) | **Mô hình hộp CSS (Box Model):** 4 lớp Content, Padding, Border, Margin chuẩn Chrome DevTools và công thức tính tổng không gian hiển thị. | Hoàn thành |
 | 10 | [css-box-sizing-comparison](./css-box-sizing-comparison/) | **So sánh Box-Sizing:** `content-box` (vỡ layout do padding/border) vs `border-box` (giữ chuẩn kích thước định sẵn) và CSS Reset toàn cục. | Hoàn thành |
 | 11 | [css-display-modes](./css-display-modes/) | **Thuộc tính Display:** Khảo sát luồng tài liệu, xuống dòng và hiệu lực kích thước giữa `block`, `inline`, `inline-block`. | Hoàn thành |
+| 12 | [css-combinator-selectors](./css-combinator-selectors/) | **Bài 1 (Phần 1) - Bộ chọn kết hợp:** 4 loại Descendant (` `), Child (`>`), Adjacent Sibling (`+`), General Sibling (`~`) trên cây DOM. | Hoàn thành |
+| 13 | [css-combinator-practice](./css-combinator-practice/) | **Bài 1 (Phần 2) - Luyện tập bộ chọn kết hợp:** Bài tập thử thách tương tác nhắm mục tiêu phần tử trong bài viết thực tế. | Hoàn thành |
+| 14 | [css-pseudo-classes](./css-pseudo-classes/) | **Bài 2 - Lớp giả CSS (Pseudo-classes):** Trạng thái tương tác (`:hover`, `:focus`, `:active`) và quy luật chọn toán học `:nth-child(An+B)`. | Hoàn thành |
+| 15 | [css-pseudo-elements](./css-pseudo-elements/) | **Bài 3 - Phần tử giả (Pseudo-elements):** Tạo nội dung ảo `::before` và `::after`, thuộc tính bắt buộc `content` và các use case huy hiệu, trích dẫn. | Hoàn thành |
+| 16 | [css-position-modes](./css-position-modes/) | **Bài 4 - Thuộc tính Position 2D:** 4 chế độ `static`, `relative`, `absolute`, `fixed` và mối quan hệ với thẻ cha `relative`. | Hoàn thành |
+| 17 | [css-sticky-and-zindex](./css-sticky-and-zindex/) | **Bài 5 - Position Sticky & Z-Index:** Cơ chế dính trong phạm vi thẻ cha của `position: sticky` và thứ tự phân lớp trục Z `z-index`. | Hoàn thành |
 
 ---
 

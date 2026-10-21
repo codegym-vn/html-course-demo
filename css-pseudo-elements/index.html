@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Phần Tử Giả (Pseudo-elements ::before & ::after)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Phần Tử Giả: <code>::before</code> • <code>content</code> • <code>::after</code></h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển ứng dụng thực tế -->
+      <section class="col-controls">
+        <div class="control-group">
+          <span class="group-title">Chọn ứng dụng thực tế:</span>
+          <div class="usecase-buttons">
+            <button type="button" class="btn-case active" data-case="quote">Trích dẫn nghệ thuật (Quotes)</button>
+            <button type="button" class="btn-case" data-case="badge">Huy hiệu thông báo (Badge)</button>
+            <button type="button" class="btn-case" data-case="underline">Gạch chân trượt (Underline)</button>
+            <button type="button" class="btn-case" data-case="bullet">Mũi tên danh sách (Bullet)</button>
+          </div>
+        </div>
+
+        <!-- Điều khiển ::before & ::after -->
+        <div class="toggles-card">
+          <span class="card-caption">Kích hoạt phần tử giả:</span>
+          <div class="toggle-row">
+            <label class="toggle-item">
+              <input type="checkbox" id="checkBefore" checked>
+              <span class="toggle-text">Bật <code>::before</code></span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="checkAfter" checked>
+              <span class="toggle-text">Bật <code>::after</code></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Tùy chỉnh thuộc tính content -->
+        <div class="content-prop-card">
+          <label for="inputContent" class="card-caption">Giá trị <code>content</code> (Bắt buộc):</label>
+          <input type="text" id="inputContent" class="content-field" value='""' autocomplete="off">
+          <span class="field-hint">Nếu thiếu <code>content</code>, phần tử giả sẽ biến mất hoàn toàn.</span>
+        </div>
+
+        <!-- Thẻ nguyên lý -->
+        <div class="rule-card">
+          <strong>Nguyên tắc vàng:</strong> <code>::before</code> và <code>::after</code> được tạo ra <em>bên trong</em> phần tử mục tiêu, đóng vai trò như thẻ con đầu tiên và con cuối cùng.
+        </div>
+      </section>
+
+      <!-- Cột phải: Sơ đồ vị trí & Giao diện render -->
+      <section class="col-preview">
+        <!-- Khung giải phẫu DOM ảo -->
+        <div class="anatomy-stage">
+          <div class="stage-label">Sơ đồ phân lớp phần tử giả trong DOM:</div>
+
+          <div class="anatomy-box">
+            <div class="pseudo-slot slot-before" id="slotBefore">
+              <span class="slot-tag">::before</span>
+              <span class="slot-val" id="valBefore">"“"</span>
+            </div>
+
+            <div class="pseudo-slot slot-real">
+              <span class="slot-tag">Nội dung thật (Element Content)</span>
+              <span class="slot-val">"Kiến thức là sức mạnh"</span>
+            </div>
+
+            <div class="pseudo-slot slot-after" id="slotAfter">
+              <span class="slot-tag">::after</span>
+              <span class="slot-val" id="valAfter">"”"</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Khung render thực tế -->
+        <div class="real-render-stage">
+          <div class="stage-label">Kết quả hiển thị trên trình duyệt:</div>
+
+          <div class="render-canvas">
+            <!-- Phần tử mục tiêu hiển thị các case -->
+            <div class="demo-target case-quote" id="demoTarget">
+              <span class="target-text" id="targetText">Kiến thức là sức mạnh</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code CSS -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Quy tắc CSS áp dụng:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="pseudoCodeOutput">.box::before { content: "“"; font-size: 2rem; color: #38bdf8; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

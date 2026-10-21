@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Bộ Chọn Kết Hợp (Combinator Selectors)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Bộ Chọn Kết Hợp: <code>Descendant</code> • <code>Child</code> • <code>Sibling</code></h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển 4 bộ chọn -->
+      <section class="col-controls">
+        <div class="control-group">
+          <span class="group-title">Chọn loại bộ chọn kết hợp:</span>
+          <div class="combinator-buttons">
+            <button type="button" class="btn-comb active" data-type="descendant">
+              <span class="comb-syntax">.card p</span>
+              <span class="comb-name">Hậu duệ (Descendant)</span>
+            </button>
+            <button type="button" class="btn-comb" data-type="child">
+              <span class="comb-syntax">.card &gt; p</span>
+              <span class="comb-name">Con trực tiếp (Child)</span>
+            </button>
+            <button type="button" class="btn-comb" data-type="adjacent">
+              <span class="comb-syntax">h3 + p</span>
+              <span class="comb-name">Anh em liền kề (Adjacent)</span>
+            </button>
+            <button type="button" class="btn-comb" data-type="general">
+              <span class="comb-syntax">h3 ~ p</span>
+              <span class="comb-name">Anh em chung (General)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Thẻ giải thích nguyên lý -->
+        <div class="explain-card">
+          <span class="explain-badge" id="explainBadge">Khoảng trắng (Space)</span>
+          <h2 class="explain-title" id="explainTitle">Bộ chọn Hậu duệ: .card p</h2>
+          <p class="explain-desc" id="explainDesc">Chọn TẤT CẢ các thẻ <code>&lt;p&gt;</code> nằm bên trong <code>.card</code>, bất kể chúng là con F1, cháu F2 hay nằm sâu bao nhiêu cấp.</p>
+        </div>
+
+        <!-- Thống kê kết quả -->
+        <div class="stats-box">
+          <span class="stats-label">Số phần tử được khớp:</span>
+          <strong class="stats-count" id="matchCount">3 phần tử</strong>
+        </div>
+      </section>
+
+      <!-- Cột phải: Cây cấu trúc HTML & Trạng thái khớp -->
+      <section class="col-preview">
+        <div class="dom-stage">
+          <div class="stage-label">Cấu trúc phân cấp tài liệu (.card):</div>
+
+          <div class="dom-tree-view">
+            <!-- Thẻ cha .card -->
+            <div class="tree-node node-parent">
+              <div class="node-tag">&lt;div class="card"&gt;</div>
+
+              <!-- Con 1: Tiêu đề h3 -->
+              <div class="tree-node node-child el-h3" id="nodeH3">
+                <span class="node-bullet"></span>
+                <span class="node-name">&lt;h3&gt; Tiêu đề bài viết &lt;/h3&gt;</span>
+                <span class="match-tag tag-none">Mốc chuẩn (Anchor)</span>
+              </div>
+
+              <!-- Con 2: Đoạn văn p1 (con trực tiếp F1, liền kề h3) -->
+              <div class="tree-node node-child el-target" id="nodeP1">
+                <span class="node-bullet"></span>
+                <span class="node-name">&lt;p&gt; Đoạn mở đầu (Con F1 - Liền kề sau h3) &lt;/p&gt;</span>
+                <span class="match-tag" id="tagP1">MATCH</span>
+              </div>
+
+              <!-- Con 3: Hộp lồng nhau div.sub-box (con trực tiếp F1) -->
+              <div class="tree-node node-child node-nested">
+                <div class="node-tag">&lt;div class="sub-box"&gt;</div>
+
+                <!-- Cháu: Đoạn văn p2 (cấp cháu F2) -->
+                <div class="tree-node node-grandchild el-target" id="nodeP2">
+                  <span class="node-bullet"></span>
+                  <span class="node-name">&lt;p&gt; Đoạn trích dẫn (Cháu F2 - Nằm trong .sub-box) &lt;/p&gt;</span>
+                  <span class="match-tag" id="tagP2">MATCH</span>
+                </div>
+
+                <div class="node-tag-close">&lt;/div&gt;</div>
+              </div>
+
+              <!-- Con 4: Đoạn văn p3 (con trực tiếp F1, đứng sau sub-box) -->
+              <div class="tree-node node-child el-target" id="nodeP3">
+                <span class="node-bullet"></span>
+                <span class="node-name">&lt;p&gt; Đoạn kết luận (Con F1 - Cùng cấp sau h3) &lt;/p&gt;</span>
+                <span class="match-tag" id="tagP3">MATCH</span>
+              </div>
+
+              <div class="node-tag-close">&lt;/div&gt;</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code CSS -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Quy tắc CSS được áp dụng:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="codeOutput">.card p { color: #38bdf8; font-weight: 700; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

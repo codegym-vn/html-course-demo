@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luyện Tập Bộ Chọn Kết Hợp (Combinator Practice)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Thực Hành: Nhắm Mục Tiêu Bằng Bộ Chọn Kết Hợp</h1>
+      <button type="button" class="btn-reset" id="btnReset">Làm lại</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Thử thách & Nhập Selector -->
+      <section class="col-controls">
+        <div class="control-group">
+          <span class="group-title">Chọn nhiệm vụ thử thách:</span>
+          <div class="mission-list">
+            <button type="button" class="btn-mission active" data-id="1">Nhiệm vụ 1: Con trực tiếp (Child)</button>
+            <button type="button" class="btn-mission" data-id="2">Nhiệm vụ 2: Liền kề sau h2 (Adjacent)</button>
+            <button type="button" class="btn-mission" data-id="3">Nhiệm vụ 3: Hậu duệ menu (Descendant)</button>
+            <button type="button" class="btn-mission" data-id="4">Nhiệm vụ 4: Anh em chung (General)</button>
+          </div>
+        </div>
+
+        <!-- Yêu cầu nhiệm vụ -->
+        <div class="task-card">
+          <span class="task-tag" id="taskTag">Mục tiêu 1</span>
+          <p class="task-prompt" id="taskPrompt">Chỉ chọn các thẻ <code>&lt;p&gt;</code> là con trực tiếp (cấp F1) của <code>.article</code>. Không được chọn thẻ nằm trong khối trích dẫn.</p>
+        </div>
+
+        <!-- Ô nhập CSS Selector -->
+        <div class="input-card">
+          <label for="selectorInput" class="input-label">Viết bộ chọn CSS của bạn:</label>
+          <div class="input-row">
+            <input type="text" id="selectorInput" class="selector-field" placeholder="Ví dụ: .article > p" autocomplete="off" spellcheck="false">
+            <button type="button" class="btn-test" id="btnTest">Kiểm tra</button>
+          </div>
+
+          <!-- Phím tắt chèn ký tự -->
+          <div class="quick-tokens">
+            <span class="tokens-label">Chèn nhanh:</span>
+            <button type="button" class="btn-token" data-token=" > ">&gt;</button>
+            <button type="button" class="btn-token" data-token=" + ">+</button>
+            <button type="button" class="btn-token" data-token=" ~ ">~</button>
+            <button type="button" class="btn-token" data-token=" ">[dấu cách]</button>
+          </div>
+        </div>
+
+        <!-- Feedback kết quả -->
+        <div class="feedback-card" id="feedbackCard">
+          <span class="fb-status" id="fbStatus">Đang chờ bạn kiểm tra...</span>
+          <p class="fb-msg" id="fbMsg">Nhập selector vào ô bên trên rồi nhấn nút "Kiểm tra".</p>
+        </div>
+      </section>
+
+      <!-- Cột phải: Giao diện bài báo mẫu thực tế -->
+      <section class="col-preview">
+        <div class="preview-stage">
+          <div class="stage-label">Giao diện tài liệu thực tế (.article):</div>
+
+          <div class="mock-article" id="mockArticle">
+            <h2 class="mock-el" data-selector="h2" id="artH2">Học CSS Thực Chiến</h2>
+            
+            <p class="mock-el" data-selector="p" id="artP1">Đoạn 1: CSS giúp định dạng giao diện trang web trở nên đẹp mắt và chuyên nghiệp.</p>
+
+            <div class="mock-quote mock-el" data-selector=".quote-box" id="artQuote">
+              <span class="quote-tag">Khối trích dẫn (.quote-box)</span>
+              <p class="mock-el" data-selector="p" id="artP2">Đoạn 2: "Mọi giao diện hiện đại đều bắt đầu từ việc làm chủ các bộ chọn căn bản."</p>
+            </div>
+
+            <p class="mock-el" data-selector="p" id="artP3">Đoạn 3: Hãy nắm vững các combinator để nhắm trúng bất kỳ phần tử nào.</p>
+
+            <ul class="mock-list mock-el" data-selector="ul.menu" id="artMenu">
+              <li class="mock-el" data-selector="li" id="artLi1">Mục A: Cú pháp cơ bản</li>
+              <li class="mock-el" data-selector="li" id="artLi2">
+                Mục B: Danh sách nâng cao
+                <ul class="mock-sub-list mock-el" data-selector="ul.sub-menu" id="artSubMenu">
+                  <li class="mock-el" data-selector="li" id="artLiSub">Mục B.1: Bộ chọn kết hợp</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Gợi ý đáp án -->
+        <div class="hint-box">
+          <span class="hint-label">Gợi ý cú pháp:</span>
+          <code id="hintCode">.article &gt; p</code>
+          <button type="button" class="btn-use-hint" id="btnUseHint">Dùng gợi ý</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

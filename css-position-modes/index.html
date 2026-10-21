@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Thuộc Tính Position (static, relative, absolute, fixed)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Thuộc Tính Position: <code>static</code> • <code>relative</code> • <code>absolute</code> • <code>fixed</code></h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển Position -->
+      <section class="col-controls">
+        <div class="control-group">
+          <span class="group-title">Chọn giá trị <code>position</code>:</span>
+          <div class="pos-buttons">
+            <button type="button" class="btn-pos active" data-pos="static">position: static</button>
+            <button type="button" class="btn-pos" data-pos="relative">position: relative</button>
+            <button type="button" class="btn-pos" data-pos="absolute">position: absolute</button>
+            <button type="button" class="btn-pos" data-pos="fixed">position: fixed</button>
+          </div>
+        </div>
+
+        <!-- Tọa độ top / left -->
+        <div class="control-group">
+          <span class="group-title">Điều chỉnh tọa độ (Offsets):</span>
+          
+          <div class="coord-field">
+            <div class="coord-info">
+              <span class="coord-label"><code>top</code>:</span>
+              <span class="val-badge" id="topBadge">30px</span>
+            </div>
+            <input type="range" id="rangeTop" min="-20" max="80" value="30" class="slider">
+          </div>
+
+          <div class="coord-field">
+            <div class="coord-info">
+              <span class="coord-label"><code>left</code>:</span>
+              <span class="val-badge" id="leftBadge">40px</span>
+            </div>
+            <input type="range" id="rangeLeft" min="-20" max="100" value="40" class="slider">
+          </div>
+        </div>
+
+        <!-- Tùy chọn thẻ cha có relative không -->
+        <div class="parent-toggle-card">
+          <label class="parent-checkbox-label">
+            <input type="checkbox" id="checkParentRel" checked>
+            <span class="checkbox-text">Thẻ cha có <code>position: relative</code></span>
+          </label>
+          <span class="parent-hint" id="parentHint">Thẻ cha (.parent-box) làm mốc tọa độ cho absolute.</span>
+        </div>
+
+        <!-- Thẻ giải thích nguyên lý -->
+        <div class="explain-card">
+          <span class="explain-badge" id="posBadge">static (Mặc định)</span>
+          <h2 class="explain-title" id="posTitle">Nằm trong luồng tự nhiên</h2>
+          <p class="explain-desc" id="posDesc">Phần tử hiển thị theo thứ tự mặc định của HTML. Các thuộc tính <code>top</code>, <code>left</code> bị bỏ qua hoàn toàn.</p>
+        </div>
+      </section>
+
+      <!-- Cột phải: Khung hiển thị trực quan giả lập Viewport -->
+      <section class="col-preview">
+        <div class="preview-stage">
+          <div class="stage-header">
+            <span class="stage-label">Khung hiển thị giả lập (Cuộn để kiểm tra fixed):</span>
+            <span class="scroll-hint">Dùng chuột cuộn khung bên dưới</span>
+          </div>
+
+          <!-- Khung cuộn giả lập tài liệu -->
+          <div class="viewport-scroll-area" id="viewportArea">
+            <div class="scroll-content">
+              <div class="doc-item item-static">#1 Khối tĩnh phía trước (static)</div>
+
+              <!-- Thẻ cha chứa Target Box -->
+              <div class="parent-box has-relative" id="parentBox">
+                <span class="parent-label" id="parentLabel">&lt;div class="parent-box"&gt; (position: relative)</span>
+
+                <!-- Bóng giữ chỗ (Ghost Placeholder) khi nhấc khỏi luồng -->
+                <div class="ghost-placeholder" id="ghostHolder">Vị trí gốc ban đầu</div>
+
+                <!-- Thẻ mục tiêu di chuyển -->
+                <div class="target-box pos-static" id="targetBox">
+                  <span class="target-title">Target Box</span>
+                  <span class="target-coords" id="targetCoords">top: auto, left: auto</span>
+                </div>
+              </div>
+
+              <div class="doc-item item-static">#2 Khối tĩnh phía sau (static)</div>
+              <div class="doc-item item-static">#3 Khối tĩnh bổ sung (static)</div>
+              <div class="doc-item item-static">#4 Khối tĩnh chân trang (static)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code CSS -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Quy tắc CSS áp dụng:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="posCodeOutput">.target { position: static; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
