@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trục chính và trục phụ trong Flexbox</title>
+  <meta name="description" content="flex-direction quyết định trục chính (main axis) và trục phụ (cross axis); justify-content căn theo trục chính, align-items căn theo trục phụ.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
+  <div class="app w-full max-w-[980px] flex flex-col bg-slate-900 border border-slate-800 rounded-lg overflow-hidden">
+
+    <header class="h-11 shrink-0 flex items-center justify-between px-4 bg-slate-950/70 border-b border-slate-800">
+      <h1 class="text-[0.95rem] font-bold tracking-tight">
+        Trục chính &amp; trục phụ
+        <span class="ml-2 text-xs font-medium text-slate-500">main axis / cross axis</span>
+      </h1>
+      <button type="button" id="btnReset"
+        class="text-xs font-semibold text-slate-400 border border-slate-700 rounded-md px-2.5 py-1 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer">
+        Reset
+      </button>
+    </header>
+
+    <main class="flex-1 min-h-0 grid grid-cols-[300px_1fr] overflow-hidden">
+
+      <!-- Cột trái: điều khiển -->
+      <section class="min-h-0 overflow-y-auto p-3 flex flex-col gap-2.5 border-r border-slate-800">
+
+        <div class="rounded-lg border border-slate-800 bg-slate-950/60 p-2.5">
+          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500"><code class="font-mono normal-case text-sky-400">flex-direction</code></p>
+          <div class="grid grid-cols-2 gap-1.5" role="group" aria-label="Chọn flex-direction">
+            <button type="button" data-dir="row" aria-pressed="true" class="btn-dir rounded-md border border-slate-800 bg-slate-900 px-2 py-1.5 font-mono text-[0.8rem] font-bold text-slate-300 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">row</button>
+            <button type="button" data-dir="row-reverse" aria-pressed="false" class="btn-dir rounded-md border border-slate-800 bg-slate-900 px-2 py-1.5 font-mono text-[0.8rem] font-bold text-slate-300 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">row-reverse</button>
+            <button type="button" data-dir="column" aria-pressed="false" class="btn-dir rounded-md border border-slate-800 bg-slate-900 px-2 py-1.5 font-mono text-[0.8rem] font-bold text-slate-300 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">column</button>
+            <button type="button" data-dir="column-reverse" aria-pressed="false" class="btn-dir rounded-md border border-slate-800 bg-slate-900 px-2 py-1.5 font-mono text-[0.8rem] font-bold text-slate-300 cursor-pointer transition-colors hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">column-reverse</button>
+          </div>
+        </div>
+
+        <!-- Căn theo trục chính -->
+        <div class="rounded-lg border border-sky-900/70 bg-slate-950/60 p-2.5">
+          <p class="mb-1.5 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
+            <code class="font-mono normal-case text-sky-400">justify-content</code>
+            <span class="normal-case tracking-normal font-semibold text-sky-300">trục chính</span>
+          </p>
+          <div class="grid grid-cols-3 gap-1" role="group" aria-label="justify-content">
+            <button type="button" data-jc="flex-start" aria-pressed="true" class="btn-jc rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.75rem] text-slate-300 cursor-pointer hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">flex-start</button>
+            <button type="button" data-jc="center" aria-pressed="false" class="btn-jc rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.75rem] text-slate-300 cursor-pointer hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">center</button>
+            <button type="button" data-jc="flex-end" aria-pressed="false" class="btn-jc rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.75rem] text-slate-300 cursor-pointer hover:border-slate-600 aria-pressed:border-sky-400 aria-pressed:bg-sky-400/10 aria-pressed:text-sky-300">flex-end</button>
+          </div>
+          <p id="jcPhysical" class="mt-1.5 text-[0.75rem] text-slate-400"></p>
+        </div>
+
+        <!-- Căn theo trục phụ -->
+        <div class="rounded-lg border border-amber-900/60 bg-slate-950/60 p-2.5">
+          <p class="mb-1.5 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
+            <code class="font-mono normal-case text-sky-400">align-items</code>
+            <span class="normal-case tracking-normal font-semibold text-amber-300">trục phụ</span>
+          </p>
+          <div class="grid grid-cols-3 gap-1" role="group" aria-label="align-items">
+            <button type="button" data-ai="flex-start" aria-pressed="true" class="btn-ai rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.75rem] text-slate-300 cursor-pointer hover:border-slate-600 aria-pressed:border-amber-400 aria-pressed:bg-amber-400/10 aria-pressed:text-amber-300">flex-start</button>
+            <button type="button" data-ai="center" aria-pressed="false" class="btn-ai rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.75rem] text-slate-300 cursor-pointer hover:border-slate-600 aria-pressed:border-amber-400 aria-pressed:bg-amber-400/10 aria-pressed:text-amber-300">center</button>
+            <button type="button" data-ai="flex-end" aria-pressed="false" class="btn-ai rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.75rem] text-slate-300 cursor-pointer hover:border-slate-600 aria-pressed:border-amber-400 aria-pressed:bg-amber-400/10 aria-pressed:text-amber-300">flex-end</button>
+          </div>
+          <p id="aiPhysical" class="mt-1.5 text-[0.75rem] text-slate-400"></p>
+        </div>
+
+        <div class="rounded-lg border border-slate-800 bg-slate-950/60 p-2.5 flex flex-col gap-1">
+          <h2 id="dirTitle" class="text-[0.85rem] font-bold text-slate-100"></h2>
+          <p id="dirDesc" class="text-[0.78rem] leading-snug text-slate-400"></p>
+        </div>
+      </section>
+
+      <!-- Cột phải: mô phỏng -->
+      <section class="min-h-0 p-3 flex flex-col gap-2.5 overflow-hidden bg-slate-950">
+        <div class="flex-1 min-h-0 flex flex-col gap-2 rounded-lg border border-slate-800 bg-slate-900 p-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Flex container</span>
+            <span class="flex items-center gap-3 text-[0.72rem] text-slate-400">
+              <span class="flex items-center gap-1.5"><span class="inline-block h-0.5 w-4 bg-sky-400"></span>trục chính</span>
+              <span class="flex items-center gap-1.5"><span class="inline-block h-0.5 w-4 bg-amber-400"></span>trục phụ</span>
+            </span>
+          </div>
+
+          <!-- Vùng vẽ: chừa lề trên/trái cho mũi tên trục -->
+          <div id="stage" class="relative flex-1 min-h-0 pt-9 pl-9 pr-3 pb-3">
+            <div id="flexBox" class="flex h-full gap-2 rounded-md border-2 border-dashed border-slate-600 bg-slate-950 p-2">
+              <div class="flex-item w-14 h-14 bg-sky-500/25 border-sky-400 text-sky-100">1</div>
+              <div class="flex-item w-20 h-11 bg-violet-500/25 border-violet-400 text-violet-100">2</div>
+              <div class="flex-item w-12 h-[72px] bg-emerald-500/25 border-emerald-400 text-emerald-100">3</div>
+              <div class="flex-item w-16 h-16 bg-rose-500/25 border-rose-400 text-rose-100">4</div>
+            </div>
+            <svg id="axisLayer" class="pointer-events-none absolute inset-0" aria-hidden="true"></svg>
+          </div>
+        </div>
+
+        <div class="shrink-0 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">CSS đang áp dụng</span>
+            <button type="button" id="btnCopy"
+              class="rounded border border-sky-400/60 px-2 py-0.5 text-[0.72rem] font-semibold text-sky-300 hover:bg-sky-400 hover:text-slate-950 transition-colors cursor-pointer">Copy</button>
+          </div>
+          <pre id="codeOutput" class="font-mono text-[0.82rem] leading-relaxed text-slate-300 overflow-x-auto"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>

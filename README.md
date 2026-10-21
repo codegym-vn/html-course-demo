@@ -154,6 +154,7 @@ Khi triển khai thêm một bài tương tác mới:
 | 16 | [css-position-modes](./css-position-modes/) | **Bài 4 - Thuộc tính Position 2D:** 4 chế độ `static`, `relative`, `absolute`, `fixed` và mối quan hệ với thẻ cha `relative`. | Hoàn thành |
 | 17 | [css-sticky-and-zindex](./css-sticky-and-zindex/) | **Bài 5 - Position Sticky & Z-Index:** Cơ chế dính trong phạm vi thẻ cha của `position: sticky` và thứ tự phân lớp trục Z `z-index`. | Hoàn thành |
 | 18 | [flexbox-introduction](./flexbox-introduction/) | **Flexbox - Giới thiệu:** So sánh `block`, `inline-block` và `display: flex`, đo hướng xếp, khe hở, chiều cao item. | Hoàn thành |
+| 19 | [flexbox-axes](./flexbox-axes/) | **Flexbox - Trục chính & trục phụ:** `flex-direction` 4 giá trị, mũi tên main/cross axis, `justify-content` và `align-items` đổi hướng theo trục. | Hoàn thành |
 
 ---
 
