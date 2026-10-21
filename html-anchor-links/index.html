@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khám Phá Thẻ Liên Kết (Anchor Links)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Thẻ Liên Kết Trong HTML: &lt;a&gt;</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển thuộc tính liên kết -->
+      <section class="col-controls">
+        <!-- Loại liên kết -->
+        <div class="control-card">
+          <label for="linkTypeSelect" class="card-label">Loại liên kết (Link Type):</label>
+          <select id="linkTypeSelect" class="form-select">
+            <option value="external">Liên kết ngoài trang (Tuyệt đối)</option>
+            <option value="anchor">Liên kết neo trong trang (#id)</option>
+            <option value="mailto">Gửi thư điện tử (mailto:)</option>
+            <option value="tel">Gọi điện thoại (tel:)</option>
+          </select>
+        </div>
+
+        <!-- Thuộc tính href & Văn bản hiển thị -->
+        <div class="control-card">
+          <div class="field-row">
+            <label for="inputHref" class="card-label">Thuộc tính <code>href</code>:</label>
+            <input type="text" id="inputHref" class="form-input mono" value="https://codegym.vn">
+          </div>
+          <div class="field-row">
+            <label for="inputText" class="card-label">Văn bản liên kết (Link text):</label>
+            <input type="text" id="inputText" class="form-input" value="Truy cập CodeGym">
+          </div>
+        </div>
+
+        <!-- Thuộc tính target & Bảo mật rel -->
+        <div class="control-card">
+          <div class="field-row">
+            <label for="selectTarget" class="card-label">Thuộc tính <code>target</code>:</label>
+            <select id="selectTarget" class="form-select">
+              <option value="_blank">_blank (Mở tab mới)</option>
+              <option value="_self">_self (Chuyển trang tại tab hiện tại)</option>
+            </select>
+          </div>
+          <div class="field-row" id="relRow">
+            <label class="checkbox-label" for="checkRel">
+              <input type="checkbox" id="checkRel" checked>
+              Kèm <code>rel="noopener noreferrer"</code> (Bảo mật)
+            </label>
+          </div>
+          <span class="field-hint" id="relHint">Khuyến nghị bắt buộc khi dùng <code>target="_blank"</code> để ngăn tab mới chiếm quyền điều khiển trang gốc.</span>
+        </div>
+      </section>
+
+      <!-- Cột phải: Trình duyệt mô phỏng & Thử nghiệm click -->
+      <section class="col-preview">
+        <div class="browser-window">
+          <!-- Thanh Tab trình duyệt -->
+          <div class="browser-tab-bar" id="browserTabs">
+            <div class="tab-item active" id="tabMain">
+              <span class="tab-title">Trang hiện tại (index.html)</span>
+            </div>
+            <div class="tab-item new-tab" id="tabNew" style="display: none;">
+              <span class="tab-title" id="newTabTitle">Tab mới</span>
+              <button type="button" class="btn-close-tab" id="btnCloseTab" title="Đóng tab">×</button>
+            </div>
+          </div>
+
+          <!-- Nội dung trang web mô phỏng -->
+          <div class="browser-viewport" id="viewportScrollArea">
+            <div class="demo-article">
+              <h2 class="article-title">Điều hướng văn bản trên Internet</h2>
+              <p class="article-text">
+                Bấm vào liên kết để kiểm tra phản hồi thực tế của trình duyệt:
+              </p>
+
+              <!-- Thẻ liên kết đang thử nghiệm -->
+              <div class="link-interactive-box">
+                <a id="demoAnchor" href="https://codegym.vn" target="_blank" rel="noopener noreferrer">Truy cập CodeGym</a>
+                <span class="click-hint">(Click để thử nghiệm)</span>
+              </div>
+
+              <!-- Nội dung giả lập cho liên kết neo #id -->
+              <div class="long-content-block">
+                <p>Nội dung đệm giúp quan sát hiệu ứng cuộn trang khi click liên kết neo (#)...</p>
+                <div class="spacer-line"></div>
+              </div>
+
+              <!-- Khối mục tiêu của liên kết neo -->
+              <div class="anchor-target-box" id="sectionContact">
+                <span class="target-badge">Mục tiêu: id="sectionContact"</span>
+                <p><strong>Khu vực đích đến:</strong> Trình duyệt đã tự động cuộn trang xuống đúng vị trí thẻ chứa ID này.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thông báo phản hồi tương tác -->
+        <div class="action-alert" id="actionAlert">
+          Trạng thái: Sẵn sàng thử nghiệm liên kết.
+        </div>
+
+        <!-- Mã HTML sinh ra -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Mã HTML &lt;a&gt; sinh ra:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="anchorCodeOutput">&lt;a href="https://codegym.vn" target="_blank" rel="noopener noreferrer"&gt;Truy cập CodeGym&lt;/a&gt;</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

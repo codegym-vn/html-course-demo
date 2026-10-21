@@ -124,7 +124,10 @@ Khi triển khai thêm một bài tương tác mới:
 
 | STT | Tên thư mục | Chủ đề / Khái niệm minh họa | Trạng thái |
 | :---: | :--- | :--- | :---: |
-| 01 | [css-colors-mastery](./css-colors-mastery/) | **Thế giới màu sắc trong CSS:** Làm chủ hệ màu HEX, RGB, RGBA, giải mã hệ thập lục phân, so sánh `rgba()` và `opacity`, tương phản WCAG. | Hoàn thành |
+| 01 | [html-document-structure](./html-document-structure/) | **Cấu trúc file HTML:** `<!DOCTYPE>`, `<html>`, `<head>`, `<meta>`, `<title>`, `<body>`, mô phỏng tab trình duyệt. | Hoàn thành |
+| 02 | [html-image-attributes](./html-image-attributes/) | **Thẻ hình ảnh `<img>`:** Thuộc tính `src`, `alt`, `width`, `height`, mô phỏng ảnh hỏng và chống giật layout (CLS). | Hoàn thành |
+| 03 | [html-anchor-links](./html-anchor-links/) | **Thẻ liên kết `<a>`:** Liên kết ngoài, liên kết neo `#id`, `mailto:`, `tel:`, thuộc tính `target` và bảo mật `rel`. | Hoàn thành |
+| 04 | [css-colors-mastery](./css-colors-mastery/) | **Thế giới màu sắc trong CSS:** Làm chủ hệ màu HEX, RGB, RGBA, giải mã hệ thập lục phân, so sánh `rgba()` và `opacity`, tương phản WCAG. | Hoàn thành |
 
 ---
 

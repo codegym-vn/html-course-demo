@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thuộc Tính Thẻ Hình Ảnh (IMG Attributes)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Thuộc Tính Thẻ Hình Ảnh: &lt;img&gt;</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển thuộc tính -->
+      <section class="col-controls">
+        <!-- Thuộc tính src & Mô phỏng lỗi -->
+        <div class="control-card">
+          <div class="card-header-row">
+            <label for="imgSrcSelect" class="card-label">Thuộc tính <code>src</code> (Nguồn ảnh):</label>
+            <button type="button" class="btn-toggle-error" id="btnToggleError">Mô phỏng ảnh hỏng</button>
+          </div>
+          <select id="imgSrcSelect" class="form-select">
+            <option value="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80">Gradient màu sắc nghệ thuật</option>
+            <option value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80">Bãi biển hoàng hôn</option>
+            <option value="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80">Màn hình lập trình máy tính</option>
+          </select>
+        </div>
+
+        <!-- Thuộc tính alt -->
+        <div class="control-card">
+          <label for="inputAlt" class="card-label">Thuộc tính <code>alt</code> (Văn bản thay thế):</label>
+          <input type="text" id="inputAlt" class="form-input" value="Bức tranh dải màu gradient trừu tượng">
+          <span class="field-hint">Hiển thị khi ảnh lỗi tải và cho người dùng khiếm thị dùng bộ đọc màn hình.</span>
+        </div>
+
+        <!-- Thuộc tính width và height -->
+        <div class="control-card">
+          <div class="card-header-row">
+            <span class="card-label">Kích thước <code>width</code> & <code>height</code> (px):</span>
+            <label class="checkbox-label">
+              <input type="checkbox" id="checkAspect" checked> Giữ tỉ lệ
+            </label>
+          </div>
+          <div class="dimension-inputs">
+            <div class="dim-group">
+              <span class="dim-tag">W</span>
+              <input type="range" id="rangeWidth" min="100" max="420" value="280" class="slider">
+              <input type="number" id="numWidth" min="100" max="420" value="280" class="num-input">
+            </div>
+            <div class="dim-group">
+              <span class="dim-tag">H</span>
+              <input type="range" id="rangeHeight" min="60" max="300" value="180" class="slider">
+              <input type="number" id="numHeight" min="60" max="300" value="180" class="num-input">
+            </div>
+          </div>
+          <span class="field-hint">Khai báo kích thước trước giúp trình duyệt giữ chỗ, tránh hiện tượng nhảy giật khung hình (CLS).</span>
+        </div>
+      </section>
+
+      <!-- Cột phải: Preview và Code -->
+      <section class="col-preview">
+        <!-- Khung xem trước trang web -->
+        <div class="preview-stage">
+          <div class="stage-header">
+            <span class="stage-title">Xem trước hiển thị thực tế</span>
+            <span class="status-indicator" id="statusIndicator">Ảnh tải thành công</span>
+          </div>
+
+          <div class="article-mockup">
+            <h2 class="mockup-h2">Khám phá lập trình giao diện</h2>
+            <p class="mockup-p">Hình ảnh là thành phần cốt lõi giúp bài viết trở nên sinh động:</p>
+
+            <div class="image-wrapper" id="imageWrapper">
+              <img id="previewImg" 
+                   src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80" 
+                   alt="Bức tranh dải màu gradient trừu tượng"
+                   width="280" 
+                   height="180">
+            </div>
+
+            <p class="mockup-p">Nội dung tiếp tục hiển thị trôi chảy ngay sau hình ảnh.</p>
+          </div>
+        </div>
+
+        <!-- Mã HTML sinh ra -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Mã HTML &lt;img&gt; chuẩn:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="htmlCodeOutput">&lt;img src="..." alt="..." width="280" height="180"&gt;</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

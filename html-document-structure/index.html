@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu Trúc Tài Liệu HTML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Cấu Trúc Tài Liệu HTML (HTML Document Structure)</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Mã nguồn tương tác -->
+      <section class="col-code">
+        <div class="section-label">Mã nguồn HTML (Bấm vào từng thẻ để khám phá):</div>
+        <div class="code-editor" id="codeEditor">
+          <div class="code-line tag-row" data-tag="doctype" tabindex="0">
+            <span class="ln">1</span>
+            <code>&lt;!DOCTYPE html&gt;</code>
+          </div>
+          <div class="code-line tag-row" data-tag="html" tabindex="0">
+            <span class="ln">2</span>
+            <code>&lt;html lang="<span class="val" id="langVal">vi</span>"&gt;</code>
+          </div>
+          <div class="code-line tag-row" data-tag="head" tabindex="0">
+            <span class="ln">3</span>
+            <code>&nbsp;&nbsp;&lt;head&gt;</code>
+          </div>
+          <div class="code-line tag-row indent" data-tag="meta" tabindex="0">
+            <span class="ln">4</span>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;</code>
+          </div>
+          <div class="code-line tag-row indent active" data-tag="title" tabindex="0">
+            <span class="ln">5</span>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;<span class="val" id="codeTitleVal">Trang web của tôi</span>&lt;/title&gt;</code>
+          </div>
+          <div class="code-line tag-row" data-tag="head-close">
+            <span class="ln">6</span>
+            <code>&nbsp;&nbsp;&lt;/head&gt;</code>
+          </div>
+          <div class="code-line tag-row" data-tag="body" tabindex="0">
+            <span class="ln">7</span>
+            <code>&nbsp;&nbsp;&lt;body&gt;</code>
+          </div>
+          <div class="code-line tag-row indent" data-tag="h1" tabindex="0">
+            <span class="ln">8</span>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;<span class="val" id="codeH1Val">Xin chào thế giới!</span>&lt;/h1&gt;</code>
+          </div>
+          <div class="code-line tag-row indent" data-tag="p" tabindex="0">
+            <span class="ln">9</span>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<span class="val" id="codePVal">Đây là nội dung hiển thị trong body.</span>&lt;/p&gt;</code>
+          </div>
+          <div class="code-line tag-row" data-tag="body-close">
+            <span class="ln">10</span>
+            <code>&nbsp;&nbsp;&lt;/body&gt;</code>
+          </div>
+          <div class="code-line tag-row" data-tag="html-close">
+            <span class="ln">11</span>
+            <code>&lt;/html&gt;</code>
+          </div>
+        </div>
+
+        <!-- Khung chỉnh sửa nhanh -->
+        <div class="editor-inputs">
+          <div class="input-field">
+            <label for="inputTitle">Nội dung trong &lt;title&gt;:</label>
+            <input type="text" id="inputTitle" value="Trang web của tôi" maxlength="35">
+          </div>
+          <div class="input-field">
+            <label for="inputH1">Nội dung trong &lt;h1&gt;:</label>
+            <input type="text" id="inputH1" value="Xin chào thế giới!" maxlength="35">
+          </div>
+        </div>
+      </section>
+
+      <!-- Cột phải: Trình duyệt mô phỏng & Giải thích -->
+      <section class="col-preview">
+        <div class="section-label">Kết quả render trên trình duyệt thực tế:</div>
+
+        <!-- Trình duyệt thu nhỏ -->
+        <div class="browser-window">
+          <!-- Thanh Tab -->
+          <div class="browser-tab-bar">
+            <div class="tab-item active" id="browserTab">
+              <span class="tab-favicon"></span>
+              <span class="tab-title" id="browserTabTitle">Trang web của tôi</span>
+            </div>
+            <div class="tab-indicator" id="tabIndicator">&lt;title&gt; hiển thị ở đây</div>
+          </div>
+
+          <!-- Thanh URL -->
+          <div class="browser-address-bar">
+            <span class="url-badge">https://</span>
+            <span class="url-text">example.com/index.html</span>
+          </div>
+
+          <!-- Khung nội dung Viewport (Body) -->
+          <div class="browser-viewport" id="browserViewport">
+            <div class="viewport-indicator" id="viewportIndicator">Khu vực hiển thị của thẻ &lt;body&gt;</div>
+            <div class="viewport-content" id="viewportContent">
+              <h1 id="viewportH1">Xin chào thế giới!</h1>
+              <p id="viewportP">Đây là nội dung hiển thị trong body.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hộp giải thích thành phần đang chọn -->
+        <div class="tag-explanation-box">
+          <div class="exp-header">
+            <span class="exp-tag" id="expTagName">&lt;title&gt;</span>
+            <span class="exp-location" id="expLocation">Nằm trong &lt;head&gt;</span>
+          </div>
+          <p class="exp-desc" id="expDesc">
+            Quy định tiêu đề xuất hiện trên thanh tab của trình duyệt và kết quả tìm kiếm Google. Nội dung này không xuất hiện trực tiếp trong trang trắng.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
