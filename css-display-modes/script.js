@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const matMargin = document.getElementById('matMargin');
 
   const targetElement = document.getElementById('targetElement');
-  const targetDesc = document.getElementById('targetDesc');
   const behaviorBanner = document.getElementById('behaviorBanner');
   const displayCodeOutput = document.getElementById('displayCodeOutput');
 
@@ -39,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modeButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.mode === currentMode);
     });
-
-    targetDesc.textContent = currentMode;
 
     if (currentMode === 'inline') {
       // Hints

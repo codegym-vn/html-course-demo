@@ -364,13 +364,6 @@ body {
   display: inline-block;
 }
 
-.target-sub {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--accent-color);
-  margin-left: 3px;
-}
-
 /* Behavior Banner */
 .behavior-banner {
   background-color: rgba(56, 189, 248, 0.08);
