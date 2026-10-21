@@ -92,7 +92,7 @@ body {
 /* Body */
 .app-body {
   display: grid;
-  grid-template-columns: 310px 1fr;
+  grid-template-columns: 275px 1fr;
   flex: 1;
   min-height: 0;
   background-color: var(--bg-canvas);

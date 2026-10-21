@@ -89,7 +89,7 @@ body {
 /* App Body */
 .app-body {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 270px 1fr;
   flex: 1;
   min-height: 0;
   background-color: var(--bg-canvas);
@@ -98,12 +98,12 @@ body {
 
 /* Cột trái: Controls */
 .col-controls {
-  padding: 10px 12px;
+  padding: 8px 10px;
   background-color: var(--bg-surface);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   overflow-y: auto;
 }
 
@@ -314,11 +314,11 @@ body {
   background-color: var(--bg-primary);
   border: 1px dashed var(--border-color);
   border-radius: 6px;
-  padding: 16px;
+  padding: 12px;
   flex: 1;
   min-height: 0;
   overflow: auto;
-  line-height: 1.9;
+  line-height: 2.2;
 }
 
 .flow-item {
@@ -330,8 +330,8 @@ body {
   display: inline-block;
   background-color: #334155;
   color: #cbd5e1;
-  padding: 6px 12px;
-  font-size: 0.82rem;
+  padding: 4px 8px;
+  font-size: 0.78rem;
   font-weight: 600;
   border: 1px solid #475569;
 }
@@ -341,7 +341,7 @@ body {
   background-color: rgba(56, 189, 248, 0.2);
   border: 2px solid var(--accent-color);
   color: #ffffff;
-  padding: 6px 12px;
+  padding: 4px 8px;
   text-align: center;
   transition: all 0.15s ease-out;
 }
@@ -360,7 +360,7 @@ body {
 
 .target-title {
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   display: inline-block;
 }
 
@@ -368,7 +368,7 @@ body {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--accent-color);
-  margin-left: 4px;
+  margin-left: 3px;
 }
 
 /* Behavior Banner */

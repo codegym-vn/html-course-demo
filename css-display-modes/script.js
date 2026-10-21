@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       targetElement.className = 'flow-item target-item mode-inline';
       targetElement.style.width = '';
       targetElement.style.height = '';
-      targetElement.style.margin = '0 6px';
+      targetElement.style.margin = '0 4px';
 
       // Banner
       behaviorBanner.innerHTML = '<strong>Hành vi inline:</strong> Chảy liên tục trên cùng một dòng. Trình duyệt bỏ qua hoàn toàn thuộc tính width, height và margin trên/dưới.';
 
       // Code
-      displayCodeOutput.textContent = `.target { display: inline; margin: 0 6px; /* width & height bị bỏ qua */ }`;
+      displayCodeOutput.textContent = `.target { display: inline; margin: 0 4px; /* width & height bị bỏ qua */ }`;
     } else if (currentMode === 'block') {
       // Hints
       hintWidth.textContent = 'Có hiệu lực (Khối riêng)';
@@ -119,13 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
       targetElement.className = 'flow-item target-item mode-inline-block';
       targetElement.style.width = `${w}px`;
       targetElement.style.height = `${h}px`;
-      targetElement.style.margin = `${m}px 8px`;
+      targetElement.style.margin = `${m}px 6px`;
 
       // Banner
       behaviorBanner.innerHTML = '<strong>Hành vi inline-block:</strong> Kết hợp ưu điểm cả hai: Vẫn giữ vị trí trên cùng dòng như inline, nhưng tùy biến được width, height và margin như block.';
 
       // Code
-      displayCodeOutput.textContent = `.target { display: inline-block; width: ${w}px; height: ${h}px; margin: ${m}px 8px; }`;
+      displayCodeOutput.textContent = `.target { display: inline-block; width: ${w}px; height: ${h}px; margin: ${m}px 6px; }`;
     }
   }
 
@@ -142,9 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnReset.addEventListener('click', () => {
     currentMode = 'inline';
-    rangeWidth.value = 140;
-    rangeHeight.value = 50;
-    rangeMargin.value = 16;
+    rangeWidth.value = 110;
+    rangeHeight.value = 45;
+    rangeMargin.value = 14;
     update();
   });
 
