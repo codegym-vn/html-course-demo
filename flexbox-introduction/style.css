@@ -1,0 +1,30 @@
+/* Giao diện dùng Tailwind v4 (browser CDN). File này chỉ giữ quy tắc nền và quy tắc demo. */
+
+html {
+  font-size: 15px;
+}
+
+/* Khung LMS iframe: cố định 600px */
+.app {
+  height: 600px;
+  max-height: 600px;
+}
+
+/* Nhãn "flex item": absolute nên không ảnh hưởng kích thước item; chỉ hiện khi thẻ cha là flex */
+.item-tag {
+  display: none;
+  position: absolute;
+  top: -0.6rem;
+  right: 6px;
+  padding: 0 5px;
+  border-radius: 3px;
+  background: #0f172a;
+  color: #fbbf24;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  line-height: 1.1rem;
+}
+
+#container[data-mode="flex"] .item-tag {
+  display: block;
+}
