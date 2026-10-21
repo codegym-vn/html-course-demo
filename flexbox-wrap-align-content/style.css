@@ -1,0 +1,46 @@
+/* Giao diện dùng Tailwind v4 (browser CDN). File này chỉ giữ quy tắc nền và quy tắc demo. */
+
+html {
+  font-size: 15px;
+}
+
+.app {
+  height: 600px;
+  max-height: 600px;
+}
+
+/* Item không đặt height: khi dòng flex giãn (align-content: normal/stretch), item giãn theo dòng,
+   nên khung của item phản ánh đúng chiều cao dòng flex. */
+.item {
+  position: relative;
+  z-index: 1;
+  width: 90px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #f1f5f9;
+}
+
+.line-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed #fbbf24;
+  border-bottom: 1px dashed #fbbf24;
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.line-band span {
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  color: #fbbf24;
+}
