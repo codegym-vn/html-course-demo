@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const rangeLeft = document.getElementById('rangeLeft');
   const topBadge = document.getElementById('topBadge');
   const leftBadge = document.getElementById('leftBadge');
+  const coordFields = document.querySelectorAll('.coord-field');
   const checkParentRel = document.getElementById('checkParentRel');
   const parentHint = document.getElementById('parentHint');
   const parentBox = document.getElementById('parentBox');
@@ -25,24 +26,35 @@ document.addEventListener('DOMContentLoaded', () => {
     static: {
       badge: 'static (Mặc định)',
       title: 'Nằm trong luồng tự nhiên',
-      desc: 'Phần tử hiển thị theo trật tự thông thường của HTML. Các thuộc tính <code>top</code>, <code>left</code>, <code>right</code>, <code>bottom</code>, <code>z-index</code> bị bỏ qua hoàn toàn.',
+      desc: 'Phần tử hiển thị theo trật tự thông thường của HTML. Các thuộc tính <code>top</code>, <code>left</code>, <code>right</code>, <code>bottom</code>, <code>z-index</code> bị bỏ qua.'
     },
     relative: {
       badge: 'relative (Tương đối)',
       title: 'Dịch chuyển so với vị trí gốc',
-      desc: 'Phần tử trôi khỏi vị trí ban đầu theo <code>top</code>/<code>left</code>, nhưng vị trí gốc ban đầu của nó vẫn được giữ chỗ (các phần tử khác không bị dồn lên).',
+      desc: 'Phần tử dịch đi theo <code>top</code>/<code>left</code> tính từ vị trí gốc (viền nét đứt). Chỗ gốc vẫn được giữ nên khối #2 không bị dồn lên.'
     },
     absolute: {
       badge: 'absolute (Tuyệt đối)',
       title: 'Nhấc hoàn toàn khỏi luồng',
-      desc: 'Phần tử không còn chiếm chỗ trong luồng. Tọa độ được tính theo phần tử tổ tiên gần nhất có <code>position</code> khác static (ở đây là <code>.parent-box</code>).',
+      desc: 'Phần tử không còn chiếm chỗ: thẻ cha co lại và khối #2 dồn lên. Tọa độ tính theo tổ tiên gần nhất có <code>position</code> khác <code>static</code>.'
     },
     fixed: {
       badge: 'fixed (Cố định)',
-      title: 'Ghim cố định theo Viewport',
-      desc: 'Bị nhấc khỏi luồng và ghim chặt vào khung nhìn trình duyệt. Khi bạn cuộn trang lên xuống, phần tử vẫn đứng yên một chỗ.',
+      title: 'Ghim cố định theo khung nhìn',
+      desc: 'Bị nhấc khỏi luồng và ghim vào khung nhìn (viewport). Cuộn khung tài liệu: phần tử vẫn đứng yên. Trong demo, khung bên phải đóng vai trò viewport.'
     }
   };
+
+  // Viền vị trí gốc chỉ có ý nghĩa với relative: kích thước bằng target, nằm ở vị trí tĩnh ban đầu
+  function syncGhost() {
+    if (currentPos !== 'relative') {
+      ghostHolder.style.display = 'none';
+      return;
+    }
+    ghostHolder.style.display = 'block';
+    ghostHolder.style.width = `${targetBox.offsetWidth}px`;
+    ghostHolder.style.height = `${targetBox.offsetHeight}px`;
+  }
 
   function update() {
     const t = parseInt(rangeTop.value, 10);
@@ -55,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('active', btn.dataset.pos === currentPos);
     });
 
+    // top/left vô hiệu với static
+    coordFields.forEach(field => field.classList.toggle('is-ignored', currentPos === 'static'));
+
     const isParentRel = checkParentRel.checked;
     parentBox.classList.toggle('has-relative', isParentRel);
     parentBox.style.position = isParentRel ? 'relative' : 'static';
@@ -63,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
       parentLabel.textContent = '<div class="parent-box"> (position: relative)';
       parentHint.textContent = 'Thẻ cha (.parent-box) làm mốc tọa độ cho absolute.';
     } else {
-      parentLabel.textContent = '<div class="parent-box"> (position: static - Không làm mốc)';
-      parentHint.textContent = 'Thẻ cha là static -> absolute sẽ lấy khung nhìn Viewport làm mốc tọa độ!';
+      parentLabel.textContent = '<div class="parent-box"> (position: static - không làm mốc)';
+      parentHint.textContent = 'Thẻ cha là static: absolute tìm tiếp lên trên và lấy góc trên trái của trang (khung tài liệu) làm mốc, vẫn cuộn theo trang.';
     }
 
     const exp = posExplanations[currentPos];
@@ -72,62 +87,22 @@ document.addEventListener('DOMContentLoaded', () => {
     posTitle.textContent = exp.title;
     posDesc.innerHTML = exp.desc;
 
-    // Reset inline styles
-    targetBox.style.top = '';
-    targetBox.style.left = '';
-    targetBox.style.transform = '';
-
+    // Mọi chế độ đều dùng giá trị position thật của CSS
+    targetBox.style.position = currentPos;
     if (currentPos === 'static') {
-      ghostHolder.style.display = 'none';
-      targetBox.style.position = 'static';
+      targetBox.style.top = '';
+      targetBox.style.left = '';
       targetCoords.textContent = 'top/left bị bỏ qua';
       posCodeOutput.textContent = '.target { position: static; }';
-    } else if (currentPos === 'relative') {
-      ghostHolder.style.display = 'block';
-      targetBox.style.position = 'relative';
+    } else {
       targetBox.style.top = `${t}px`;
       targetBox.style.left = `${l}px`;
       targetCoords.textContent = `top: ${t}px, left: ${l}px`;
-      posCodeOutput.textContent = `.target { position: relative; top: ${t}px; left: ${l}px; }`;
-    } else if (currentPos === 'absolute') {
-      ghostHolder.style.display = 'block';
-      targetBox.style.position = 'absolute';
-      targetBox.style.top = `${t}px`;
-      targetBox.style.left = `${l}px`;
-      targetCoords.textContent = `top: ${t}px, left: ${l}px`;
-      posCodeOutput.textContent = `.target { position: absolute; top: ${t}px; left: ${l}px; }`;
-    } else if (currentPos === 'fixed') {
-      ghostHolder.style.display = 'block';
-      targetBox.style.position = 'absolute'; // Dùng absolute neo theo viewportArea để mô phỏng fixed trong khung demo
-      syncFixedPosition();
-      targetCoords.textContent = `fixed: top: ${t}px, left: ${l}px`;
-      posCodeOutput.textContent = `.target { position: fixed; top: ${t}px; left: ${l}px; }`;
+      posCodeOutput.textContent = `.target { position: ${currentPos}; top: ${t}px; left: ${l}px; }`;
     }
+
+    syncGhost();
   }
-
-  // Giữ Target Box ghim cố định khi cuộn mô phỏng position: fixed
-  function syncFixedPosition() {
-    if (currentPos !== 'fixed') return;
-    const t = parseInt(rangeTop.value, 10);
-    const l = parseInt(rangeLeft.value, 10);
-    const scrollTop = viewportArea.scrollTop;
-
-    // Ghim theo tọa độ của viewportArea
-    const viewportRect = viewportArea.getBoundingClientRect();
-    const parentRect = parentBox.getBoundingClientRect();
-
-    const offsetY = (viewportRect.top - parentRect.top) + scrollTop + Math.max(10, t);
-    const offsetX = (viewportRect.left - parentRect.left) + Math.max(10, l);
-
-    targetBox.style.top = `${offsetY}px`;
-    targetBox.style.left = `${offsetX}px`;
-  }
-
-  viewportArea.addEventListener('scroll', () => {
-    if (currentPos === 'fixed') {
-      syncFixedPosition();
-    }
-  });
 
   posButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -152,11 +127,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnCopy.addEventListener('click', () => {
-    navigator.clipboard.writeText(posCodeOutput.textContent).then(() => {
+    const text = posCodeOutput.textContent;
+    const done = () => {
       const orig = btnCopy.textContent;
       btnCopy.textContent = 'Copied!';
-      setTimeout(() => btnCopy.textContent = orig, 1500);
-    });
+      setTimeout(() => { btnCopy.textContent = orig; }, 1500);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done).catch(() => {});
+    } else {
+      // Dự phòng cho file:// hoặc iframe chặn clipboard API
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      if (document.execCommand('copy')) done();
+      ta.remove();
+    }
   });
 
   update();

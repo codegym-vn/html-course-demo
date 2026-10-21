@@ -333,23 +333,36 @@ body {
   color: var(--accent-warn);
 }
 
-/* Viewport Scroll Area */
-.viewport-scroll-area {
-  background-color: var(--bg-primary);
+/* Khung nhìn giả lập (không cuộn).
+   transform khiến khung này trở thành khối chứa của position: fixed,
+   nên phần tử fixed bám theo khung thay vì cửa sổ thật -> mô phỏng viewport bằng CSS thật. */
+.viewport-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
   border: 1px solid var(--border-color);
   border-radius: 6px;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+/* Vùng cuộn đóng vai trò trang tài liệu.
+   position: relative để absolute (khi thẻ cha là static) neo vào trang và cuộn theo trang. */
+.viewport-scroll-area {
+  position: relative;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   padding: 12px;
-  position: relative;
+  background-color: var(--bg-primary);
 }
 
 .scroll-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 480px; /* Đảm bảo có thanh cuộn */
+  padding-bottom: 260px; /* Đủ dài để cuộn thử fixed */
 }
 
 .doc-item {
@@ -362,14 +375,12 @@ body {
   border: 1px solid #475569;
 }
 
-/* Parent Box */
+/* Parent Box: không đặt min-height để thấy rõ thẻ cha co lại khi target bị nhấc khỏi luồng */
 .parent-box {
   background-color: rgba(51, 65, 85, 0.25);
   border: 2px dashed #64748b;
   border-radius: 6px;
-  padding: 14px;
-  position: relative;
-  min-height: 140px;
+  padding: 12px 14px;
 }
 
 .parent-box.has-relative {
@@ -389,32 +400,38 @@ body {
   font-weight: 700;
 }
 
-/* Ghost Placeholder */
+/* Viền vị trí gốc: absolute không đặt top/left -> nằm đúng vị trí tĩnh ban đầu của target, không chiếm chỗ */
 .ghost-placeholder {
   display: none;
-  background-color: rgba(148, 163, 184, 0.08);
-  border: 1px dashed rgba(148, 163, 184, 0.4);
-  color: rgba(148, 163, 184, 0.6);
-  border-radius: 4px;
-  padding: 10px 14px;
-  font-size: 0.78rem;
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  border-radius: 6px;
+  background-color: rgba(148, 163, 184, 0.06);
+  color: rgba(148, 163, 184, 0.75);
+  font-size: 0.72rem;
   font-weight: 600;
-  text-align: center;
-  margin-bottom: 6px;
+  padding: 4px 8px;
+  pointer-events: none;
 }
 
-/* Target Box */
+/* Target Box: nền đặc để thấy rõ khi đè lên khối khác */
 .target-box {
-  background-color: rgba(56, 189, 248, 0.25);
+  background-color: #075985;
   border: 2px solid var(--accent-color);
   color: #ffffff;
   border-radius: 6px;
   padding: 10px 14px;
-  display: inline-flex;
+  display: flex;
+  width: max-content;
   flex-direction: column;
   gap: 2px;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
   z-index: 20;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.coord-field.is-ignored {
+  opacity: 0.45;
 }
 
 .target-title {

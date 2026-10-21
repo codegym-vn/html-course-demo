@@ -77,28 +77,31 @@
             <span class="scroll-hint">Dùng chuột cuộn khung bên dưới</span>
           </div>
 
-          <!-- Khung cuộn giả lập tài liệu -->
-          <div class="viewport-scroll-area" id="viewportArea">
-            <div class="scroll-content">
-              <div class="doc-item item-static">#1 Khối tĩnh phía trước (static)</div>
+          <!-- Khung nhìn giả lập: không cuộn, đóng vai trò viewport cho position: fixed -->
+          <div class="viewport-frame" id="viewportFrame">
+            <!-- Vùng cuộn: đóng vai trò trang tài liệu -->
+            <div class="viewport-scroll-area" id="viewportArea">
+              <div class="scroll-content">
+                <div class="doc-item item-static">#1 Khối tĩnh phía trước (static)</div>
 
-              <!-- Thẻ cha chứa Target Box -->
-              <div class="parent-box has-relative" id="parentBox">
-                <span class="parent-label" id="parentLabel">&lt;div class="parent-box"&gt; (position: relative)</span>
+                <!-- Thẻ cha chứa Target Box -->
+                <div class="parent-box has-relative" id="parentBox">
+                  <span class="parent-label" id="parentLabel">&lt;div class="parent-box"&gt; (position: relative)</span>
 
-                <!-- Bóng giữ chỗ (Ghost Placeholder) khi nhấc khỏi luồng -->
-                <div class="ghost-placeholder" id="ghostHolder">Vị trí gốc ban đầu</div>
+                  <!-- Viền đánh dấu vị trí gốc (chỉ hiện với relative, không chiếm chỗ) -->
+                  <div class="ghost-placeholder" id="ghostHolder" aria-hidden="true">Vị trí gốc</div>
 
-                <!-- Thẻ mục tiêu di chuyển -->
-                <div class="target-box pos-static" id="targetBox">
-                  <span class="target-title">Target Box</span>
-                  <span class="target-coords" id="targetCoords">top: auto, left: auto</span>
+                  <!-- Thẻ mục tiêu di chuyển -->
+                  <div class="target-box" id="targetBox">
+                    <span class="target-title">Target Box</span>
+                    <span class="target-coords" id="targetCoords">top/left bị bỏ qua</span>
+                  </div>
                 </div>
-              </div>
 
-              <div class="doc-item item-static">#2 Khối tĩnh phía sau (static)</div>
-              <div class="doc-item item-static">#3 Khối tĩnh bổ sung (static)</div>
-              <div class="doc-item item-static">#4 Khối tĩnh chân trang (static)</div>
+                <div class="doc-item item-static">#2 Khối tĩnh phía sau (static)</div>
+                <div class="doc-item item-static">#3 Khối tĩnh bổ sung (static)</div>
+                <div class="doc-item item-static">#4 Khối tĩnh chân trang (static)</div>
+              </div>
             </div>
           </div>
         </div>
