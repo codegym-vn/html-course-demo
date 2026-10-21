@@ -28,7 +28,7 @@ Mỗi thư mục đại diện cho **01 ứng dụng độc lập** và tuân th
 ```text
 <ten-ung-dung>/
 ├── index.html         # Giao diện chính, khung điều khiển và vùng hiển thị demo
-├── style.css          # Toàn bộ CSS (tổ chức theo biến CSS, modular, responsive)
+├── style.css          # CSS bổ sung tối thiểu (quy tắc Tailwind không biểu diễn được)
 ├── script.js          # Logic điều khiển tương tác (Vanilla JS)
 ├── README.md          # Giải thích mục tiêu bài học, thuộc tính demo & hướng dẫn sử dụng
 └── assets/            # Thư mục tài nguyên (hình ảnh, icon, font demo - nếu có)
@@ -49,8 +49,19 @@ Mỗi thư mục đại diện cho **01 ứng dụng độc lập** và tuân th
 - Ghi chú (comment) giải thích rõ các khối cấu trúc để học viên dễ theo dõi.
 
 ### 2.2. CSS (Trình bày & Thẩm mỹ)
-- **Công nghệ**: Sử dụng **Vanilla CSS** hiện đại.
-- **Biến CSS (CSS Variables)**: Định nghĩa bảng màu, font chữ, spacing, radius tập trung tại `:root` để dễ bảo trì và giải thích cho học viên.
+- **Công nghệ**: Sử dụng **Tailwind CSS v4** qua browser CDN, không cần build:
+  ```html
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme { --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif; --font-mono: 'JetBrains Mono', monospace; }
+  </style>
+  <link rel="stylesheet" href="style.css?v=1">
+  ```
+- **Design token**: Khai báo font, màu tùy biến trong `@theme`; ưu tiên bảng màu có sẵn của Tailwind (`slate`, `sky`, `amber`, `emerald`, `rose`).
+- **Trạng thái giao diện**: JS đổi thuộc tính `aria-pressed`, `data-*` và để Tailwind tạo kiểu qua variant (`aria-pressed:`, `data-[active=true]:`, `peer-checked:`), hạn chế thêm/bớt class thủ công.
+- **`style.css` chỉ chứa phần tối thiểu**: `html { font-size: 15px }`, khung `height: 600px`, các quy tắc demo cần CSS thật (VD: `transform` tạo khối chứa). **Không** viết reset kiểu `* { margin: 0; padding: 0 }` vì CSS ngoài layer sẽ đè utility của Tailwind.
+- **Cache-busting**: Mỗi lần sửa `style.css`/`script.js`, tăng số `?v=N` trong `index.html` để LMS/GitHub Pages không dùng bản cũ.
+- Các ứng dụng cũ viết bằng Vanilla CSS vẫn giữ nguyên cho tới khi được thiết kế lại.
 - **Thẩm mỹ (Rich Aesthetics)**: Giao diện phải hiện đại, sang trọng, màu sắc hài hòa (Dark/Light mode hài hòa, đổ bóng mượt mà, micro-animations, glassmorphism khi phù hợp).
 - **Responsive**: Giao diện co giãn tốt trên nhiều kích thước màn hình (Desktop, Tablet, Mobile).
 - **Trực quan hóa**: Dùng màu sắc đối lập, đường viền rõ nét để biểu diễn các khái niệm như Margin, Border, Padding, Content box, Flex-items, Grid-tracks.
@@ -97,7 +108,7 @@ Mỗi ứng dụng tương tác nên bao gồm 3 phân vùng chính:
 | **Thư mục ứng dụng** | `kebab-case` mô tả đúng nội dung bài | `box-model-visualizer`, `flexbox-playground`, `css-colors-mastery` |
 | **File mã nguồn** | Chữ thường, phân cách bởi dấu gạch ngang | `index.html`, `style.css`, `script.js` |
 | **CSS Class** | `kebab-case` hoặc BEM | `.control-panel`, `.preview-stage__item--active` |
-| **CSS Variables** | `--ten-bien-kebab-case` | `--color-primary`, `--spacing-md`, `--radius-lg` |
+| **Theme token (`@theme`)** | `--ten-bien-kebab-case` theo namespace Tailwind | `--font-sans`, `--color-brand-500` |
 | **Biến/Hàm JS** | `camelCase` | `currentFlexDirection`, `updatePreviewStyle()` |
 
 ---
@@ -114,7 +125,7 @@ Khi triển khai thêm một bài tương tác mới:
    - `README.md` (mô tả riêng cho ứng dụng đó: mục tiêu học tập, danh sách thuộc tính có thể tương tác).
 3. **Phát triển giao diện**:
    - Dựng khung Semantic HTML.
-   - Thiết kế giao diện hiện đại với CSS Variables.
+   - Thiết kế giao diện bằng utility class Tailwind v4, token trong `@theme`.
    - Viết JS liên kết tương tác thời gian thực.
 4. **Kiểm thử**: Mở qua Live Server, kiểm tra độ mượt của tương tác và độ co giãn giao diện.
 5. **Cập nhật Mục lục**: Bổ sung liên kết và mô tả ngắn của ứng dụng vào bảng danh sách bên dưới.
