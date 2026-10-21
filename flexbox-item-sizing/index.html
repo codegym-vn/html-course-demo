@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flex item: flex-grow, flex-shrink, flex-basis</title>
+  <meta name="description" content="Tính và đo kích thước flex item: chia khoảng trống dư theo flex-grow, co theo flex-shrink nhân flex-basis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    @utility card {
+      @apply rounded-lg border border-slate-800 bg-slate-950/60 p-2.5;
+    }
+    @utility card-title {
+      @apply mb-1.5 text-xs font-bold uppercase tracking-wider text-slate-500;
+    }
+    @utility tab {
+      @apply rounded border border-slate-800 bg-slate-900 py-1 font-mono text-[0.8rem] font-bold text-slate-400 cursor-pointer transition-colors hover:border-slate-600 aria-selected:border-sky-400 aria-selected:bg-sky-400/10 aria-selected:text-sky-300;
+    }
+    @utility preset {
+      @apply rounded border border-slate-700 px-2 py-1 text-left text-[0.75rem] font-semibold text-slate-300 cursor-pointer hover:border-sky-400 hover:text-sky-300;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
+  <div class="app w-full max-w-[980px] flex flex-col bg-slate-900 border border-slate-800 rounded-lg overflow-hidden">
+
+    <header class="h-11 shrink-0 flex items-center justify-between px-4 bg-slate-950/70 border-b border-slate-800">
+      <h1 class="text-[0.95rem] font-bold tracking-tight">
+        Co giãn Flex Item
+        <span class="ml-2 text-xs font-medium text-slate-500">flex-grow · flex-shrink · flex-basis</span>
+      </h1>
+      <button type="button" id="btnReset"
+        class="text-xs font-semibold text-slate-400 border border-slate-700 rounded-md px-2.5 py-1 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer">
+        Reset
+      </button>
+    </header>
+
+    <main class="flex-1 min-h-0 grid grid-cols-[290px_1fr] overflow-hidden">
+
+      <!-- Cột trái: điều khiển -->
+      <section class="min-h-0 overflow-y-auto p-3 flex flex-col gap-2 border-r border-slate-800">
+
+        <div class="card">
+          <label class="flex flex-col gap-1" for="rangeWidth">
+            <span class="flex items-center justify-between text-[0.8rem]">
+              <span class="text-slate-300">Chiều rộng container</span>
+              <span id="widthBadge" class="font-mono text-[0.75rem] font-bold text-sky-300 bg-sky-400/10 rounded px-1.5">480px</span>
+            </span>
+            <input type="range" id="rangeWidth" min="220" max="600" step="10" value="480" class="w-full accent-sky-400 cursor-pointer">
+          </label>
+        </div>
+
+        <div class="card flex flex-col gap-2">
+          <p class="card-title mb-0">Chỉnh item</p>
+          <div class="grid grid-cols-3 gap-1" role="tablist" aria-label="Chọn item">
+            <button type="button" role="tab" class="tab" data-item="0" aria-selected="true">A</button>
+            <button type="button" role="tab" class="tab" data-item="1" aria-selected="false">B</button>
+            <button type="button" role="tab" class="tab" data-item="2" aria-selected="false">C</button>
+          </div>
+
+          <label class="flex flex-col gap-1" for="rangeGrow">
+            <span class="flex items-center justify-between text-[0.8rem]">
+              <code class="font-mono text-emerald-400">flex-grow</code>
+              <span id="growBadge" class="font-mono text-[0.75rem] font-bold text-emerald-300 bg-emerald-400/10 rounded px-1.5">0</span>
+            </span>
+            <input type="range" id="rangeGrow" min="0" max="4" step="1" value="0" class="w-full accent-emerald-400 cursor-pointer">
+          </label>
+          <label class="flex flex-col gap-1" for="rangeShrink">
+            <span class="flex items-center justify-between text-[0.8rem]">
+              <code class="font-mono text-rose-400">flex-shrink</code>
+              <span id="shrinkBadge" class="font-mono text-[0.75rem] font-bold text-rose-300 bg-rose-400/10 rounded px-1.5">1</span>
+            </span>
+            <input type="range" id="rangeShrink" min="0" max="4" step="1" value="1" class="w-full accent-rose-400 cursor-pointer">
+          </label>
+          <label class="flex flex-col gap-1" for="rangeBasis">
+            <span class="flex items-center justify-between text-[0.8rem]">
+              <code class="font-mono text-sky-400">flex-basis</code>
+              <span id="basisBadge" class="font-mono text-[0.75rem] font-bold text-sky-300 bg-sky-400/10 rounded px-1.5">100px</span>
+            </span>
+            <input type="range" id="rangeBasis" min="0" max="300" step="10" value="100" class="w-full accent-sky-400 cursor-pointer">
+          </label>
+        </div>
+
+        <div class="card">
+          <p class="card-title">Mẫu thường gặp</p>
+          <div class="flex flex-col gap-1">
+            <button type="button" class="preset" data-preset="equal"><code class="font-mono text-sky-300">flex: 1</code> cho cả 3: chia đều</button>
+            <button type="button" class="preset" data-preset="double">B <code class="font-mono text-sky-300">flex-grow: 2</code>: B nhận gấp đôi phần dư</button>
+            <button type="button" class="preset" data-preset="sidebar">A cố định 160px, B lấp đầy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cột phải -->
+      <section class="min-h-0 p-3 flex flex-col gap-2.5 overflow-hidden bg-slate-950">
+        <div class="flex-1 min-h-0 flex flex-col gap-2.5 rounded-lg border border-slate-800 bg-slate-900 p-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">.container { display: flex; gap: 8px }</span>
+            <span id="freeBadge" class="font-mono text-[0.75rem] font-semibold">-</span>
+          </div>
+
+          <div class="shrink-0">
+            <div id="container" class="flex gap-2 rounded-md border-2 border-dashed border-slate-600 bg-slate-950 p-1.5">
+              <div class="item border-sky-400 bg-sky-500/20 text-sky-100"><b>A</b><span class="w-out"></span></div>
+              <div class="item border-violet-400 bg-violet-500/20 text-violet-100"><b>B</b><span class="w-out"></span></div>
+              <div class="item border-emerald-400 bg-emerald-500/20 text-emerald-100"><b>C</b><span class="w-out"></span></div>
+            </div>
+          </div>
+
+          <!-- Bảng tính -->
+          <div class="flex-1 min-h-0 overflow-auto">
+            <table class="w-full text-[0.78rem]">
+              <thead>
+                <tr class="text-left text-slate-500 border-b border-slate-800">
+                  <th class="py-1 pr-2 font-semibold">Item</th>
+                  <th class="py-1 pr-2 font-semibold">basis</th>
+                  <th class="py-1 pr-2 font-semibold">grow</th>
+                  <th class="py-1 pr-2 font-semibold">shrink</th>
+                  <th class="py-1 pr-2 font-semibold">Phần chia</th>
+                  <th class="py-1 pr-2 font-semibold">Tính toán</th>
+                  <th class="py-1 font-semibold">Đo thực tế</th>
+                </tr>
+              </thead>
+              <tbody id="calcBody" class="font-mono"></tbody>
+            </table>
+            <p id="formula" class="mt-2 text-[0.76rem] leading-snug text-slate-400"></p>
+          </div>
+        </div>
+
+        <div class="shrink-0 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">CSS đang áp dụng</span>
+            <button type="button" id="btnCopy"
+              class="rounded border border-sky-400/60 px-2 py-0.5 text-[0.72rem] font-semibold text-sky-300 hover:bg-sky-400 hover:text-slate-950 transition-colors cursor-pointer">Copy</button>
+          </div>
+          <pre id="codeOutput" class="font-mono text-[0.8rem] leading-snug text-slate-300 overflow-x-auto"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>

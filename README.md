@@ -157,6 +157,7 @@ Khi triển khai thêm một bài tương tác mới:
 | 19 | [flexbox-axes](./flexbox-axes/) | **Flexbox - Trục chính & trục phụ:** `flex-direction` 4 giá trị, mũi tên main/cross axis, `justify-content` và `align-items` đổi hướng theo trục. | Hoàn thành |
 | 20 | [flexbox-container-alignment](./flexbox-container-alignment/) | **Flexbox - Container (Phần 1):** `display`, `flex-direction`, 6 giá trị `justify-content`, 5 giá trị `align-items`, đo khoảng trống trục chính. | Hoàn thành |
 | 21 | [flexbox-wrap-align-content](./flexbox-wrap-align-content/) | **Flexbox - Container (Phần 2):** `flex-wrap` và `align-content`, vẽ và đếm dòng flex, item bị co khi `nowrap`. | Hoàn thành |
+| 22 | [flexbox-item-sizing](./flexbox-item-sizing/) | **Flexbox - Co giãn Item:** `flex-grow`, `flex-shrink`, `flex-basis` từng item, bảng tính công thức chia/co so với số đo thực tế. | Hoàn thành |
 
 ---
 
