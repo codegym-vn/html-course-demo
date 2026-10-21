@@ -365,10 +365,11 @@ body {
 }
 
 /* Demo Button & Input */
+/* Demo Button & Input */
 .btn-demo {
-  background-color: #0284c7;
+  background-color: #0369a1;
   color: #ffffff;
-  border: 2px solid transparent;
+  border: 1px solid #0284c7;
   border-radius: 6px;
   padding: 10px 22px;
   font-family: var(--font-sans);
@@ -376,73 +377,36 @@ body {
   font-weight: 600;
   cursor: pointer;
   align-self: flex-start;
-  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
   position: relative;
 }
 
-/* Tương tác chuột thật */
-.btn-demo:hover {
-  background-color: #0369a1;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
+/* Hover: tương phản cao, nhấc lên rõ rệt, phát sáng */
+.btn-demo:hover,
+.btn-demo.is-hovered {
+  background-color: #38bdf8 !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.45) !important;
+  border-color: #7dd3fc !important;
 }
 
-.btn-demo:focus-visible {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.5);
+/* Focus */
+.btn-demo:focus-visible,
+.btn-demo.is-focused {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.6) !important;
 }
 
-.btn-demo:active {
-  transform: scale(0.95);
-  background-color: #075985;
-}
-
-/* Animation diễn hoạt mô phỏng khi bấm nút bên trái */
-@keyframes animHoverDemo {
-  0% {
-    transform: translateY(0);
-    background-color: #0284c7;
-    box-shadow: none;
-  }
-  30%, 75% {
-    transform: translateY(-2px);
-    background-color: #0369a1;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
-  }
-  100% {
-    transform: translateY(0);
-    background-color: #0284c7;
-    box-shadow: none;
-  }
-}
-
-@keyframes animActiveDemo {
-  0% {
-    transform: scale(1);
-    background-color: #0284c7;
-  }
-  35% {
-    transform: scale(0.93);
-    background-color: #075985;
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4);
-  }
-  70% {
-    transform: scale(0.97);
-  }
-  100% {
-    transform: scale(1);
-    background-color: #0284c7;
-    box-shadow: none;
-  }
-}
-
-.btn-demo.anim-sim-hover {
-  animation: animHoverDemo 1.3s ease;
-}
-
-.btn-demo.anim-sim-active {
-  animation: animActiveDemo 0.45s cubic-bezier(0.2, 0.8, 0.4, 1);
+/* Active: lún xuống rõ rệt */
+.btn-demo:active,
+.btn-demo.is-active {
+  transform: translateY(1px) scale(0.94) !important;
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Demo Input */
@@ -456,17 +420,19 @@ body {
   color: var(--text-main);
   outline: none;
   max-width: 360px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.input-demo:hover {
-  border-color: #64748b;
+.input-demo:hover,
+.input-demo.is-hovered {
+  border-color: #94a3b8;
 }
 
-.input-demo:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
-  background-color: #0d1527;
+.input-demo:focus,
+.input-demo.is-focused {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.35) !important;
+  background-color: #0d1527 !important;
 }
 
 @keyframes animFocusPulse {

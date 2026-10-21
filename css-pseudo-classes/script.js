@@ -25,36 +25,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const stateCodeOutput = document.getElementById('stateCodeOutput');
   const btnCopyState = document.getElementById('btnCopyState');
 
-  let activeAnimTimeout = null;
-
   const stateDetails = {
     normal: {
       badge: 'Bình thường',
       title: 'Trạng thái mặc định',
       desc: 'Phần tử khi chưa có tương tác từ người dùng. Sử dụng định dạng thông thường của class.',
-      code: '.btn-demo { background-color: #0284c7; color: #fff; }'
+      code: '.btn-demo { background-color: #0369a1; color: #fff; }'
     },
     hover: {
       badge: ':hover',
       title: 'Kích hoạt khi rê chuột',
-      desc: 'Áp dụng kiểu dáng khi người dùng di con trỏ chuột lên trên phần tử (đổi màu, đổ bóng, hiệu ứng nhấc nhẹ nút).',
-      code: '.btn-demo:hover { background-color: #0369a1; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(2,132,199,0.45); }'
+      desc: 'Áp dụng kiểu dáng khi người dùng di con trỏ chuột lên trên phần tử (đổi sang màu sáng rực rỡ #38bdf8, chữ đen, nhấc nổi lên và đổ bóng sáng).',
+      code: '.btn-demo:hover { background-color: #38bdf8; color: #0f172a; transform: translateY(-4px); box-shadow: 0 8px 24px rgba(56,189,248,0.45); }'
     },
     focus: {
       badge: ':focus',
       title: 'Kích hoạt khi phần tử được tiêu điểm',
-      desc: 'Áp dụng khi người dùng nhấp chuột vào ô nhập liệu hoặc dùng phím Tab chuyển đến. Rất quan trọng cho trải nghiệm người dùng và tiếp cận (Accessibility).',
-      code: '.input-demo:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.35); }'
+      desc: 'Áp dụng khi người dùng nhấp chuột vào ô nhập liệu hoặc dùng phím Tab chuyển đến. Hiển thị viền sáng và con trỏ chuột nhấp nháy.',
+      code: '.input-demo:focus { border-color: #38bdf8; box-shadow: 0 0 0 4px rgba(56,189,248,0.35); }'
     },
     active: {
       badge: ':active',
       title: 'Kích hoạt trong lúc đang nhấn giữ',
-      desc: 'Áp dụng ngay trong khoảnh khắc người dùng nhấn giữ chuột trái xuống phần tử (tạo cảm giác nút lún xuống khi bấm).',
-      code: '.btn-demo:active { transform: scale(0.95); background-color: #075985; }'
+      desc: 'Áp dụng ngay trong khoảnh khắc người dùng nhấn giữ chuột trái xuống phần tử (tạo hiệu ứng lún xuống scale 0.94 khi bấm).',
+      code: '.btn-demo:active { transform: translateY(1px) scale(0.94); background-color: #0284c7; }'
     }
   };
 
-  function updateStateUI(state) {
+  function applyState(state) {
     stateButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.state === state);
     });
@@ -64,38 +62,20 @@ document.addEventListener('DOMContentLoaded', () => {
     stateTitle.textContent = info.title;
     stateDesc.textContent = info.desc;
     stateCodeOutput.textContent = info.code;
-  }
 
-  function clearBtnAnimations() {
-    if (activeAnimTimeout) {
-      clearTimeout(activeAnimTimeout);
-      activeAnimTimeout = null;
-    }
-    targetBtn.classList.remove('anim-sim-hover', 'anim-sim-active');
-  }
-
-  // Trigger animation mô phỏng khi người dùng bấm các nút bên trái
-  function triggerSimulation(state) {
-    clearBtnAnimations();
-    updateStateUI(state);
+    // Reset classes
+    targetBtn.classList.remove('is-hovered', 'is-active');
+    targetInput.classList.remove('is-hovered', 'is-focused');
 
     if (state === 'hover') {
+      targetBtn.classList.add('is-hovered');
+      targetInput.classList.add('is-hovered');
       targetInput.blur();
-      void targetBtn.offsetWidth; // Trigger reflow
-      targetBtn.classList.add('anim-sim-hover');
-      activeAnimTimeout = setTimeout(() => {
-        targetBtn.classList.remove('anim-sim-hover');
-        updateStateUI('normal');
-      }, 1300);
     } else if (state === 'active') {
+      targetBtn.classList.add('is-active');
       targetInput.blur();
-      void targetBtn.offsetWidth; // Trigger reflow
-      targetBtn.classList.add('anim-sim-active');
-      activeAnimTimeout = setTimeout(() => {
-        targetBtn.classList.remove('anim-sim-active');
-        updateStateUI('normal');
-      }, 450);
     } else if (state === 'focus') {
+      targetInput.classList.add('is-focused');
       targetInput.focus();
     } else if (state === 'normal') {
       targetInput.blur();
@@ -104,39 +84,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   stateButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      triggerSimulation(btn.dataset.state);
+      applyState(btn.dataset.state);
     });
   });
 
-  // Tương tác chuột và bàn phím THẬT trên các phần tử demo
+  // Tương tác chuột THẬT trên nút bấm
   targetBtn.addEventListener('mouseenter', () => {
-    if (!targetBtn.classList.contains('anim-sim-hover') && !targetBtn.classList.contains('anim-sim-active')) {
-      updateStateUI('hover');
-    }
+    applyState('hover');
   });
 
   targetBtn.addEventListener('mouseleave', () => {
-    if (!targetBtn.classList.contains('anim-sim-hover') && !targetBtn.classList.contains('anim-sim-active')) {
-      updateStateUI('normal');
-    }
+    applyState('normal');
   });
 
   targetBtn.addEventListener('mousedown', () => {
-    clearBtnAnimations();
-    updateStateUI('active');
+    applyState('active');
   });
 
   targetBtn.addEventListener('mouseup', () => {
-    updateStateUI('hover');
+    applyState('hover');
   });
 
+  // Tương tác bàn phím / chuột THẬT trên ô input
   targetInput.addEventListener('focus', () => {
-    clearBtnAnimations();
-    updateStateUI('focus');
+    applyState('focus');
   });
 
   targetInput.addEventListener('blur', () => {
-    updateStateUI('normal');
+    applyState('normal');
   });
 
   btnCopyState.addEventListener('click', () => {
@@ -232,6 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Khởi tạo ban đầu
-  updateStateUI('normal');
+  applyState('normal');
   applyNthFormula('odd');
 });
