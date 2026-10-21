@@ -158,6 +158,7 @@ Khi triển khai thêm một bài tương tác mới:
 | 20 | [flexbox-container-alignment](./flexbox-container-alignment/) | **Flexbox - Container (Phần 1):** `display`, `flex-direction`, 6 giá trị `justify-content`, 5 giá trị `align-items`, đo khoảng trống trục chính. | Hoàn thành |
 | 21 | [flexbox-wrap-align-content](./flexbox-wrap-align-content/) | **Flexbox - Container (Phần 2):** `flex-wrap` và `align-content`, vẽ và đếm dòng flex, item bị co khi `nowrap`. | Hoàn thành |
 | 22 | [flexbox-item-sizing](./flexbox-item-sizing/) | **Flexbox - Co giãn Item:** `flex-grow`, `flex-shrink`, `flex-basis` từng item, bảng tính công thức chia/co so với số đo thực tế. | Hoàn thành |
+| 23 | [flexbox-order](./flexbox-order/) | **Flexbox - Thứ tự Item:** `order` từng item, so sánh thứ tự HTML, thứ tự hiển thị và thứ tự phím Tab. | Hoàn thành |
 
 ---
 

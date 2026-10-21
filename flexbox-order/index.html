@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sắp xếp flex item với thuộc tính order</title>
+  <meta name="description" content="Thay đổi order của từng flex item, so sánh thứ tự trong HTML với thứ tự hiển thị và thứ tự phím Tab.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    @utility card {
+      @apply rounded-lg border border-slate-800 bg-slate-950/60 p-2.5;
+    }
+    @utility card-title {
+      @apply mb-1.5 text-xs font-bold uppercase tracking-wider text-slate-500;
+    }
+    @utility step {
+      @apply h-6 w-6 rounded border border-slate-700 font-mono text-[0.85rem] font-bold text-slate-300 cursor-pointer hover:border-sky-400 hover:text-sky-300 disabled:opacity-30 disabled:cursor-not-allowed;
+    }
+    @utility preset {
+      @apply rounded border border-slate-700 px-2 py-1 text-left text-[0.75rem] font-semibold text-slate-300 cursor-pointer hover:border-sky-400 hover:text-sky-300;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
+  <div class="app w-full max-w-[980px] flex flex-col bg-slate-900 border border-slate-800 rounded-lg overflow-hidden">
+
+    <header class="h-11 shrink-0 flex items-center justify-between px-4 bg-slate-950/70 border-b border-slate-800">
+      <h1 class="text-[0.95rem] font-bold tracking-tight">
+        Sắp xếp thứ tự Item
+        <span class="ml-2 text-xs font-medium text-slate-500">order</span>
+      </h1>
+      <button type="button" id="btnReset"
+        class="text-xs font-semibold text-slate-400 border border-slate-700 rounded-md px-2.5 py-1 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer">
+        Reset
+      </button>
+    </header>
+
+    <main class="flex-1 min-h-0 grid grid-cols-[290px_1fr] overflow-hidden">
+
+      <!-- Cột trái: điều khiển -->
+      <section class="min-h-0 overflow-y-auto p-3 flex flex-col gap-2 border-r border-slate-800">
+
+        <div class="card">
+          <p class="card-title flex justify-between"><code class="font-mono normal-case text-sky-400">order</code><span class="normal-case tracking-normal text-slate-500">mặc định 0</span></p>
+          <ul id="orderList" class="flex flex-col gap-1"></ul>
+        </div>
+
+        <div class="card">
+          <p class="card-title">Mẫu thường gặp</p>
+          <div class="flex flex-col gap-1">
+            <button type="button" class="preset" data-preset="first">Đưa C lên đầu: <code class="font-mono text-sky-300">order: -1</code></button>
+            <button type="button" class="preset" data-preset="last">Đẩy A xuống cuối: <code class="font-mono text-sky-300">order: 1</code></button>
+            <button type="button" class="preset" data-preset="reverse">Đảo ngược: order 4, 3, 2, 1, 0</button>
+          </div>
+        </div>
+
+        <div class="card text-[0.76rem] leading-snug text-slate-400 flex flex-col gap-1">
+          <p><b class="text-slate-200">Quy tắc:</b> item xếp theo <code class="font-mono text-sky-400">order</code> tăng dần. Cùng giá trị thì giữ thứ tự trong HTML.</p>
+          <p><b class="text-amber-300">Lưu ý:</b> <code class="font-mono text-sky-400">order</code> chỉ đổi thứ tự hiển thị. Phím Tab và trình đọc màn hình vẫn đi theo thứ tự HTML.</p>
+        </div>
+      </section>
+
+      <!-- Cột phải -->
+      <section class="min-h-0 p-3 flex flex-col gap-2.5 overflow-hidden bg-slate-950">
+        <div class="flex-1 min-h-0 flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-900 p-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">.container { display: flex; gap: 8px }</span>
+            <span class="text-[0.72rem] text-slate-500">Bấm vào khung rồi nhấn Tab để thử</span>
+          </div>
+
+          <div id="container" class="flex gap-2 rounded-md border-2 border-dashed border-slate-600 bg-slate-950 p-2"></div>
+
+          <!-- So sánh thứ tự -->
+          <div class="flex flex-col gap-2 text-[0.8rem]">
+            <div class="flex items-center gap-2">
+              <span class="w-36 shrink-0 text-slate-500">Thứ tự trong HTML</span>
+              <div id="domRow" class="flex gap-1.5"></div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-36 shrink-0 text-slate-500">Thứ tự hiển thị</span>
+              <div id="visualRow" class="flex gap-1.5"></div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-36 shrink-0 text-slate-500">Đang focus (Tab)</span>
+              <span id="focusInfo" class="text-slate-400">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shrink-0 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">CSS đang áp dụng</span>
+            <button type="button" id="btnCopy"
+              class="rounded border border-sky-400/60 px-2 py-0.5 text-[0.72rem] font-semibold text-sky-300 hover:bg-sky-400 hover:text-slate-950 transition-colors cursor-pointer">Copy</button>
+          </div>
+          <pre id="codeOutput" class="min-h-[2.6rem] font-mono text-[0.8rem] leading-snug text-slate-300 overflow-x-auto"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>
