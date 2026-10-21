@@ -1,0 +1,409 @@
+/* ==========================================================================
+   BỘ CHỌN CSS CƠ BẢN - STYLE SHEET (LMS 600PX)
+   ========================================================================== */
+
+:root {
+  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --bg-app: #0b0f19;
+  --bg-card: #131b2e;
+  --bg-input: #0e1526;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #a855f7;
+  --color-gold: #eab308;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
+  overflow: hidden;
+  font-family: var(--font-main);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 920px;
+  height: 100%;
+  max-height: 588px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Header */
+.app-header {
+  height: 42px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.btn-reset {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-reset:hover {
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Main Layout */
+.app-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 12px;
+  padding: 10px 14px;
+  overflow: hidden;
+}
+
+/* Cột trái: Controls */
+.col-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.input-action-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-input {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  padding: 4px 6px;
+  outline: none;
+}
+
+.form-input.mono {
+  font-family: var(--font-mono);
+  color: #60a5fa;
+  font-weight: 700;
+}
+
+.match-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.field-hint {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.btn-sel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-sel:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-main);
+}
+
+.btn-sel.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--accent-blue);
+  color: #93c5fd;
+}
+
+/* Specificity Card */
+.specificity-card {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.spec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.spec-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.spec-total {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.spec-bars {
+  display: flex;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.spec-metric {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+}
+
+.spec-metric .spec-label {
+  color: var(--text-dim);
+}
+
+.spec-metric .spec-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.spec-desc {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  line-height: 1.3;
+}
+
+/* Cột phải: Preview */
+.col-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-stage {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 330px;
+}
+
+.stage-header {
+  height: 32px;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.stage-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.page-canvas {
+  flex: 1;
+  padding: 10px;
+  background: #f8fafc;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Các thẻ con trong canvas */
+.mock-elem {
+  transition: all 0.2s ease;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  position: relative;
+}
+
+.card h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.card p {
+  font-size: 0.75rem;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.card p.highlight {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #047857;
+  background: #d1fae5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.card button {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Trạng thái khi phần tử khớp bộ chọn: Phát sáng viền xanh */
+.mock-elem.is-matched {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  position: relative;
+  z-index: 2;
+}
+
+/* Phần tử không khớp: làm mờ nhẹ */
+.page-canvas.has-selection .mock-elem:not(.is-matched):not(:has(.is-matched)) {
+  opacity: 0.45;
+}
+
+/* Code box */
+.code-box {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.code-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.code-box code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #38bdf8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-copy {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-copy:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}

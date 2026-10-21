@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thuộc Tính Kiểu Chữ CSS (Typography Basics)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Thuộc Tính Kiểu Chữ CSS: Font • Màu Sắc • Căn Lề</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển Typography -->
+      <section class="col-controls">
+        <!-- Font family & Color -->
+        <div class="control-card">
+          <div class="field-grid">
+            <div class="field-item">
+              <label for="selectFontFamily" class="card-label"><code>font-family</code>:</label>
+              <select id="selectFontFamily" class="form-select">
+                <option value="'Plus Jakarta Sans', sans-serif">Sans-serif (Hiện đại)</option>
+                <option value="'Playfair Display', serif">Serif (Có chân)</option>
+                <option value="'JetBrains Mono', monospace">Monospace (Đơn cách)</option>
+              </select>
+            </div>
+            <div class="field-item">
+              <label for="inputColor" class="card-label"><code>color</code>:</label>
+              <div class="color-input-wrap">
+                <input type="color" id="inputColor" value="#0f172a">
+                <span class="color-hex-text" id="colorHexText">#0F172A</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Căn lề text-align -->
+        <div class="control-card">
+          <span class="card-label"><code>text-align</code> (Căn lề văn bản):</span>
+          <div class="segmented-control" id="alignGroup">
+            <button type="button" class="btn-segment active" data-align="left">left</button>
+            <button type="button" class="btn-segment" data-align="center">center</button>
+            <button type="button" class="btn-segment" data-align="right">right</button>
+            <button type="button" class="btn-segment" data-align="justify">justify</button>
+          </div>
+        </div>
+
+        <!-- Font size slider -->
+        <div class="control-card">
+          <div class="card-row">
+            <span class="card-label"><code>font-size</code> (Cỡ chữ):</span>
+            <span class="val-badge" id="fontSizeVal">16px</span>
+          </div>
+          <input type="range" id="rangeFontSize" min="12" max="24" value="16" class="slider">
+        </div>
+
+        <!-- Line height slider -->
+        <div class="control-card">
+          <div class="card-row">
+            <span class="card-label"><code>line-height</code> (Khoảng cách dòng):</span>
+            <span class="val-badge" id="lineHeightVal">1.6</span>
+          </div>
+          <input type="range" id="rangeLineHeight" min="1.0" max="2.4" step="0.1" value="1.6" class="slider">
+        </div>
+
+        <!-- Font weight -->
+        <div class="control-card">
+          <div class="card-row">
+            <span class="card-label"><code>font-weight</code> (Độ đậm chữ):</span>
+            <span class="val-badge" id="fontWeightVal">400 (Regular)</span>
+          </div>
+          <div class="weight-buttons" id="weightGroup">
+            <button type="button" class="btn-weight active" data-weight="400">400</button>
+            <button type="button" class="btn-weight" data-weight="600">600</button>
+            <button type="button" class="btn-weight" data-weight="700">700</button>
+            <button type="button" class="btn-weight" data-weight="800">800</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cột phải: Preview đoạn văn bản & Code -->
+      <section class="col-preview">
+        <div class="preview-stage">
+          <div class="stage-header">
+            <span class="stage-title">Xem trước văn bản render thực tế</span>
+          </div>
+
+          <div class="viewport-canvas">
+            <div class="article-box">
+              <h2 class="article-h2">Nghệ thuật Typography trong thiết kế Web</h2>
+              <p class="target-text" id="targetText">
+                Typography không chỉ là việc chọn một phông chữ đẹp mắt. Đó là sự cân bằng tinh tế giữa cỡ chữ (font-size), độ giãn dòng (line-height) và độ tương phản màu sắc giúp người đọc tiếp thu thông tin tự nhiên, không mỏi mắt.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS Code -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Đoạn mã CSS áp dụng:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="typoCodeOutput">p { font-size: 16px; line-height: 1.6; text-align: left; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

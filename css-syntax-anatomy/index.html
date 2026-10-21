@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giải Phẫu Cú Pháp CSS (CSS Syntax Anatomy)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Giải Phẫu Cú Pháp CSS: selector { property: value; }</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Phân rã cấu trúc & Mô phỏng lỗi -->
+      <section class="col-controls">
+        <div class="section-label">Thành phần của một quy tắc CSS:</div>
+
+        <!-- Khung giải phẫu trực quan -->
+        <div class="anatomy-card">
+          <!-- Dòng Selector -->
+          <div class="anatomy-row">
+            <span class="part-badge badge-sel">Selector</span>
+            <code class="code-token" id="tokenSel">.btn</code>
+            <span class="token-punct">{</span>
+          </div>
+
+          <!-- Dòng Khai báo 1 -->
+          <div class="anatomy-row indent">
+            <span class="part-badge badge-prop">Property</span>
+            <code class="code-token" id="tokenProp1">color</code>
+            <span class="token-punct">:</span>
+            <span class="part-badge badge-val">Value</span>
+            <code class="code-token" id="tokenVal1">#ffffff</code>
+            <span class="token-punct" id="tokenSemi1">;</span>
+          </div>
+
+          <!-- Dòng Khai báo 2 -->
+          <div class="anatomy-row indent">
+            <span class="part-badge badge-prop">Property</span>
+            <code class="code-token" id="tokenProp2">background-color</code>
+            <span class="token-punct">:</span>
+            <span class="part-badge badge-val">Value</span>
+            <code class="code-token" id="tokenVal2">#2563eb</code>
+            <span class="token-punct">;</span>
+          </div>
+
+          <!-- Đóng ngoặc -->
+          <div class="anatomy-row">
+            <span class="token-punct">}</span>
+          </div>
+        </div>
+
+        <!-- Thử nghiệm các tình huống cú pháp -->
+        <div class="scenario-card">
+          <span class="card-label">Mô phỏng tình huống cú pháp:</span>
+          <div class="scenario-buttons">
+            <button type="button" class="btn-scenario active" data-scenario="correct">Chuẩn cú pháp</button>
+            <button type="button" class="btn-scenario" data-scenario="missing-semi">Lỗi: Quên dấu chấm phẩy (;)</button>
+            <button type="button" class="btn-scenario" data-scenario="typo-prop">Lỗi: Sai tên thuộc tính</button>
+          </div>
+        </div>
+
+        <!-- Hộp thông báo phân tích cú pháp -->
+        <div class="syntax-analysis-box" id="analysisBox">
+          <span class="analysis-status status-ok" id="analysisStatus">Cú pháp hoàn toàn hợp lệ</span>
+          <p class="analysis-text" id="analysisText">
+            Trình duyệt đọc hiểu trọn vẹn Selector và khối Declaration Block, áp dụng cả 2 thuộc tính color và background-color.
+          </p>
+        </div>
+      </section>
+
+      <!-- Cột phải: Preview và Giải thích -->
+      <section class="col-preview">
+        <div class="preview-stage">
+          <div class="stage-header">
+            <span class="stage-title">Xem trước kết quả render phần tử .btn</span>
+          </div>
+
+          <div class="viewport-canvas">
+            <div class="canvas-item">
+              <span class="item-label">Nút bấm áp dụng CSS:</span>
+              <button type="button" class="demo-button" id="demoBtn">Nút Bấm Thử Nghiệm</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code CSS thực tế -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Đoạn mã CSS tương ứng:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="syntaxCodeOutput">.btn { color: #ffffff; background-color: #2563eb; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

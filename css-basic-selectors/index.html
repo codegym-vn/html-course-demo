@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bộ Chọn CSS Cơ Bản (CSS Selectors)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Bộ Chọn CSS: Element • Class • ID</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Điều khiển bộ chọn -->
+      <section class="col-controls">
+        <!-- Nhập hoặc chọn bộ chọn -->
+        <div class="control-card">
+          <label for="customSelectorInput" class="card-label">Bộ chọn đang thử nghiệm:</label>
+          <div class="input-action-row">
+            <input type="text" id="customSelectorInput" class="form-input mono" value=".card">
+            <span class="match-badge" id="matchBadge">Khớp: 3</span>
+          </div>
+          <span class="field-hint">Gõ selector trực tiếp hoặc bấm vào các nút mẫu bên dưới:</span>
+        </div>
+
+        <!-- Các bộ chọn mẫu phân loại -->
+        <div class="control-card">
+          <span class="card-label">Bộ chọn theo Thẻ (Element Selector - Điểm: 1):</span>
+          <div class="preset-buttons">
+            <button type="button" class="btn-sel" data-sel="p">p</button>
+            <button type="button" class="btn-sel" data-sel="h3">h3</button>
+            <button type="button" class="btn-sel" data-sel="button">button</button>
+          </div>
+
+          <span class="card-label" style="margin-top: 6px;">Bộ chọn theo Class (Dấu chấm . - Điểm: 10):</span>
+          <div class="preset-buttons">
+            <button type="button" class="btn-sel active" data-sel=".card">.card</button>
+            <button type="button" class="btn-sel" data-sel=".highlight">.highlight</button>
+            <button type="button" class="btn-sel" data-sel=".badge">.badge</button>
+          </div>
+
+          <span class="card-label" style="margin-top: 6px;">Bộ chọn theo ID (Dấu thăng # - Điểm: 100):</span>
+          <div class="preset-buttons">
+            <button type="button" class="btn-sel" data-sel="#featured">#featured</button>
+            <button type="button" class="btn-sel" data-sel="#btnSubmit">#btnSubmit</button>
+          </div>
+
+          <span class="card-label" style="margin-top: 6px;">Bộ chọn kết hợp (Thẻ + Class):</span>
+          <div class="preset-buttons">
+            <button type="button" class="btn-sel" data-sel="p.highlight">p.highlight</button>
+            <button type="button" class="btn-sel" data-sel="div.card">div.card</button>
+          </div>
+        </div>
+
+        <!-- Thang điểm ưu tiên (Specificity) -->
+        <div class="control-card specificity-card">
+          <div class="spec-header">
+            <span class="spec-title">Điểm ưu tiên (Specificity):</span>
+            <span class="spec-total" id="specTotal">Score: 0, 1, 0 (10)</span>
+          </div>
+          <div class="spec-bars">
+            <div class="spec-metric">
+              <span class="spec-label">ID (#):</span>
+              <span class="spec-val" id="specIdVal">0</span>
+            </div>
+            <div class="spec-metric">
+              <span class="spec-label">Class (.):</span>
+              <span class="spec-val" id="specClassVal">1</span>
+            </div>
+            <div class="spec-metric">
+              <span class="spec-label">Element:</span>
+              <span class="spec-val" id="specElemVal">0</span>
+            </div>
+          </div>
+          <p class="spec-desc" id="specDesc">Class áp dụng được cho nhiều phần tử có cùng class name.</p>
+        </div>
+      </section>
+
+      <!-- Cột phải: Vùng web mẫu mô phỏng -->
+      <section class="col-preview">
+        <div class="preview-stage">
+          <div class="stage-header">
+            <span class="stage-title">Trang web mẫu (Phần tử khớp sẽ phát sáng viền xanh)</span>
+          </div>
+
+          <!-- Các phần tử HTML trên trang web mẫu -->
+          <div class="page-canvas" id="pageCanvas">
+            <!-- Thẻ 1: Card thường -->
+            <div class="card mock-elem" data-elem-tag="div.card">
+              <h3 class="mock-elem" data-elem-tag="h3">Khóa học HTML cơ bản</h3>
+              <p class="mock-elem" data-elem-tag="p">Làm quen với các thẻ cơ bản và cấu trúc trang web.</p>
+              <span class="badge mock-elem" data-elem-tag="span.badge">Cơ bản</span>
+            </div>
+
+            <!-- Thẻ 2: Card đặc biệt có ID #featured -->
+            <div class="card mock-elem" id="featured" data-elem-tag="div.card#featured">
+              <h3 class="mock-elem" data-elem-tag="h3">Khóa học CSS nâng cao</h3>
+              <p class="highlight mock-elem" data-elem-tag="p.highlight">Nắm vững Flexbox, Grid và xây dựng giao diện responsive.</p>
+              <button type="button" class="mock-elem" id="btnSubmit" data-elem-tag="button#btnSubmit">Đăng ký ngay</button>
+            </div>
+
+            <!-- Thẻ 3: Đoạn văn độc lập -->
+            <div class="card mock-elem" data-elem-tag="div.card">
+              <h3 class="mock-elem" data-elem-tag="h3">Tài liệu tham khảo</h3>
+              <p class="mock-elem" data-elem-tag="p">Thực hành thường xuyên là cách tốt nhất để ghi nhớ bộ chọn.</p>
+              <button type="button" class="mock-elem" data-elem-tag="button">Xem thêm</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code CSS sinh ra -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Quy tắc CSS sinh ra:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="cssCodeOutput">.card { outline: 2px solid #3b82f6; }</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

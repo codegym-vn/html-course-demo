@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ba Cách Viết CSS (Inline, Internal, External)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Ba Cách Nhúng CSS: Inline • Internal • External</h1>
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-body">
+      <!-- Cột trái: Bật tắt 3 nguồn CSS -->
+      <section class="col-controls">
+        <div class="section-label">Bật/tắt các nguồn CSS để xem quy tắc nào chiến thắng:</div>
+
+        <!-- 1. Inline Style -->
+        <div class="method-card" id="cardInline">
+          <div class="card-head">
+            <label class="switch-label">
+              <input type="checkbox" id="checkInline" checked>
+              <span class="method-name">1. Inline CSS (style="...")</span>
+            </label>
+            <span class="prio-badge prio-high">Ưu tiên cao nhất</span>
+          </div>
+          <div class="card-body">
+            <code>&lt;p style="color: <span class="val">#ef4444</span>; font-weight: bold;"&gt;</code>
+          </div>
+        </div>
+
+        <!-- 2. Internal Style -->
+        <div class="method-card" id="cardInternal">
+          <div class="card-head">
+            <label class="switch-label">
+              <input type="checkbox" id="checkInternal" checked>
+              <span class="method-name">2. Internal CSS (&lt;style&gt; trong &lt;head&gt;)</span>
+            </label>
+            <span class="prio-badge prio-mid">Ưu tiên trung bình</span>
+          </div>
+          <div class="card-body">
+            <code>&lt;style&gt; p { color: <span class="val">#22c55e</span>; text-decoration: underline; } &lt;/style&gt;</code>
+          </div>
+        </div>
+
+        <!-- 3. External Style -->
+        <div class="method-card" id="cardExternal">
+          <div class="card-head">
+            <label class="switch-label">
+              <input type="checkbox" id="checkExternal" checked>
+              <span class="method-name">3. External CSS (File style.css ngoài)</span>
+            </label>
+            <span class="prio-badge prio-low">Ưu tiên cơ bản</span>
+          </div>
+          <div class="card-body">
+            <code>/* style.css */<br>p { color: <span class="val">#3b82f6</span>; font-style: italic; }</code>
+          </div>
+        </div>
+
+        <!-- Hộp giải thích quy tắc Cascade -->
+        <div class="cascade-note">
+          <strong>Nguyên lý Cascade (Xếp tầng):</strong> Trình duyệt sẽ ưu tiên <em>Inline Style</em> đè lên <em>Internal</em> và <em>External</em>. Khi 2 quy tắc có cùng độ ưu tiên, quy tắc nào được khai báo sau sẽ giành chiến thắng.
+        </div>
+      </section>
+
+      <!-- Cột phải: Xem trước kết quả render -->
+      <section class="col-preview">
+        <!-- Banner kết quả -->
+        <div class="winning-banner" id="winningBanner">
+          <span class="banner-tag">Màu chiến thắng:</span>
+          <span class="banner-winner" id="bannerWinner">Inline CSS (#ef4444 - Đỏ)</span>
+        </div>
+
+        <!-- Khung xem trước trang web -->
+        <div class="browser-viewport">
+          <div class="demo-box">
+            <h2 class="demo-h2">Trang web thử nghiệm độ ưu tiên CSS</h2>
+            <div class="target-paragraph-box">
+              <p id="targetParagraph">
+                Dòng chữ này đang chịu tác động của các nguồn CSS được bật ở cột trái.
+              </p>
+            </div>
+            <div class="applied-rules-summary">
+              <span class="summary-label">Các thuộc tính thực tế đang áp dụng:</span>
+              <ul class="rule-list" id="ruleList">
+                <!-- JS render -->
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mã HTML tổng hợp -->
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-label">Cấu trúc file HTML hiện tại:</span>
+            <button type="button" class="btn-copy" id="btnCopy">Copy</button>
+          </div>
+          <code id="compositeCodeOutput">&lt;p style="..."&gt;...&lt;/p&gt;</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
