@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const stateCodeOutput = document.getElementById('stateCodeOutput');
   const btnCopyState = document.getElementById('btnCopyState');
 
+  let activeAnimTimeout = null;
+
   const stateDetails = {
     normal: {
       badge: 'Bình thường',
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       badge: ':hover',
       title: 'Kích hoạt khi rê chuột',
       desc: 'Áp dụng kiểu dáng khi người dùng di con trỏ chuột lên trên phần tử (đổi màu, đổ bóng, hiệu ứng nhấc nhẹ nút).',
-      code: '.btn-demo:hover { background-color: #0369a1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(2,132,199,0.4); }'
+      code: '.btn-demo:hover { background-color: #0369a1; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(2,132,199,0.45); }'
     },
     focus: {
       badge: ':focus',
@@ -48,28 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
       badge: ':active',
       title: 'Kích hoạt trong lúc đang nhấn giữ',
       desc: 'Áp dụng ngay trong khoảnh khắc người dùng nhấn giữ chuột trái xuống phần tử (tạo cảm giác nút lún xuống khi bấm).',
-      code: '.btn-demo:active { transform: scale(0.96); background-color: #075985; }'
+      code: '.btn-demo:active { transform: scale(0.95); background-color: #075985; }'
     }
   };
 
-  function setSimState(state) {
+  function updateStateUI(state) {
     stateButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.state === state);
     });
-
-    // Clear simulation classes
-    targetBtn.classList.remove('sim-hover', 'sim-focus', 'sim-active');
-    targetInput.classList.remove('sim-hover', 'sim-focus', 'sim-active');
-
-    if (state === 'hover') {
-      targetBtn.classList.add('sim-hover');
-      targetInput.classList.add('sim-hover');
-    } else if (state === 'focus') {
-      targetBtn.classList.add('sim-focus');
-      targetInput.classList.add('sim-focus');
-    } else if (state === 'active') {
-      targetBtn.classList.add('sim-active');
-    }
 
     const info = stateDetails[state];
     stateBadge.textContent = info.badge;
@@ -78,10 +66,77 @@ document.addEventListener('DOMContentLoaded', () => {
     stateCodeOutput.textContent = info.code;
   }
 
+  function clearBtnAnimations() {
+    if (activeAnimTimeout) {
+      clearTimeout(activeAnimTimeout);
+      activeAnimTimeout = null;
+    }
+    targetBtn.classList.remove('anim-sim-hover', 'anim-sim-active');
+  }
+
+  // Trigger animation mô phỏng khi người dùng bấm các nút bên trái
+  function triggerSimulation(state) {
+    clearBtnAnimations();
+    updateStateUI(state);
+
+    if (state === 'hover') {
+      targetInput.blur();
+      void targetBtn.offsetWidth; // Trigger reflow
+      targetBtn.classList.add('anim-sim-hover');
+      activeAnimTimeout = setTimeout(() => {
+        targetBtn.classList.remove('anim-sim-hover');
+        updateStateUI('normal');
+      }, 1300);
+    } else if (state === 'active') {
+      targetInput.blur();
+      void targetBtn.offsetWidth; // Trigger reflow
+      targetBtn.classList.add('anim-sim-active');
+      activeAnimTimeout = setTimeout(() => {
+        targetBtn.classList.remove('anim-sim-active');
+        updateStateUI('normal');
+      }, 450);
+    } else if (state === 'focus') {
+      targetInput.focus();
+    } else if (state === 'normal') {
+      targetInput.blur();
+    }
+  }
+
   stateButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      setSimState(btn.dataset.state);
+      triggerSimulation(btn.dataset.state);
     });
+  });
+
+  // Tương tác chuột và bàn phím THẬT trên các phần tử demo
+  targetBtn.addEventListener('mouseenter', () => {
+    if (!targetBtn.classList.contains('anim-sim-hover') && !targetBtn.classList.contains('anim-sim-active')) {
+      updateStateUI('hover');
+    }
+  });
+
+  targetBtn.addEventListener('mouseleave', () => {
+    if (!targetBtn.classList.contains('anim-sim-hover') && !targetBtn.classList.contains('anim-sim-active')) {
+      updateStateUI('normal');
+    }
+  });
+
+  targetBtn.addEventListener('mousedown', () => {
+    clearBtnAnimations();
+    updateStateUI('active');
+  });
+
+  targetBtn.addEventListener('mouseup', () => {
+    updateStateUI('hover');
+  });
+
+  targetInput.addEventListener('focus', () => {
+    clearBtnAnimations();
+    updateStateUI('focus');
+  });
+
+  targetInput.addEventListener('blur', () => {
+    updateStateUI('normal');
   });
 
   btnCopyState.addEventListener('click', () => {
@@ -176,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Khởi tạo
-  setSimState('normal');
+  // Khởi tạo ban đầu
+  updateStateUI('normal');
   applyNthFormula('odd');
 });

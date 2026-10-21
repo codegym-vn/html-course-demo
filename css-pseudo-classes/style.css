@@ -364,38 +364,88 @@ body {
   color: var(--text-muted);
 }
 
+/* Demo Button & Input */
 .btn-demo {
   background-color: #0284c7;
   color: #ffffff;
   border: 2px solid transparent;
   border-radius: 6px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   font-family: var(--font-sans);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   align-self: flex-start;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   outline: none;
+  position: relative;
 }
 
-/* Hover, Focus, Active thật */
-.btn-demo:hover, .btn-demo.sim-hover {
+/* Tương tác chuột thật */
+.btn-demo:hover {
   background-color: #0369a1;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
 }
 
-.btn-demo:focus, .btn-demo.sim-focus {
+.btn-demo:focus-visible {
   border-color: #ffffff;
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.5);
 }
 
-.btn-demo:active, .btn-demo.sim-active {
-  transform: scale(0.96);
+.btn-demo:active {
+  transform: scale(0.95);
   background-color: #075985;
 }
 
+/* Animation diễn hoạt mô phỏng khi bấm nút bên trái */
+@keyframes animHoverDemo {
+  0% {
+    transform: translateY(0);
+    background-color: #0284c7;
+    box-shadow: none;
+  }
+  30%, 75% {
+    transform: translateY(-2px);
+    background-color: #0369a1;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
+  }
+  100% {
+    transform: translateY(0);
+    background-color: #0284c7;
+    box-shadow: none;
+  }
+}
+
+@keyframes animActiveDemo {
+  0% {
+    transform: scale(1);
+    background-color: #0284c7;
+  }
+  35% {
+    transform: scale(0.93);
+    background-color: #075985;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4);
+  }
+  70% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+    background-color: #0284c7;
+    box-shadow: none;
+  }
+}
+
+.btn-demo.anim-sim-hover {
+  animation: animHoverDemo 1.3s ease;
+}
+
+.btn-demo.anim-sim-active {
+  animation: animActiveDemo 0.45s cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+/* Demo Input */
 .input-demo {
   background-color: var(--bg-primary);
   border: 2px solid var(--border-color);
@@ -406,17 +456,30 @@ body {
   color: var(--text-main);
   outline: none;
   max-width: 360px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.input-demo:hover, .input-demo.sim-hover {
+.input-demo:hover {
   border-color: #64748b;
 }
 
-.input-demo:focus, .input-demo.sim-focus {
+.input-demo:focus {
   border-color: var(--accent-color);
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
   background-color: #0d1527;
+}
+
+@keyframes animFocusPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.6);
+  }
+}
+
+.input-demo:focus {
+  animation: animFocusPulse 1.2s ease infinite;
 }
 
 /* Panel 2 Nth Grid */
