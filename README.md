@@ -159,6 +159,7 @@ Khi triển khai thêm một bài tương tác mới:
 | 21 | [flexbox-wrap-align-content](./flexbox-wrap-align-content/) | **Flexbox - Container (Phần 2):** `flex-wrap` và `align-content`, vẽ và đếm dòng flex, item bị co khi `nowrap`. | Hoàn thành |
 | 22 | [flexbox-item-sizing](./flexbox-item-sizing/) | **Flexbox - Co giãn Item:** `flex-grow`, `flex-shrink`, `flex-basis` từng item, bảng tính công thức chia/co so với số đo thực tế. | Hoàn thành |
 | 23 | [flexbox-order](./flexbox-order/) | **Flexbox - Thứ tự Item:** `order` từng item, so sánh thứ tự HTML, thứ tự hiển thị và thứ tự phím Tab. | Hoàn thành |
+| 24 | [html-online-editor](./html-online-editor/) | **Trình soạn thảo HTML trực tuyến:** Editor nền trắng có tô màu cú pháp, preview trong iframe sandbox, auto-run 500ms, kéo chia panel. Thẻ ví dụ kiểu W3Schools để nhúng LMS, nút "Thử ngay" mở editor. 40 bài, mỗi thẻ HTML 1 bài, chọn bằng `?ex=<tên-thẻ>`. | Hoàn thành |
 
 ---
 

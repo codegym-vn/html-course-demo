@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trình soạn thảo HTML trực tuyến</title>
+  <meta name="description" content="Viết mã HTML, CSS, JavaScript có tô màu cú pháp và xem kết quả ngay trong iframe sandbox. Tự động chạy, kéo chia panel, phím tắt Tab và Ctrl+Enter.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      --color-primary: #04AA6D;
+      --color-editor: #ffffff;
+      --color-editor-text: #1f1f1f;
+      --color-chrome: #2d2d2d;
+      --color-bar: #f3f4f6;
+      --color-bar-line: #e5e7eb;
+      /* Trạng thái trên nền sáng: đậm hơn bản gốc để đạt WCAG AA */
+      --color-status-ready: #6b7280;
+      --color-status-busy: #b45309;
+      --color-status-ok: #047857;
+    }
+    @utility panel-bar {
+      @apply h-9 shrink-0 flex items-center justify-between gap-2 px-3 bg-bar border-b border-bar-line text-xs text-slate-700;
+    }
+    @utility btn {
+      @apply rounded-md px-3 py-1 text-xs font-semibold cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
+  <div class="app w-full max-w-[980px] flex flex-col bg-editor border border-slate-800 rounded-lg overflow-hidden">
+
+    <!-- Header: tiêu đề + Reset + Run -->
+    <header class="h-11 shrink-0 flex items-center justify-between gap-3 px-4 bg-chrome border-b border-black/50">
+      <h1 class="min-w-0 flex items-baseline gap-2 text-[0.95rem] font-bold tracking-tight">
+        <span id="lessonTitle" class="truncate">Trình soạn thảo HTML</span>
+        <code id="lessonTags" class="truncate font-mono text-xs font-medium text-emerald-300 max-sm:hidden"></code>
+      </h1>
+      <p id="lessonNotice" role="alert" hidden class="truncate text-xs text-amber-300"></p>
+      <div class="flex items-center gap-2 shrink-0">
+        <button type="button" id="btnExitFull" hidden title="Thoát toàn màn hình (Esc)"
+          class="btn border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white">Thoát</button>
+        <button type="button" id="btnReset"
+          class="btn border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white">Reset</button>
+        <button type="button" id="btnRun" title="Chạy (Ctrl+Enter)"
+          class="btn bg-primary text-[#04150e] hover:bg-[#05c27d] active:translate-y-px">
+          Run <kbd class="ml-1 font-mono text-[0.68rem] font-medium opacity-70 max-sm:hidden">Ctrl+Enter</kbd>
+        </button>
+      </div>
+    </header>
+
+    <!-- Container: editor | divider | preview -->
+    <main id="container" class="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
+
+      <!-- Editor panel -->
+      <section id="editorPanel" class="editor-panel min-w-0 min-h-0 flex flex-col" aria-label="Soạn thảo mã">
+        <div class="panel-bar">
+          <span class="font-mono font-medium">index.html</span>
+          <label for="autoRun" class="flex items-center gap-1.5 cursor-pointer select-none">
+            <input type="checkbox" id="autoRun" checked class="accent-primary w-3.5 h-3.5 cursor-pointer">
+            Auto-run
+          </label>
+        </div>
+
+        <!-- Tô màu cú pháp: lớp <pre> hiển thị màu nằm dưới, textarea trong suốt nằm trên nhận thao tác gõ -->
+        <div class="relative flex-1 min-h-0 bg-editor">
+          <pre id="highlightLayer" class="code-layer code-highlight" aria-hidden="true"><code id="highlightCode"></code></pre>
+          <textarea id="codeEditor" class="code-layer code-input"
+            spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" wrap="off"
+            aria-label="Mã HTML" aria-describedby="editorHint"></textarea>
+        </div>
+
+        <p id="editorHint" class="shrink-0 px-3 py-1 bg-bar border-t border-bar-line text-[0.7rem] text-slate-600 truncate">
+          <kbd class="font-mono">Tab</kbd> chèn 4 khoảng trắng &middot;
+          <kbd class="font-mono">Esc</kbd> rồi <kbd class="font-mono">Tab</kbd> để rời editor &middot;
+          <kbd class="font-mono">Ctrl+Enter</kbd> chạy
+        </p>
+      </section>
+
+      <!-- Divider kéo được (chuột, cảm ứng, phím mũi tên) -->
+      <div id="divider" role="separator" tabindex="0"
+        aria-label="Kéo để đổi kích thước editor và preview"
+        aria-valuemin="20" aria-valuemax="80" aria-valuenow="50"
+        data-dragging="false"
+        class="divider shrink-0 bg-bar-line hover:bg-primary data-[dragging=true]:bg-primary focus-visible:bg-primary outline-none transition-colors h-1.5 w-full cursor-row-resize md:h-full md:w-1.5 md:cursor-col-resize"></div>
+
+      <!-- Preview panel -->
+      <section id="previewPanel" class="flex-1 min-w-0 min-h-0 flex flex-col" aria-label="Xem trước kết quả">
+        <div class="panel-bar">
+          <span class="font-semibold">Preview</span>
+          <span class="flex items-center gap-2">
+            <span id="renderTime" class="font-mono text-[0.68rem] text-slate-500"></span>
+            <span id="status" role="status" aria-live="polite" data-state="ready"
+              class="flex items-center gap-1.5 font-semibold text-status-ready data-[state=typing]:text-status-busy data-[state=success]:text-status-ok">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span id="statusText">Ready</span>
+            </span>
+          </span>
+        </div>
+        <!-- sandbox không có allow-same-origin: mã người dùng chạy ở origin riêng, không chạm được trang cha.
+             allow-popups: cho link target="_blank" mở tab mới -->
+        <iframe id="previewFrame" title="Kết quả render"
+          sandbox="allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox"
+          class="flex-1 min-h-0 w-full bg-white border-0"></iframe>
+      </section>
+    </main>
+  </div>
+
+  <script src="highlight.js?v=1"></script>
+  <script src="examples-loader.js?v=2"></script>
+  <script src="script.js?v=6"></script>
+</body>
+</html>

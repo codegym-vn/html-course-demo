@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ví dụ HTML</title>
+  <meta name="description" content="Thẻ ví dụ HTML kiểu W3Schools: đoạn mã mẫu có tô màu và nút Thử ngay mở trình soạn thảo trực tuyến.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      --color-primary: #04AA6D;
+      --color-card: #E7E9EB;
+      /* Màu nút theo màu chủ đạo của LMS */
+      --color-action: #2962FF;
+      --color-action-hover: #1E4FE0;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<!-- Trang này được nhúng vào LMS bằng iframe: example.html?ex=<id> -->
+<body class="font-sans bg-white text-black m-0">
+  <main class="p-2">
+    <article id="exampleCard" aria-labelledby="exampleHeading" aria-busy="true"
+      class="rounded-[5px] bg-card px-4 pt-3 pb-5 sm:px-6 sm:pt-4 sm:pb-6">
+      <h1 id="exampleHeading" class="text-[1.65rem] font-medium leading-tight text-black">Ví dụ</h1>
+      <p id="exampleDescription" class="mt-3 text-[1.05rem] leading-relaxed text-[#1f1f1f]"></p>
+
+      <!-- Đoạn mã mẫu: tô màu bằng highlight.js, viền trái xanh như W3Schools -->
+      <pre id="exampleCodeBox" class="example-code mt-3 bg-white border-l-4 border-primary px-4 py-3 overflow-x-auto"><code id="exampleCode"></code></pre>
+
+      <a id="tryLink" href="index.html" target="_blank" rel="noopener"
+        class="mt-4 inline-block rounded-lg bg-action px-4 py-2 text-[15px] font-semibold text-white no-underline transition-colors hover:bg-action-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action">
+        Thử ngay &raquo;
+      </a>
+    </article>
+  </main>
+
+  <!-- Bấm Thử ngay: editor mở trong lớp phủ này và chuyển toàn màn hình.
+       Iframe LMS cần allow="fullscreen"; nếu không, link mở editor ở tab mới. -->
+  <div id="editorOverlay" hidden class="fixed inset-0 z-50 bg-white">
+    <iframe id="editorFrame" title="Trình soạn thảo HTML" class="block w-full h-full border-0" allow="fullscreen"></iframe>
+  </div>
+
+  <script src="highlight.js?v=1"></script>
+  <script src="examples-loader.js?v=2"></script>
+  <script src="example.js?v=3"></script>
+</body>
+</html>

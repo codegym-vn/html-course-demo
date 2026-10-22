@@ -1,0 +1,142 @@
+/* Giao diện dùng Tailwind v4 (browser CDN). File này chỉ giữ quy tắc nền và quy tắc demo. */
+
+html {
+  font-size: 15px;
+}
+
+.app {
+  height: 600px;
+  max-height: 600px;
+}
+
+/* index.html?mode=full: editor phủ kín màn hình (mở từ nút Thử ngay của thẻ ví dụ) */
+[data-mode="full"] .app {
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+}
+
+/* Tỷ lệ editor do JS điều khiển qua biến --editor-size (20% - 80%) */
+.editor-panel {
+  flex: 0 0 var(--editor-size, 50%);
+}
+
+/* ---------- Tô màu cú pháp: 2 lớp chồng nhau ----------
+   Hai lớp phải giống hệt font, cỡ chữ, line-height, padding để con trỏ khớp với chữ màu. */
+.code-layer {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  border: 0;
+  padding: 12px;
+  font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
+  white-space: pre;
+  tab-size: 4;
+  overflow-wrap: normal;
+}
+
+/* Lớp dưới: hiển thị màu, cuộn theo textarea. Padding dư bù phần thanh cuộn của textarea */
+.code-highlight {
+  overflow: hidden;
+  padding-right: 32px;
+  padding-bottom: 32px;
+  color: #1f1f1f;
+  pointer-events: none;
+}
+
+/* Lớp trên: textarea trong suốt, chỉ hiện con trỏ và vùng chọn */
+.code-input {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  outline: none;
+  overflow: auto;
+  background: transparent;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: #111827;
+}
+
+.code-input::selection {
+  background: rgba(173, 214, 255, 0.6);
+}
+
+/* ---------- Thẻ ví dụ (example.html) ---------- */
+.example-code {
+  font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre;
+  tab-size: 4;
+  color: #000;
+}
+
+/* Màu token theo phong cách W3Schools (dùng chung cho editor và thẻ ví dụ), đều đạt tương phản AA trên nền trắng */
+.tk-punct { color: #737373; }
+.tk-tag   { color: #a31551; }
+.tk-attr  { color: #13824a; }
+.tk-str   { color: #1c5dbf; }
+.tk-cmt   { color: #2f7d32; font-style: italic; }
+.tk-doc   { color: #737373; }
+.tk-ent   { color: #b45309; }
+.tk-sel   { color: #a52a2a; }
+.tk-prop  { color: #cc0000; }
+.tk-val   { color: #0000cd; }
+.tk-kw    { color: #0000cd; }
+.tk-num   { color: #cc0000; }
+.tk-fn    { color: #1f1f1f; }
+.tk-jstr  { color: #a52a2a; }
+
+/* Khi đang kéo: iframe không nuốt sự kiện chuột, toàn trang giữ con trỏ resize */
+.is-resizing,
+.is-resizing * {
+  user-select: none;
+  cursor: col-resize !important;
+}
+
+.is-resizing.is-vertical,
+.is-resizing.is-vertical * {
+  cursor: row-resize !important;
+}
+
+.is-resizing iframe {
+  pointer-events: none;
+}
+
+.divider {
+  touch-action: none;
+}
+
+/* Chấm trạng thái: tròn tĩnh (Ready / thành công), vòng quay khi đang gõ */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+[data-state="typing"] .status-dot {
+  background: transparent;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: status-spin 0.7s linear infinite;
+}
+
+@keyframes status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-state="typing"] .status-dot {
+    animation: none;
+  }
+}
