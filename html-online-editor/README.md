@@ -9,7 +9,7 @@ Một bộ mã mẫu dùng cho 2 trang, chọn bài bằng tham số `?ex=<id>`:
 | `example.html?ex=<id>` | Thẻ ví dụ kiểu W3Schools: mô tả, đoạn mã ngắn có tô màu, nút **Thử ngay »**. Dùng để nhúng vào LMS |
 | `index.html?ex=<id>` | Editor đầy đủ (mở ở tab mới khi bấm Thử ngay), nạp sẵn toàn bộ mã của bài |
 
-## Danh sách bài (40 bài, mỗi thẻ 1 bài)
+## Danh sách bài (41 bài, mỗi thẻ 1 bài)
 
 `id` bài là tên thẻ; riêng nhóm tiêu đề dùng `h1-h6`.
 
@@ -28,6 +28,7 @@ Một bộ mã mẫu dùng cho 2 trang, chọn bài bằng tham số `?ex=<id>`:
 | `<b>` – Chữ đậm | `example.html?ex=b` | `index.html?ex=b` |
 | `<em>` – Nhấn giọng | `example.html?ex=em` | `index.html?ex=em` |
 | `<i>` – Chữ nghiêng | `example.html?ex=i` | `index.html?ex=i` |
+| `<u>` – Gạch chân | `example.html?ex=u` | `index.html?ex=u` |
 | `<mark>` – Đánh dấu | `example.html?ex=mark` | `index.html?ex=mark` |
 | `<small>` – Chữ nhỏ | `example.html?ex=small` | `index.html?ex=small` |
 | `<del>` – Nội dung bị xóa | `example.html?ex=del` | `index.html?ex=del` |
