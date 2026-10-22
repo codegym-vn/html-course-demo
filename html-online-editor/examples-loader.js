@@ -6,7 +6,7 @@
    Mỗi bài là 1 file examples/<id>.js gọi registerExample({ id, title, tags, code }).
    Nạp bằng thẻ <script> nên chạy được cả khi mở file:// trực tiếp (fetch thì không). */
 
-const EXAMPLES_VERSION = 3;     // Tăng khi sửa file trong examples/ để tránh cache
+const EXAMPLES_VERSION = 4;     // Tăng khi sửa file trong examples/ để tránh cache
 const exampleRegistry = {};
 
 /** Được gọi từ mỗi file examples/<id>.js */

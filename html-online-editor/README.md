@@ -146,8 +146,8 @@ Mỗi bài học nhúng thẻ ví dụ; học viên bấm **Thử ngay »** đ�
 
 ## Bảo mật
 
-- iframe dùng `sandbox="allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox"`, **không** có `allow-same-origin`: mã người dùng chạy ở origin riêng, không đọc/ghi được DOM, cookie, storage của trang cha. `alert()` vẫn hoạt động, link `target="_blank"` mở được tab mới.
-- Không có `allow-forms`: form không gửi đi thật. Bài Biểu mẫu chặn `submit` bằng JS và hiện dữ liệu ngay trên trang.
+- iframe dùng `sandbox="allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox"`, **không** có `allow-same-origin`: mã người dùng chạy ở origin riêng, không đọc/ghi được DOM, cookie, storage của trang cha. `alert()` vẫn hoạt động, link `target="_blank"` mở được tab mới.
+- Gửi form: trình duyệt kiểm tra `required`, `type="email"`... như thật; sau đó editor chặn việc gửi (không tải trang khác vào preview) và hiện hộp thoại liệt kê dữ liệu `name = value` sẽ được gửi. Bài mẫu form không cần JavaScript.
 - Mã được nạp qua thuộc tính `srcdoc` thay cho `contentDocument.write()`. Mỗi lần gán `srcdoc` tạo document mới hoàn toàn, không tích lũy listener/timer cũ.
 - Khi render, editor chèn thêm một script nhỏ vào cuối mã để link neo `href="#id"` cuộn trong preview (trong `srcdoc`, link `#id` mặc định bị phân giải theo URL trang cha và tải lại cả editor vào iframe).
 - Không lưu mã ra ngoài; tải lại trang sẽ mất mã.

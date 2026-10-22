@@ -104,16 +104,16 @@
           </span>
         </div>
         <!-- sandbox không có allow-same-origin: mã người dùng chạy ở origin riêng, không chạm được trang cha.
-             allow-popups: cho link target="_blank" mở tab mới -->
+             allow-popups: cho link target="_blank" mở tab mới; allow-forms: form kiểm tra required như thật -->
         <iframe id="previewFrame" title="Kết quả render"
-          sandbox="allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox"
+          sandbox="allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox"
           class="flex-1 min-h-0 w-full bg-white border-0"></iframe>
       </section>
     </main>
   </div>
 
   <script src="highlight.js?v=1"></script>
-  <script src="examples-loader.js?v=2"></script>
-  <script src="script.js?v=6"></script>
+  <script src="examples-loader.js?v=3"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

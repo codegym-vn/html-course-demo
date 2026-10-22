@@ -2,7 +2,8 @@
 registerExample({
   id: "form",
   title: "Thẻ <form> – Biểu mẫu",
-  description: "Thẻ <form> nhóm các ô nhập liệu để gửi đi. Ví dụ dùng JavaScript chặn việc gửi để hiện dữ liệu ngay trên trang.",
+  tags: "action method",
+  description: "Thẻ <form> nhóm các ô nhập liệu để gửi đi. Khi bấm Gửi, dữ liệu của các ô có thuộc tính name được gửi tới địa chỉ trong action.",
   code: `<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,23 +11,17 @@ registerExample({
     <title>Thẻ form</title>
 </head>
 <body>
-    <form id="dangKy">
+    <form action="/dang-ky" method="post">
         <p>
             <label for="ten">Họ tên:</label>
             <input type="text" id="ten" name="ten" required>
         </p>
+        <p>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+        </p>
         <button type="submit">Gửi</button>
     </form>
-
-    <p id="ketQua"></p>
-
-    <script>
-        document.getElementById("dangKy").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const ten = new FormData(this).get("ten");
-            document.getElementById("ketQua").textContent = "Đã nhận: " + ten;
-        });
-    </script>
 </body>
 </html>
 `,

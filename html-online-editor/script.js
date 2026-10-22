@@ -65,14 +65,20 @@ function showLessonNotice(id) {
 
 /**
  * Chèn vào cuối mã khi render (không hiện trong editor).
- * Trong srcdoc, link href="#id" bị phân giải theo URL trang cha và làm iframe tải lại cả editor;
- * script này chặn lại và cuộn tới phần tử đích như trang thật.
+ * - Link href="#id": trong srcdoc bị phân giải theo URL trang cha và làm iframe tải lại cả editor;
+ *   script chặn lại và cuộn tới phần tử đích như trang thật.
+ * - Gửi form: trình duyệt vẫn kiểm tra required/type như thật, sau đó script chặn việc gửi
+ *   (tránh tải trang khác vào preview) và hiện dữ liệu name = value sẽ được gửi đi.
+ * Mã của học viên tự gọi preventDefault() thì script bỏ qua.
  */
 const PREVIEW_HELPER = '\n<script>document.addEventListener("click",function(e){' +
   'var a=e.target.closest&&e.target.closest("a[href^=\'#\']");if(!a||e.defaultPrevented)return;' +
   'e.preventDefault();var id=decodeURIComponent(a.getAttribute("href").slice(1));' +
   'var t=id&&(document.getElementById(id)||document.getElementsByName(id)[0]);' +
-  'if(t)t.scrollIntoView();else if(!id)window.scrollTo(0,0);});<\/script>';
+  'if(t)t.scrollIntoView();else if(!id)window.scrollTo(0,0);});' +
+  'document.addEventListener("submit",function(e){if(e.defaultPrevented)return;e.preventDefault();' +
+  'var d=new FormData(e.target,e.submitter||undefined),r=[];d.forEach(function(v,k){r.push(k+" = "+(v&&v.name!==undefined?v.name:v));});' +
+  'alert("Dữ liệu form gửi đi:\\n\\n"+(r.length?r.join("\\n"):"(trống: các ô cần có thuộc tính name)"));});<\/script>';
 
 /* ---------------- Tô màu cú pháp ----------------
    Textarea trong suốt nằm trên <pre>; mỗi lần gõ dựng lại HTML màu cho <pre> bằng highlightHtml() (highlight.js). */
