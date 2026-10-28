@@ -31,7 +31,7 @@
       @apply rounded-md px-3 py-1 text-xs font-semibold cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
     }
   </style>
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body class="font-sans bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen overflow-hidden">
   <div class="app w-full max-w-[980px] flex flex-col bg-editor border border-slate-800 rounded-lg overflow-hidden">
@@ -77,8 +77,9 @@
         </div>
 
         <p id="editorHint" class="shrink-0 px-3 py-1 bg-bar border-t border-bar-line text-[0.7rem] text-slate-600 truncate">
-          <kbd class="font-mono">Tab</kbd> chèn 4 khoảng trắng &middot;
-          <kbd class="font-mono">Esc</kbd> rồi <kbd class="font-mono">Tab</kbd> để rời editor &middot;
+          <kbd class="font-mono">Tab</kbd> / <kbd class="font-mono">Shift+Tab</kbd> thụt / lùi lề &middot;
+          <!-- Toàn màn hình trong thẻ ví dụ: Esc thoát toàn màn hình nên script.js đổi câu này -->
+          <span id="escHint"><kbd class="font-mono">Esc</kbd> rồi <kbd class="font-mono">Tab</kbd> để rời editor</span> &middot;
           <kbd class="font-mono">Ctrl+Enter</kbd> chạy
         </p>
       </section>
@@ -114,6 +115,6 @@
 
   <script src="highlight.js?v=1"></script>
   <script src="examples-loader.js?v=3"></script>
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>

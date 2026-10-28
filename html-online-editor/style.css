@@ -68,6 +68,18 @@ html {
   background: rgba(173, 214, 255, 0.6);
 }
 
+/* Chế độ tương phản cao (Windows): trình duyệt ép chữ trong suốt thành có màu, nên ẩn lớp màu và hiện chữ textarea */
+@media (forced-colors: active) {
+  .code-highlight {
+    visibility: hidden;
+  }
+
+  .code-input {
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+}
+
 /* ---------- Thẻ ví dụ (example.html) ---------- */
 /* Ẩn thẻ tới khi nạp xong bài và Tailwind (biên dịch lúc chạy) đã áp style,
    tránh nháy giao diện chưa có CSS / nội dung mặc định lúc mới mở */

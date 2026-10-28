@@ -179,12 +179,52 @@ function setEditorCode(code) {
 
 /* ---------------- Phím tắt (FR-01) ---------------- */
 
+/** Thay đoạn [start, end) bằng text. execCommand giữ lịch sử Undo; nếu không hỗ trợ thì chèn trực tiếp */
+function replaceRange(start, end, text) {
+  editor.setSelectionRange(start, end);
+  const inserted = document.execCommand && document.execCommand('insertText', false, text);
+  if (!inserted) {
+    editor.setRangeText(text, start, end, 'end');
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+}
+
 /**
- * Tab chèn 4 khoảng trắng tại con trỏ (thay thế vùng chọn nếu có).
- * Nhấn Esc trước Tab để chuyển focus ra ngoài như bình thường (tránh bẫy bàn phím).
- * Shift+Tab giữ hành vi mặc định.
+ * Thụt lề (Tab) hoặc lùi lề (Shift+Tab) mọi dòng nằm trong vùng chọn, giữ nguyên vùng chọn trên các dòng đó.
+ * Vùng chọn kết thúc ở đầu dòng thì không tính dòng đó (giống VS Code).
  */
-function setupTabKey() {
+function indentLines(outdent) {
+  const value = editor.value;
+  const start = editor.selectionStart;
+  const end = editor.selectionEnd;
+  const lastPos = end > start && value[end - 1] === '\n' ? end - 1 : end;
+  const blockStart = value.lastIndexOf('\n', start - 1) + 1;
+  let blockEnd = value.indexOf('\n', lastPos);
+  if (blockEnd === -1) blockEnd = value.length;
+
+  const lines = value.slice(blockStart, blockEnd).split('\n');
+  const changed = lines.map((line) => {
+    if (outdent) return line.replace(/^( {1,4}|\t)/, '');
+    return line ? TAB_SPACES + line : line; // không thêm khoảng trắng vào dòng trống
+  });
+  const block = changed.join('\n');
+  if (block === lines.join('\n')) return;
+
+  const firstDelta = changed[0].length - lines[0].length;
+  const totalDelta = block.length - (blockEnd - blockStart);
+  replaceRange(blockStart, blockEnd, block);
+  const newStart = Math.max(blockStart, start + firstDelta);
+  editor.setSelectionRange(newStart, Math.max(newStart, end + totalDelta));
+}
+
+/**
+ * Phím soạn thảo:
+ * - Tab: chèn 4 khoảng trắng tại con trỏ; chọn nhiều dòng thì thụt lề cả khối
+ * - Shift+Tab: lùi lề dòng hiện tại / các dòng đang chọn
+ * - Enter: xuống dòng và giữ thụt lề của dòng trên
+ * Nhấn Esc trước Tab / Shift+Tab để chuyển focus ra ngoài như bình thường (tránh bẫy bàn phím).
+ */
+function setupEditorKeys() {
   let escapeArmed = false;
 
   editor.addEventListener('keydown', (e) => {
@@ -192,21 +232,29 @@ function setupTabKey() {
       escapeArmed = true;
       return;
     }
-    if (e.key !== 'Tab' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) {
-      escapeArmed = false;
+    const armed = escapeArmed;
+    escapeArmed = false;
+    if (e.ctrlKey || e.altKey || e.metaKey || e.isComposing) return;
+
+    if (e.key === 'Tab') {
+      if (armed) return; // để trình duyệt chuyển focus
+      e.preventDefault();
+      const { selectionStart, selectionEnd, value } = editor;
+      if (e.shiftKey || value.slice(selectionStart, selectionEnd).includes('\n')) {
+        indentLines(e.shiftKey);
+      } else {
+        replaceRange(selectionStart, selectionEnd, TAB_SPACES);
+      }
       return;
     }
-    if (escapeArmed) {
-      escapeArmed = false;
-      return; // để trình duyệt chuyển focus
-    }
 
-    e.preventDefault();
-    // execCommand giữ lịch sử Undo; nếu không hỗ trợ thì chèn trực tiếp
-    const inserted = document.execCommand && document.execCommand('insertText', false, TAB_SPACES);
-    if (!inserted) {
-      editor.setRangeText(TAB_SPACES, editor.selectionStart, editor.selectionEnd, 'end');
-      editor.dispatchEvent(new Event('input', { bubbles: true }));
+    if (e.key === 'Enter' && !e.shiftKey) {
+      const { selectionStart, selectionEnd, value } = editor;
+      const lineStart = value.lastIndexOf('\n', selectionStart - 1) + 1;
+      const indent = value.slice(lineStart, selectionStart).match(/^[ \t]*/)[0];
+      if (!indent) return; // không thụt lề: để trình duyệt xuống dòng như thường
+      e.preventDefault();
+      replaceRange(selectionStart, selectionEnd, '\n' + indent);
     }
   });
 
@@ -297,6 +345,7 @@ function setupFullMode() {
   if (window.parent === window) return; // mở ở tab riêng: không cần nút Thoát
   const btnExit = document.getElementById('btnExitFull');
   btnExit.hidden = false;
+  document.getElementById('escHint').innerHTML = '<kbd class="font-mono">Esc</kbd> đóng editor';
   btnExit.addEventListener('click', () => {
     window.parent.postMessage({ type: 'html-editor:close' }, location.origin === 'null' ? '*' : location.origin);
   });
@@ -317,7 +366,7 @@ async function init() {
   btnRun.addEventListener('click', runCode);
   btnReset.addEventListener('click', resetCode);
 
-  setupTabKey();
+  setupEditorKeys();
   setupRunShortcut();
   setupDivider();
 
