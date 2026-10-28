@@ -69,6 +69,12 @@ html {
 }
 
 /* ---------- Thẻ ví dụ (example.html) ---------- */
+/* Ẩn thẻ tới khi nạp xong bài và Tailwind (biên dịch lúc chạy) đã áp style,
+   tránh nháy giao diện chưa có CSS / nội dung mặc định lúc mới mở */
+#exampleCard[aria-busy="true"] {
+  visibility: hidden;
+}
+
 .example-code {
   font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
   font-size: 15px;

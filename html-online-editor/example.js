@@ -85,6 +85,21 @@ function showCardError(id) {
   tryLinkEl.hidden = true;
 }
 
+/**
+ * Chờ Tailwind browser CDN sinh CSS cho thẻ (nhận biết qua bo góc rounded-[5px] của thẻ).
+ * Tối đa ~2 giây để thẻ không bị ẩn mãi nếu CDN lỗi.
+ */
+function waitForTailwind() {
+  return new Promise((resolve) => {
+    const start = performance.now();
+    (function check() {
+      const styled = getComputedStyle(cardEl).borderTopLeftRadius !== '0px';
+      if (styled || performance.now() - start > 2000) resolve();
+      else requestAnimationFrame(check);
+    })();
+  });
+}
+
 async function initCard() {
   const id = getExampleIdFromUrl();
   const example = id ? await loadExample(id) : null;
@@ -100,6 +115,7 @@ async function initCard() {
     tryLinkEl.setAttribute('aria-label', 'Thử ngay ví dụ ' + example.title + ' trong trình soạn thảo toàn màn hình');
   }
 
+  await waitForTailwind();
   cardEl.setAttribute('aria-busy', 'false');
   postHeight();
   if ('ResizeObserver' in window) new ResizeObserver(postHeight).observe(document.body);
