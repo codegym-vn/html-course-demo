@@ -116,6 +116,10 @@ async function initCard() {
   }
 
   await waitForTailwind();
+  // Font web (nhất là phần chữ có dấu tiếng Việt) chỉ tải khi có chữ dùng tới: chờ tải xong để chữ không đổi font
+  if (document.fonts) {
+    await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]);
+  }
   cardEl.setAttribute('aria-busy', 'false');
   postHeight();
   if ('ResizeObserver' in window) new ResizeObserver(postHeight).observe(document.body);
